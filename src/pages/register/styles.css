@@ -1,0 +1,209 @@
+@font-face {
+    font-family: "Qwitcher Grypen";
+    src: url("/fonts/QwitcherGrypen-Regular.woff");
+}
+@font-face {
+    font-family: "Qwitcher Grypen";
+    src: url("/fonts/QwitcherGrypen-Bold.woff");
+}
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/fonts/PlusJakartaSans.woff");
+}
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/fonts/PlusJakartaSans-Italic.woff");
+}
+@font-face {
+    font-family: "Poppins";
+    src: url("/fonts/Poppins-ExtraLight.woff") format("woff");
+}
+  @font-face {
+    font-family: "Poppins";
+    src: url("/fonts/Poppins-Light.woff") format("woff");
+}
+  @font-face {
+    font-family: "Poppins";
+    src: url("/fonts/Poppins-Regular.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Poppins";
+    src: url("/fonts/Poppins-Medium.woff") format("woff");
+  }
+
+:root {
+    font-size: 62.5%;
+}  
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* This creates two columns of equal size */
+    gap: 20px; /* This adds some space between the columns */
+    align-items: center; /* This vertically aligns the grid items */
+    justify-items: stretch; /* This makes the grid items stretch to fill the column width */
+}
+
+.grid-content {
+    /* Styles for the content section */
+    padding: 20px;
+    background: #fff; /* Example background color for the content area */
+}
+
+.grid-image {
+    /* Styles for the image section */
+    background: white; /* Example background color for the image area */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-image img {
+    width: auto; /* Make the image fill the column width */
+    height: 100%; /* Keep the image aspect ratio */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-image: url('background.png');
+    background-size: cover;
+}
+
+.logo {
+    max-width: 150px;
+    width: 88.441px;
+    height: 49.134px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+
+    color: #5C5C5C;
+
+    /* Body/L/SemiBold */
+    font-family: "Poppins";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.15px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.remember-me input {
+    margin-right: 10px;
+}
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    margin-bottom: 20px;
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0066cc;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.signup {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.rotated-image {
+    transform: rotate(180deg);
+    height: 50vh;
+}
+
+.form-container {
+    padding: 20px;
+    width: 300px; /* You can adjust this width as needed */
+    margin: auto;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid red;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.input-group input::placeholder {
+    color: #999;
+}
+
+
+.welcome-message {
+color: #5B4DFF;
+font-family: Poppins;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+.logo-name {
+    font-family: "Qwitcher Grypen";
+    font-size: 4rem;
+}
+
+.logo-inline {
+    display: flex;
+    /* flex; */
+    justify-content: center;
+    align-self: flex-end;
+}
+
+.logo-inline img {
+    align-self: center;
+}

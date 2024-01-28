@@ -1,0 +1,384 @@
+@font-face {
+    font-family: "Qwitcher Grypen";
+    src: url("/fonts/QwitcherGrypen-Regular.woff") format("woff");
+}
+@font-face {
+    font-family: "Qwitcher Grypen";
+    src: url("/fonts/QwitcherGrypen-Bold.woff") format("woff");
+}
+@font-face {
+    font-family: "Poppins";
+    src: url("/fonts/Poppins-ExtraLight.woff") format("woff");
+}
+  @font-face {
+    font-family: "Poppins";
+    src: url("/fonts/Poppins-Light.woff") format("woff");
+}
+  @font-face {
+    font-family: "Poppins";
+    src: url("/fonts/Poppins-Regular.woff") format("woff");
+  }
+  @font-face {
+    font-family: "Poppins";
+    src: url("/fonts/Poppins-Medium.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/fonts/PlusJakartaSans.woff") format("woff");
+}
+:root {
+    --primary-color: #E1E4E8;
+    --secondary-color: #0066cc;
+    --tertiary-color: #F6F6F6;
+    
+    --table-header-color: #7389FF
+}
+
+body {
+    padding: 1% 2%;
+    font-family: "Poppins", sans-serif;
+    background-color: var(--tertiary-color);
+}
+
+.sidebar {
+    width: 250px; /* Adjust as needed */
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 1rem;
+    width: 15vw;
+    box-shadow: #666;
+}
+
+.column-flex {
+    flex-direction: column;
+}
+.center-aligned-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.max-height {
+    height: 100%;
+}
+
+div {
+    display: block;
+}
+
+
+
+
+body {
+    display: flex;
+    height: 95vh;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+.logo-container {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.logo-container img {
+    width: 100px; /* Adjust as needed */
+}
+
+.navigation {
+    overflow: hidden;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    border-left: 5px solid transparent;
+    gap: 10px; /* This ensures space between the icon and the text */
+}
+
+.nav-item i {
+    width: 20px; /* Adjust size if necessary */
+    text-align: center;
+}
+
+.nav-item span {
+    flex-grow: 1;
+}
+
+.nav-item.selected {
+    border-left-color: #7C3AED; /* Active item color */
+}
+
+.nav-item:not(.selected):hover {
+    background-color: #E1E4E8;
+}
+
+.logo {
+    max-width: 150px;
+    width: 68.441px;
+    height: 39.134px;
+}
+.flex-logo {
+    display: flex;
+    justify-content: center;
+    align-self: flex-end;
+}
+.flex-logo img {
+    align-self: center;
+}
+.logo-name {
+    font-family: "Qwitcher Grypen";
+    font-size: 1.5rem;
+}
+
+
+.main-container {
+    border-radius: 10px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.add-order-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: white;
+    font-family: 'Plus Jakarta Sans';
+    font-size: 1.05rem;
+    background-image:  linear-gradient(to right, #9B4DFF, #5E50FF);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+}
+.filter-group select {
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+.filter-group select,
+.filter-group input[type="search"] {
+    margin-right: 10px;
+}
+
+.search-btn {
+    background-color: #5E50FF;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 3px;
+}
+
+.search-input {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    background-color: white;
+    padding: 10px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.invoice-btn,
+.sheet-btn {
+    /* Style your action buttons */
+    margin-left: 10px;
+}
+
+.sheet-btn {
+    background-image: linear-gradient(to right, #9B4DFF, #5E50FF);
+    color: #FFF;
+    font-family: "Plus Jakarta Sans";
+    font-size: 1rem;
+    font-style: normal;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.15px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.invoice-btn {
+    font-family: "Plus Jakarta Sans";
+    border-radius: 7px;
+    font-size: 1rem;
+    border: 1px solid #9B4DFF;
+    background-color: white;
+    padding: 12px 15px;
+    color: #5B4DFF;
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+    font-size: 0.8rem;
+    border-collapse: collapse;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+thead {
+    background-color: #f3f3f3;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+
+/* Pagination */
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pagination-btn {
+    padding: 5px 10px;
+    border: none;
+    font-size: large;
+    background-color: white;
+    cursor: pointer;
+    
+}
+
+.pagination-input {
+    width: 20px;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.pagination-btn:disabled {
+    color: #ccc;
+    cursor: default;
+}
+
+.pagination-btn:not(:disabled):hover {
+    background-color: #f0f0f0;
+}
+
+
+
+
+.order-row {
+    background: white;
+    border: none;
+}
+.order-row > td {
+    padding: 2rem 1.5rem;
+}
+
+.order-column {
+    border: none;
+}
+.second-column {
+    max-width: 20vw;
+    padding: 2rem 0.5rem !important;
+}
+.first-column {
+    padding: 2rem 0.5rem !important;
+}
+.order-head-row {
+    background-color: var(--table-header-color);
+    color: white;
+    border: none
+}
+
+
+thead th {
+    border: none; /* Example border to see cells clearly */
+    color: white; /* Example text color */
+    padding: 0.5rem 1.5rem !important;
+}
+.logout {
+    margin-bottom: 20px
+}
+
+/* Hide the browser's default dropdown arrow */
+.custom-select {
+    -webkit-appearance: none;  /* For Safari */
+    -moz-appearance: none;     /* For Firefox */
+    appearance: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    padding-right: 30px; /* Make space for custom arrow */
+    background-image: url('back.png');
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Adjust as necessary */
+    background-size: 15px; /* Adjust as necessary */
+  }
+  
+  /* Style focus and hover states */
+  .custom-select:focus {
+    border-color: white;
+    outline: none;
+  }
+  
+  /* For older browsers that don't support the appearance property */
+  .custom-select::-ms-expand {
+    display: none;
+  }
+  
+  /* Optional: add a wrapper to position the select element if needed */
+  .select-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Optional: add an after pseudo-element to create an arrow */
+  .select-wrapper:after {
+    content: '▼'; /* Add your custom arrow symbol or character */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Allows click events to pass through to the select element */
+  }
+  

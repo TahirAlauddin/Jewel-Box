@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewel Box - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"></link>
+</head>
+<body>
+
+    <div class="sidebar column-flex">
+        <header>
+            <div class="flex-logo">
+                <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
+                <p class="logo-name">Jewel Box</p>
+            </div>
+        </header>
+        
+        <div class="navigation">
+            <div class="nav-item selected">
+                <img src="orders.svg" alt="Orders" class="icon"/>
+                <span>Orders</span>
+            </div>
+            <div class="nav-item">
+                <img src="customers.svg" alt="Orders" class="icon"/>
+                <span>Customers</span>
+            </div>
+            <div class="nav-item">
+                <img src="invoices.svg" alt="Orders" class="icon"/>
+                <span>Invoices</span>
+            </div>
+        </div>
+        <div class="nav-item logout">
+            <img src="logout.svg" alt="Orders" class="icon"/>
+            <span>Log Out</span>
+        </div>
+    </div>
+
+        <div class="main-container">
+            <div class="toolbar">
+                <button class="add-order-btn">Add order +</button>
+                <div class="filter-group">
+                    <select class="custom-select" name="filter" id="filter">
+                        <option value="all">Filter by customer: All</option>
+                    </select>
+                    <input class="search-input" type="search" placeholder="Search anything ...">
+                    <button class="search-btn">
+                        <img src="search.svg" alt="" srcset="">
+                    </button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr class="order-head-row">
+                            <th colspan="2">PRODUCT</th>
+                            <th>PRICE</th>
+                            <th>ID NUMBER</th>
+                            <th>JOB</th>
+                            <th>CUSTOMER</th>
+                            <th>DATE</th>
+                            <th>INVOICE #</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: white;" class="order-row">
+                            <td class="order-column first-column"><img src="product.png" alt=""></td>
+                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
+                            <td class="order-column">$2,300.00</td>
+                            <td class="order-column">244B001</td>
+                            <td class="order-column">Job 1</td>
+                            <td class="order-column">John Doe</td>
+                            <td class="order-column">12-04-2023</td>
+                            <td class="order-column">25</td>
+                        </tr>
+                        <tr class="order-row">
+                            <td class="order-column first-column"><img style='display: inline;' src="product.png" alt=""></td>
+                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
+                            <td class="order-column">$2,300.00</td>
+                            <td class="order-column">244B001</td>
+                            <td class="order-column">Job 1</td>
+                            <td class="order-column">John Doe</td>
+                            <td class="order-column">12-04-2023</td>
+                            <td class="order-column">25</td>
+                        </tr>
+                        <tr style="background: rgba(238, 25, 25, 0.16); border: 1px solid #EE1919" class="order-row">
+                            <td class="order-column first-column"><img style='display: inline;' src="product.png" alt=""></td>
+                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
+                            <td class="order-column">$2,300.00</td>
+                            <td class="order-column">244B001</td>
+                            <td class="order-column">Job 1</td>
+                            <td class="order-column">John Doe</td>
+                            <td class="order-column">12-04-2023</td>
+                            <td class="order-column">25</td>
+                        </tr>    
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination">
+                <span style="color: rgba(26, 26, 26, 0.70);">1-5 out of 108 orders</span>
+                <div class="pagination-controls">
+                    <span>Page 1 of 19</span>
+                    <button class="pagination-btn" disabled>«</button>
+                    <button class="pagination-btn" disabled>‹</button>
+                    <input class="pagination-input" type="text">
+                    <button class="pagination-btn">›</button>
+                    <button class="pagination-btn">»</button>
+                </div>
+                
+
+            </div>
+
+            <div class="action-buttons">
+                <button class="invoice-btn">Make invoice</button>
+                <button class="sheet-btn">Production sheet</button>
+            </div>
+        </div>
+
+
+</body>
+</html>
