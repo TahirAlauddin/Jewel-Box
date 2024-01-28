@@ -7,16 +7,14 @@
     <link rel="stylesheet" href="styles.css"></link>
 </head>
 <body>
-    <div class="grid-container">
-        <div class="container grid-content">
-            <header>
-                <div class="logo-inline">
-                    <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
-                    <p class="logo-name">Jewel Box</p>
-                </div>
-                <h1 class="welcome-message">&#128075; Welcome back to Jewelry Store Management Software</h1>
-            </header>
-            <form class="login-form">
+    <div class="main-container">
+        <div class="forms-container main-flex-content">
+            <div class="logo-inline">
+                <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
+                <p class="logo-name">Jewel Box</p>
+            </div>
+            <h1 class="welcome-message">&#128075; Welcome to Jewelry Store Management Software</h1>
+            <div class="login-form">
                 <div class="form-container">
                     <div class="input-group">
                         <label for="email">Email</label>
@@ -26,25 +24,14 @@
                         <label for="password">Password</label>
                         <input style="border: 2px solid #5B4DFF" type="password" id="password" placeholder="Enter your password">
                     </div>
-                    <div class="input-group">
-                        <label for="reset-password">Reset Password</label>
-                        <input style="border: 2px solid #5B4DFF;" type="password" id="reset-password" placeholder="Enter your password">
-                    </div>
+
                 </div>
-                <div class="remember-me">
-                    <input type="checkbox" id="remember-me">
-                    <label for="remember-me">Remember me</label>
-                </div>
-                <a href="#" class="forgot-password">Forgot Password?</a>
                 <button type="submit" class="login-button">Log in</button>
-                <div class="signup">
-                    Don’t have an account? <a href="#">Sign Up</a>
-                </div>
-            </form>
+            </div>
         </div>
 
 
-        <div class="container grid-image">
+        <div class="image-container main-flex-content">
             <img class="rotated-image" src="register-right-image.png" alt="">
         </div>
     </div>
