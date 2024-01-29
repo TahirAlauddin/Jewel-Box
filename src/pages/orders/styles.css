@@ -30,8 +30,7 @@
 :root {
     --primary-color: #E1E4E8;
     --secondary-color: #0066cc;
-    --tertiary-color: #F6F6F6;
-    
+    --tertiary-color: #F6F6F6;    
     --table-header-color: #7389FF
 }
 
@@ -323,12 +322,11 @@ tbody tr:hover {
 .first-column {
     padding: 2rem 0.5rem !important;
 }
-.order-head-row {
+.table-head-row {
     background-color: var(--table-header-color);
     color: white;
     border: none
 }
-
 
 thead th {
     border: none; /* Example border to see cells clearly */
