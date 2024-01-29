@@ -218,4 +218,12 @@ h1 {
   :root {
       font-size: 40%;
   }
+
+  .image-container {
+    width: 0px;
+  }
+
+  .forms-container {
+    width: 100%;
+  }
 }
