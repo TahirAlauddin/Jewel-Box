@@ -28,11 +28,11 @@
   src: url("../../fonts/PlusJakartaSans.woff") format("woff");
 }
 :root {
+  --primary-color: #e1e4e8;
+  --secondary-color: #0066cc;
+  --tertiary-color: #f6f6f6;
   font-size: 62.5%;
-    --primary-color: #E1E4E8;
-    --secondary-color: #0066cc;
-    --tertiary-color: #F6F6F6;    
-    --table-header-color: #7389FF
+  --table-header-color: #7389ff;
 }
 
 body {
@@ -43,6 +43,10 @@ body {
 
 button {
   cursor: pointer;
+}
+
+.btn-container {
+  display: flex;
 }
 
 .sidebar {
@@ -151,7 +155,7 @@ body {
   margin-bottom: 2rem;
 }
 
-.add-order-btn {
+.add-customer-btn {
   gap: 1rem;
   display: flex;
   flex-direction: row;
@@ -159,10 +163,10 @@ body {
   align-items: center;
   border: none;
   border-radius: 0.8rem;
-  padding: 1.2rem 2rem;
+  padding: 1rem 1.5rem;
   color: white;
   font-family: "Plus Jakarta Sans";
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   background-image: linear-gradient(to right, #9b4dff, #5e50ff);
 }
 
@@ -214,32 +218,18 @@ body {
   margin-top: 2rem;
 }
 
-.invoice-btn,
-.sheet-btn {
+.edit-btn {
   /* Style your action buttons */
   margin-left: 1rem;
 }
 
-.sheet-btn {
-  background-image: linear-gradient(to right, #9b4dff, #5e50ff);
-  color: #fff;
-  font-family: "Plus Jakarta Sans";
-  font-size: 1.4rem;
-  font-style: normal;
-  line-height: 2.4rem;
-  letter-spacing: 0.15px;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 1rem 2rem;
-}
-
-.invoice-btn {
+.edit-btn {
   font-family: "Plus Jakarta Sans";
   border-radius: 0.7rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   border: 1px solid #9b4dff;
   background-color: white;
-  padding: 1.2rem 1.5rem;
+  padding: 0.2rem 2.5rem;
   color: #5b4dff;
 }
 
@@ -280,39 +270,6 @@ tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-/* 
-.pagination-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.pagination-btn {
-    padding: 5px 10px;
-    border: none;
-    font-size: large;
-    background-color: white;
-    cursor: pointer;
-    
-}
-
-.pagination-input {
-    width: 20px;
-    padding: 7px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.pagination-btn:disabled {
-    color: #ccc;
-    cursor: default;
-}
-
-.pagination-btn:not(:disabled):hover {
-    background-color: #f0f0f0;
-} */
-
 .order-row {
   background: white;
   border: none;
@@ -325,18 +282,11 @@ tbody tr:hover {
 .order-column {
   border: none;
 }
-.second-column {
-  max-width: 20vw;
-  padding: 2rem 0.5rem !important;
-}
-.first-column {
-  padding: 2rem 0.5rem !important;
-}
 
-.table-head-row {
-    background-color: var(--table-header-color);
-    color: white;
-    border: none
+.order-head-row {
+  background-color: var(--table-header-color);
+  color: white;
+  border: none;
 }
 
 thead th {
@@ -348,48 +298,6 @@ thead th {
   margin-bottom: 2rem;
 }
 
-/* Hide the browser's default dropdown arrow */
-.custom-select {
-  -webkit-appearance: none; /* For Safari */
-  -moz-appearance: none; /* For Firefox */
-  appearance: none;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 1rem;
-  padding-right: 3rem;
-  background-image: url("back.png");
-  background-repeat: no-repeat;
-  background-position: right 1rem center; /* Adjust as necessary */
-  background-size: 1.5rem; /* Adjust as necessary */
-}
-
-/* Style focus and hover states */
-.custom-select:focus {
-  border-color: white;
-  outline: none;
-}
-
-/* For older browsers that don't support the appearance property */
-.custom-select::-ms-expand {
-  display: none;
-}
-
-/* Optional: add a wrapper to position the select element if needed */
-.select-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-/* Optional: add an after pseudo-element to create an arrow */
-.select-wrapper:after {
-  content: "▼"; /* Add your custom arrow symbol or character */
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  pointer-events: none; /* Allows click events to pass through to the select element */
-}
 
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
@@ -456,4 +364,13 @@ background: #555; /* Color when hovered */
     width: 8.8441rem;
     height: 4.9134rem;
   }
+  table, .add-customer-btn, .edit-btn {
+    font-size: 1.4rem;
+  }
+
+  .search-btn {
+    padding: 0.6rem 0.8rem;
+    padding-bottom: 0.3rem;
+  }
+
 }
