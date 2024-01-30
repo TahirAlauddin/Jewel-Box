@@ -28,11 +28,11 @@
   src: url("../../fonts/PlusJakartaSans.woff") format("woff");
 }
 :root {
-  --primary-color: #e1e4e8;
-  --secondary-color: #0066cc;
-  --tertiary-color: #f6f6f6;
   font-size: 62.5%;
-  --table-header-color: #7389ff;
+    --primary-color: #E1E4E8;
+    --secondary-color: #0066cc;
+    --tertiary-color: #F6F6F6;    
+    --table-header-color: #7389FF
 }
 
 body {
@@ -332,10 +332,11 @@ tbody tr:hover {
 .first-column {
   padding: 2rem 0.5rem !important;
 }
-.order-head-row {
-  background-color: var(--table-header-color);
-  color: white;
-  border: none;
+
+.table-head-row {
+    background-color: var(--table-header-color);
+    color: white;
+    border: none
 }
 
 thead th {

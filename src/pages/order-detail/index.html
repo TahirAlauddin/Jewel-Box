@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewel Box - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"></link>
+    <script src="jquery.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+
+    <div class="sidebar column-flex">
+        <header>
+            <div class="flex-logo">
+                <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
+                <label class="logo-name">Jewel Box</label>
+            </div>
+        </header>
+        
+        <div class="navigation">
+            <div class="nav-item selected">
+                <img src="orders.svg" alt="Orders" class="icon"/>
+                <span>Orders</span>
+            </div>
+            <div class="nav-item">
+                <img src="customers.svg" alt="Orders" class="icon"/>
+                <span>Customers</span>
+            </div>
+            <div class="nav-item">
+                <img src="invoices.svg" alt="Orders" class="icon"/>
+                <span>Invoices</span>
+            </div>
+        </div>
+        <div class="nav-item logout">
+            <img src="logout.svg" alt="Orders" class="icon"/>
+            <span>Log Out</span>
+        </div>
+    </div>
+
+
+    <div class="main-content">
+        <div class="order-header">
+            <div class="page-navigation">
+                <img src="orders-white.svg" alt="Orders" class="icon"/>
+                <h2><span>Orders</span> / Order Detail</h2>
+            </div>
+            <div class="order-actions">
+                <div class="operation-buttons">
+                    <button class="edit-button">Edit order</button>
+                    <button class="delete-button">Delete order</button>
+                </div>
+                
+            </div>
+        </div>
+
+    <div class="order-detail">
+
+        <div class="order-information">
+            <div class="input-box">
+                <label for="customer">Customer</label>
+                <input type="text" id="customer">
+            </div>
+        
+            <div class="input-box">
+                <label for="size">Size</label>
+                <input type="text" id="size">
+            </div>
+
+            <div class="input-box">
+                <label for="orderID">Order ID</label>
+                <input type="text" id="orderID">
+            </div>
+
+            <div class="input-box">
+                <label for="ct">CT</label>
+                <input type="text" id="ct">
+            </div>
+
+            <div class="input-box">
+                <label for="jobID">Job ID</label>
+                <input type="text" id="jobID">
+            </div>
+
+            <div class="input-box">
+                <label for="kt">KT</label>
+                <input type="text" id="kt">
+            </div>
+
+            <div class="input-box">
+                <label for="dateDue">Date Due</label>
+                <input type="date" id="dateDue">
+            </div>
+
+            <div class="input-box">
+                <label for="invoiceId">Invoice ID</label>
+                <input type="text" id="invoiceId">
+            </div>
+
+            <div class="input-box">
+                <label for="metal">Metal</label>
+                <input type="text" id="metal">
+            </div>
+
+            <div class="input-box">
+                <label for="setter">Setter</label>
+                <input type="text" id="setter">
+            </div>
+            
+            <div class="input-box">
+                <label for="type">Type</label>
+                <input type="text" id="type">
+            </div>
+
+        </div>
+        
+        <div class="order-images">
+            <div class="barcode-section">
+                <label>Barcode</label>
+                <img src="barcode.png" alt="Barcode">
+            </div>
+        
+            <div class="images-section">
+                <label>Images</label>
+                <div class="image-container">
+                    <img src="product-image.png" alt="Product Image">
+                    <button class="delete-image">
+                        <img src="cross.svg" alt="" srcset="">
+                    </button>
+                </div>
+                <div>
+                    <button class="upload-image-btn">Upload image</button>
+                    <button class="use-webcam-btn">Use webcam</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="specifications-section">
+        <h3>Order Specifications</h3>
+        <div class="checkbox-grid">
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="rush">Rush</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="rush">
+                    <span class="checkmark"></span>
+                </label>
+                <input type="text" name="rush-input" id="rush-input">
+            </div>
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="order">Order</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="order">
+                    <span class="checkmark"></span>
+                </label>
+                <input type="text" name="order-input" id="order-input">
+            </div>
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="clean">Clean</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="clean">
+                    <span class="checkmark"></span>
+                </label>
+                <input type="text" name="clean-input" id="clean-input">
+            </div>
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="polish">Polish</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="polish">
+                    <span class="checkmark"></span>
+                </label>
+                <input type="text" name="polish-input" id="polish-input">
+            </div>
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="stamp">Stamp</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="stamp">
+                    <span class="checkmark"></span>
+                </label>                
+                <input type="text" name="stamp-input" id="stamp-input">
+            </div>
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="type">Type</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="type">
+                    <span class="checkmark"></span>
+                </label>
+                <input type="text" name="type"> 
+            </div>
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="rhodium">Rhodium</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="rhodium">
+                    <span class="checkmark"></span>
+                </label>
+                <input type="text" name="rhodium-input" id="rhodium-input">
+            </div>
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="setter">Setter</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="setter">
+                    <span class="checkmark"></span>
+                </label>
+                <input type="text" name="setter-input" id="setter-input">
+            </div>
+            <div class="checkbox-with-input">
+                <label class="specification-name-label" for="repair">Repair</label>
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="checkbox" name="repair">
+                    <span class="checkmark"></span>
+                </label>
+                  
+                <input type="text" name="repair-input" id="repair-input">
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="expenses-section">
+        <h3>Order Expenses</h3>
+        <div class="expense-div-grid">
+            <div>
+                <label for="setting">Setting</label>
+                <input class="currency" type="number" name="setting-input" id="setting-input">
+            </div>
+            <div>
+                <label for="polish">Polish</label>
+                <input class="currency" type="number" name="polish-input" id="polish-input">
+            </div>
+            <div>
+                <label for="rhodium">Rhodium</label>
+                <input class="currency" type="number" name="rhodium-input" id="rhodium-input">
+            </div>
+            <div>
+                <label for="soldering">Soldering</label>
+                <input class="currency" type="number" name="soldering-input" id="soldering-input">
+            </div>
+            <div>
+                <label for="clean">Clean</label>
+                <input class="currency" type="number" name="clean-input" id="clean-input">
+            </div>
+            <div>
+                <label for="miscellaneous">Miscellaneous</label>
+                <input class="currency" type="number" name="miscellaneous-input" id="miscellaneous-input">
+            </div>
+            <div>
+                <label for="color-stone">Color Stone</label>
+                <input class="currency" type="number" name="color-stone" id="color-stone">  
+            </div>
+            <div>
+                <label for="finding">Finding</label>
+                <input class="currency" type="number" name="finding-input" id="finding-input">
+            </div>
+            <div>
+                <label for="diamonds">Diamonds</label>  
+                <input class="currency" type="number" name="diamonds-input" id="diamonds-input">
+            </div>
+            <div>
+                <label for="diamond-weight">Diamond Weight</label>  
+                <input class="mass" type="number" name="diamond-weight-input" id="diamond-weight-input">
+            </div>
+            <div>
+                <label for="dpc">DPC</label>  
+                <input class="currency" type="number" name="dpc-input" id="dpc-input">
+            </div>
+            <div>
+                <label for="mounting">Mounting</label>  
+                <input class="currency" type="number" name="mounting-input" id="mounting-input">
+            </div>
+            <div>
+                <label for="total-cost">Total Cost</label>  
+                <input class="currency" type="number" name="total-cost-input" id="total-cost-input">
+            </div>
+            <div>
+                <label  for="sale-price">Sale Price</label>
+                <input class="currency" type="number" name="sale-price-input" id="sale-price-input">
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="order-notes">
+        <h3>Order Notes</h3>
+        <textarea name="order_notes" rows="10"></textarea>
+    </div>
+
+    <div class="stone-specification">
+        <h3>Stone specification</h3>
+        <table class="table-container">
+            <thead>
+                <tr class="table-head-row">
+                    <th>STONE</th>
+                    <th>CUT</th>
+                    <th>STONE#</th>
+                    <th>QUANTITY</th>
+                    <th>LENGTH</th>
+                    <th>WIDTH</th>
+                    <th>HEIGHT</th>
+                    <th>CT</th>
+                    <th><img src="plus.svg" alt=""></th> <!-- for delete icon column -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-row">
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
+                </tr>
+                <tr class="table-row">
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
+                </tr>
+                <tr class="table-row">
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td class="table-column">TEXT</td>
+                    <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
+
+                </tr>
+                <!-- Repeat <tr>...</tr> for the number of rows you need -->
+            </tbody>
+        </table>
+    </div>
+    
+    
+</div>
+
+
+</body>
+</html>
