@@ -7,20 +7,30 @@ var btn = document.getElementById("add-customer-btn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("delete-image")[0];
 
+var addButton = document.getElementById("addButton")
+
 // When the user clicks the button, open the modal 
 btn.onclick = function() {
-  console.log('hi')
   modal.style.display = "block";
+}
+
+addButton.onclick = function() {
+  closeModal()
+}
+
+
+function closeModal() {
+  modal.style.display = "none";
 }
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
-  modal.style.display = "none";
+  closeModal()
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
-    modal.style.display = "none";
+    closeModal()
   }
 }
