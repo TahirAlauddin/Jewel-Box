@@ -44,3 +44,42 @@
   $(document).ready(function() {
     $('input.mass').massInput();
   });
+
+
+
+function deleteRow(args) {
+  $(this).closest('tr').remove();
+}
+function addRow(args) {
+  let row = `
+  <tr class="table-row">
+  <td class="table-column">TEXT</td>
+  <td class="table-column">TEXT</td>
+  <td class="table-column">TEXT</td>
+  <td class="table-column">TEXT</td>
+  <td class="table-column">TEXT</td>
+  <td class="table-column">TEXT</td>
+  <td class="table-column">TEXT</td>
+  <td class="table-column">TEXT</td>
+  <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
+</tr>
+`
+  let table = $('table.table-container');
+  table.append(row)
+  // Add listeners on new objects
+  addEvents()
+  
+}
+
+// Add Button
+document.getElementById('add-row')
+.addEventListener('click', () => addRow())
+
+function addEvents () {
+$('.delete-row').each(function() {
+  $(this).on('click', deleteRow);
+});
+
+}
+
+addEvents()

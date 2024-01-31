@@ -268,8 +268,8 @@ body {
 }
 .delete-image {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0.8rem;
+  right: 0.2rem;
   background-color: #d14343;
   color: white;
   border: none;
@@ -287,7 +287,9 @@ body {
 .delete-image img {
   width: 15px;
   height: 15px;
-  /* margin: 5px; */
+}
+.delete-image:hover {
+  background-color: red;
 }
 
 .upload-webcam-btn-container {
@@ -309,9 +311,11 @@ body {
   background-image: linear-gradient(to right, #9b4dff, #5e50ff);
   color: #fff;
 }
+.use-webcam-btn:hover {
+  box-shadow: 1px 1px 1px gray;
+}
 
 .upload-image-btn {
-  background-color: white;
   color: #5b4dff;
 }
 
@@ -446,13 +450,13 @@ thead th {
 
 .page-navigation {
   display: flex;
+  gap: 5px;
+  align-items: center;
 }
 .page-navigation img {
   background-color: #5b4dff;
   width: 1.7rem;
   height: 1.7rem;
-  margin-top: 1rem;
-  margin-right: 5px;
   padding: 8px;
   border-radius: 0.7rem;
 }
@@ -508,25 +512,32 @@ input[type="checkbox"]:checked {
   border: none;
 }
 
-.delete-button {
+.delete-button, .edit-button {
   border-radius: 0.7rem;
-  background: #d14343;
   display: flex;
   padding: 1.2rem 2rem;
   justify-content: center;
   align-items: center;
+  font-family: 'Plus Jakarta Sans';
+}
+
+button {
+  cursor: pointer;
+}
+
+.delete-button {
   border: none;
+  background: #d14343;
   color: white;
 }
 
+.delete-button:hover {
+  box-shadow: 1px 1px 1px gray;
+}
+
 .edit-button {
-  border-radius: 0.7rem;
   border: 1px solid #9b4dff;
   color: #9b4dff;
-  display: flex;
-  padding: 1.2rem 2rem;
-  justify-content: center;
-  align-items: center;
 }
 
 .operation-buttons {
@@ -630,4 +641,32 @@ input[type="checkbox"]:checked {
     font-size: 1.4rem;
   }
 
+}
+
+/* User Experience */
+.upload-image-btn:hover, .edit-button:hover {
+  background-color: white;
+}
+
+.navigate-image-btn {
+  position: absolute;
+  max-width: 2.5rem;
+  max-height: 2.5rem;
+  top: 45%;
+}
+.navigate-image-btn:hover {
+  max-height: 2.7rem;
+  max-width: 2.7rem;
+}
+
+#left-arrow-btn {
+  left: 2%;
+}
+#right-arrow-btn {
+  right: 2%;
+}
+
+.custom-checkbox .checkmark:hover {
+  background-color: lightgrey;
+  border-radius: 5px;
 }
