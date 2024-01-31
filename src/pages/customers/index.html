@@ -40,7 +40,7 @@
         <div class="main-container">
             <div class="toolbar">
                 <div class="btn-container">
-                    <div class="add-customer-btn">
+                    <div class="add-customer-btn" id="add-customer-btn">
                         <div>Add Customer</div>
                         <div style="padding-bottom: 2.5px; font-size: 1.5rem;">+</div>
                     </div>
@@ -113,6 +113,34 @@
             </div>
         </div>
 
+        
+<div id="myModal" class="modal">
+    <div class="modal-content">
+
+      <div>
+        <button class="delete-image">
+          <img src="cross.svg" alt="" srcset="">
+      </button>
+      </div>
+
+      <h2 class="add-new-customer">Add new customer</h2>
+      <div class="input-container">
+        <p>
+          <label for="fullname">Add name</label>
+        </p>
+        <input type="text" id="fullname" placeholder="Type full name of customer">
+      </div>
+      <div class="input-container">
+        <p>
+          <label for="abbreviation">Add Abbreviation</label>
+        </p>
+        <input type="text" id="abbreviation" placeholder="Add abbreviation of full name">
+      </div>
+      <button id="addButton">Add</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
