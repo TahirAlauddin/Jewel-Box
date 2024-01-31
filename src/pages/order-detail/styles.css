@@ -1,580 +1,633 @@
 @font-face {
-    font-family: "Qwitcher Grypen";
-    src: url("/fonts/QwitcherGrypen-Regular.woff") format("woff");
+  font-family: "Qwitcher Grypen";
+  src: url("/fonts/QwitcherGrypen-Regular.woff") format("woff");
 }
 @font-face {
-    font-family: "Qwitcher Grypen";
-    src: url("/fonts/QwitcherGrypen-Bold.woff") format("woff");
+  font-family: "Qwitcher Grypen";
+  src: url("/fonts/QwitcherGrypen-Bold.woff") format("woff");
 }
 @font-face {
-    font-family: "Poppins";
-    src: url("/fonts/Poppins-ExtraLight.woff") format("woff");
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-ExtraLight.woff") format("woff");
 }
-  @font-face {
-    font-family: "Poppins";
-    src: url("/fonts/Poppins-Light.woff") format("woff");
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Light.woff") format("woff");
 }
-  @font-face {
-    font-family: "Poppins";
-    src: url("/fonts/Poppins-Regular.woff") format("woff");
-  }
-  @font-face {
-    font-family: "Poppins";
-    src: url("/fonts/Poppins-Medium.woff") format("woff");
-  }
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Medium.woff") format("woff");
+}
 
-  @font-face {
-    font-family: "Plus Jakarta Sans";
-    src: url("/fonts/PlusJakartaSans.woff") format("woff");
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/fonts/PlusJakartaSans.woff") format("woff");
 }
 :root {
-    --primary-color: #E1E4E8;
-    --secondary-color: #0066cc;
-    --tertiary-color: #F6F6F6;
-    --table-header-color: #7389FF;
-    font-size: 62.5%;
+  --primary-color: #e1e4e8;
+  --secondary-color: #0066cc;
+  --tertiary-color: #f6f6f6;
+  --table-header-color: #7389ff;
+  font-size: 62.5%;
 }
 
 body {
-    padding: 1% 2%;
-    font-family: "Poppins", sans-serif;
-    background-color: var(--tertiary-color);
+  padding: 1% 2%;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--tertiary-color);
 }
 
 .sidebar {
-    width: 250px; /* Adjust as needed */
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-radius: 1rem;
-    width: 15vw;
-    box-shadow: #666;
+  min-width: 22rem;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 1rem;
+  width: 15vw;
+  box-shadow: #666;
 }
 
 .column-flex {
-    flex-direction: column;
+  flex-direction: column;
 }
 .center-aligned-flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 .max-height {
-    height: 100%;
+  height: 100%;
 }
 
 div {
-    display: block;
+  display: block;
 }
 
-
-
-
 body {
-    display: flex;
-    height: 95vh;
-    margin: 0;
-    font-family: "Poppins", sans-serif;
+  display: flex;
+  height: 95vh;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
 }
 
 .logo-container {
-    text-align: center;
-    padding-bottom: 20px;
+  text-align: center;
+  padding-bottom: 20px;
 }
 
 .logo-container img {
-    width: 100px; /* Adjust as needed */
+  width: 100px; /* Adjust as needed */
 }
 
 .navigation {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .nav-item {
-    display: flex;
-    align-items: center;
-    padding: 1.5rem 3rem;
-    cursor: pointer;
-    background-color: #FFFFFF;
-    border-left: 5px solid transparent;
-    font-size: 1.6rem;
-    gap: 1rem; /* This ensures space between the icon and the text */
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  background-color: #ffffff;
+  border-left: 0.5rem solid transparent;
+  gap: 1rem;
+  font-size: 1.4rem;
 }
 
 .nav-item i {
-    width: 20px; /* Adjust size if necessary */
-    text-align: center;
+  width: 20px; /* Adjust size if necessary */
+  text-align: center;
 }
 
 .nav-item span {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .nav-item.selected {
-    border-left-color: #7C3AED; 
-    border-width: 0.6rem;
+  border-left-color: #7c3aed;
+  background-color: #7c3aed23;
 }
 
 .nav-item:not(.selected):hover {
-    background-color: #E1E4E8;
+  background-color: #e1e4e8;
 }
 
 .logo {
-    max-width: 150px;
-    width: 68.441px;
-    height: 39.134px;
+  max-width: 10rem;
+  width: 6.8441rem;
+  height: 3.9134rem;
 }
+
 .flex-logo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-self: flex-end;
-    margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .flex-logo label {
-    align-self: center;
+  align-self: center;
 }
 
 .flex-logo img {
-    align-self: center;
+  align-self: center;
 }
 .logo-name {
-    font-family: "Qwitcher Grypen";
-    font-size: 2.3rem;
-    color: #5B4DFF;
+  font-family: "Qwitcher Grypen";
+  font-size: 2.3rem;
+  color: #5b4dff;
 }
 
+.logout {
+  margin-bottom: 2rem;
+}
 
 .main-container {
-    border-radius: 10px;
-    padding: 20px;
-    flex-grow: 1;
+  border-radius: 10px;
+  padding: 20px;
+  flex-grow: 1;
 }
 
 .toolbar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-
-
-.sidebar {
-    /* Styles for the sidebar, similar to previous examples */
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .main-content {
-    flex-grow: 1;
-    padding: 20px;
+  width: 80vw;
+  padding: 20px;
 }
 
 .order-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    margin-right: 15rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  margin-right: 15%;
 }
 
 .order-actions button {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .order-detail {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-}
-
-.order-specifications {
-    /* Styles for the specifications checkboxes */
-}
-
-.order-notes {
-    /* Styles for the text area */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .stone-specification {
-    margin-top: 20px;
+  margin-top: 2rem;
 }
 
 .stone-specification h3 {
-    margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
-
-/* Add more styles to match the layout and design of your screenshot */
-
-
 
 .order-information {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
 
-.customer-info, .order-info {
-    display: flex;
-    flex-direction: column;
+.customer-info,
+.order-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .label {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.order-images {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /*  Product Barcode Section */
 .barcode-section {
-    display: block;
-    justify-content: center;
-    background-color: white;
-    margin-left: 15rem;
-    margin-right: 15rem;
-    margin-bottom: 3rem;
-    padding-top: 0.5rem;
-    border-radius: 2rem;
-}
-.barcode-section label {
-    display: block;
+  display: block;
+  justify-content: center;
+  background-color: white;
+  margin-bottom: 3rem;
+  padding-top: 0.5rem;
+  border-radius: 2rem;
+  width: 30rem;
 }
 
-.barcode-section, .images-section {
-    text-align: center;
+.barcode-section label {
+  display: block;
+}
+
+.barcode-section,
+.images-section {
+  text-align: center;
 }
 /* .images-section */
 .barcode-section label {
-    margin-top: 2.7rem;
-    margin-right: 0.5rem;
-    font-size: 1.2rem;
-    color: #5B4DFF;
+  margin-top: 2.7rem;
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+  color: #5b4dff;
 }
 
 .barcode-section img {
-    width: auto;
-    height: 100px;
+  width: auto;
+  height: 10rem;
 }
 
 /* Product Image Section */
-.images-section, .images-section label {
-    display: block;
+.images-section,
+.images-section label {
+  display: block;
 }
 .images-section label {
-    margin-bottom: 1rem;
-    margin-right: 23rem;
-    font-size: 1.5rem;
+  margin-bottom: 1rem;
+  margin-right: 23rem;
+  font-size: 1.5rem;
 }
 .image-container {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 .image-container img {
-    width: 300px;
-    height: 200px;
-    border-radius: 20px;
-
+  width: 30rem;
+  height: 20rem;
+  border-radius: 2rem;
 }
 .delete-image {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #D14343;
-    color: white;
-    border: none;
-    margin: 5px 10px;
-    /* padding: 10; */
-    padding-top: 3px;
-    padding-left: 0px;
-    padding-bottom: 0px;
-    padding-right: 0px;
-    border-radius: 27px;
-    height: 2.5rem;
-    width: 2.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #d14343;
+  color: white;
+  border: none;
+  margin: 0.5rem 1rem;
+  /* padding: 10; */
+  padding-top: 3px;
+  padding-left: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  border-radius: 2.7rem;
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
 .delete-image img {
-    width: 15px;
-    height: 15px;
-    /* margin: 5px; */
+  width: 15px;
+  height: 15px;
+  /* margin: 5px; */
 }
 
+.upload-webcam-btn-container {
+    margin-top: 1rem;
+}
 
 .upload-image-btn,
 .use-webcam-btn {
-    /* Style your action buttons */
-    margin-left: 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    font-family: "Plus Jakarta Sans";
-    padding: 10px 15px;
-    border: 1px solid #9B4DFF;
+  /* Style your action buttons */
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  font-family: "Plus Jakarta Sans";
+  padding: 1rem 2rem;
+  border: 1px solid #9b4dff;
 }
 
 .use-webcam-btn {
-    background-image: linear-gradient(to right, #9B4DFF, #5E50FF);
-    color: #FFF;
+  background-image: linear-gradient(to right, #9b4dff, #5e50ff);
+  color: #fff;
 }
 
 .upload-image-btn {
-    background-color: white;
-    color: #5B4DFF;
+  background-color: white;
+  color: #5b4dff;
 }
 
 input {
-    background-color: #fff;
-    border-radius: 3px;
-    border: none;
-    padding: 10px 15px;
-    font-family: Poppins;
+  background-color: #fff;
+  border-radius: 3px;
+  border: none;
+  padding: 1rem 15px;
+  font-family: Poppins;
 }
 
 .order-information label {
-    color: #5B4DFF;
+  color: #5b4dff;
 }
 
 /* Order specifications */
 .specifications-section {
-    margin: 20px 0;
+  margin: 2rem 0;
 }
 
 .specifications-section h3 {
-    margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    justify-content: left;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  justify-content: left;
+  margin-bottom: 2rem;
 }
-
 
 /* Order Specifications */
 .checkbox-grid input {
-    background: #fff;
-
+  background: #fff;
 }
 .checkbox-grid label {
-    color: #5B4DFF;
+  color: #5b4dff;
 }
 textarea[name="order_notes"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical; /* Allows vertical resizing, disable or set to 'none' to prevent resizing */
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical; /* Allows vertical resizing, disable or set to 'none' to prevent resizing */
+}
+
+.checkbox-with-input input {
+    width: 20rem;
 }
 
 .checkbox-with-input {
-    display: grid;
-    grid-template-columns: min-content auto; /* First column is the width of the checkbox, second column takes the remaining space */
-    grid-template-rows: auto auto; /* Two rows: one for label, one for inputs */
-    gap: 1rem; /* Adjust gap as needed */
-    align-items: center; /* Align items vertically centered */
+  display: grid;
+  grid-template-columns: min-content auto; /* First column is the width of the checkbox, second column takes the remaining space */
+  grid-template-rows: auto auto; /* Two rows: one for label, one for inputs */
+  gap: 1rem; /* Adjust gap as needed */
+  align-items: center; /* Align items vertically centered */
+}
+
+.specification-name-label {
+    font-size: 1.2rem;
 }
 
 .checkbox-with-input .specification-name-label {
-    grid-column: 1 / -1; /* Label spans across all columns */
+  grid-column: 1 / -1; /* Label spans across all columns */
 }
 
 .checkbox-with-input input[type="checkbox"] {
-    grid-row: 2; /* Checkbox is on the second row */
-    grid-column: 1; /* Checkbox is on the first column */
+  grid-row: 2; /* Checkbox is on the second row */
+  grid-column: 1; /* Checkbox is on the first column */
 }
-
 
 .checkbox-with-input input[type="text"] {
-    grid-row: 2; /* Text input is on the second row */
-    grid-column: 2; /* Text input is on the second column */
+  grid-row: 2; /* Text input is on the second row */
+  grid-column: 2; /* Text input is on the second column */
 }
-
-
 
 /* Stone specifications */
 
 .stone-specification {
-    margin: 20px 0;
+  margin: 2rem 0;
 }
 
 .stone-specification h3 {
-    margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .stone-specification table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .stone-specification th,
 .stone-specification td {
-    padding: 8px;
-    text-align: left;
+  padding: 8px;
+  text-align: left;
 }
 
 .stone-specification tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
 .stone-specification .delete-row {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: red;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: red;
 }
 
 .table-head-row {
-    background-color: var(--table-header-color);
-    color: white;
-    border: none
+  background-color: var(--table-header-color);
+  color: white;
+  border: none;
 }
 thead th {
-    border: none; /* Example border to see cells clearly */
-    color: white; /* Example text color */
-    padding: 0.5rem 1.5rem !important;
+  border: none; /* Example border to see cells clearly */
+  color: white; /* Example text color */
+  padding: 0.5rem 1.5rem !important;
 }
 
 .table-row {
-    background: white;
-    border: none;
+  background: white;
+  border: none;
 }
 .table-row > td {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 2rem 1.5rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 2rem 1.5rem;
 }
-
 
 /* Stone specifications end */
 
-
 .page-navigation {
-    display: flex;
+  display: flex;
 }
 .page-navigation img {
-    background-color: #5B4DFF;
-    width: 1.7rem;
-    height: 1.7rem;
-    margin-top: 1rem;
-    margin-right: 5px;
-    padding: 8px;
-    border-radius: .7rem;
+  background-color: #5b4dff;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-top: 1rem;
+  margin-right: 5px;
+  padding: 8px;
+  border-radius: 0.7rem;
 }
 
 .page-navigation span {
-    color: rgba(26, 26, 26, 0.60); 
-    font-family: 'Poppins', sans-serif;
+  color: rgba(26, 26, 26, 0.6);
+  font-family: "Poppins", sans-serif;
 }
 
-
 input[type="checkbox"] {
-    background: linear-gradient(to right, #2196F3, #3F51B5, #4CAF50);
-    color: linear-gradient(to right, #2196F3, #3F51B5, #4CAF50);
+  background: linear-gradient(to right, #2196f3, #3f51b5, #4caf50);
+  color: linear-gradient(to right, #2196f3, #3f51b5, #4caf50);
 }
 
 input[type="checkbox"]:checked {
-    background: linear-gradient(to right, #2196F3, #3F51B5, #4CAF50);
-    color: linear-gradient(to right, #2196F3, #3F51B5, #4CAF50);
+  background: linear-gradient(to right, #2196f3, #3f51b5, #4caf50);
+  color: linear-gradient(to right, #2196f3, #3f51b5, #4caf50);
 }
 
 .custom-checkbox {
-    position: relative;
-    display: inline-block;
-    width: 2.5rem; /* Size of the checkbox */
-    height: 2.5rem;
-    grid-row: 2;
-    grid-column: 1;
+  position: relative;
+  display: inline-block;
+  width: 2.5rem; /* Size of the checkbox */
+  height: 2.5rem;
+  grid-row: 2;
+  grid-column: 1;
 }
-  
-  .custom-checkbox input[type="checkbox"] {
-    visibility: hidden; 
-  }
-  
-  .custom-checkbox .checkmark {
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.05), 0px 1px 2px -1px rgba(0, 0, 0, 0.05);
-    position: absolute;
-    top: 0; left: 0;
-    width: 2.5rem; height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    border: 1px solid rgba(26, 26, 26, 0.40);  
+
+.custom-checkbox input[type="checkbox"] {
+  visibility: hidden;
 }
-  
-  .custom-checkbox input[type="checkbox"]:checked + .checkmark {
-    background-image: url('/pages/order-detail/checkbox-icon.svg');
-    background-repeat: no-repeat;
-    background-position: center; /* Center the image in the checkmark area */
-    background-size: 130%; /* Adjust size as needed */
-    border: none;
-  }
-  
-  .delete-button {
-    border-radius: 0.7rem;
-    background: #D14343;
-    display: flex;
-    padding: 1.2rem 3rem;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    color: white;
-  }
-  
-  .edit-button {
-    border-radius: 7px;
-    border: 1px solid #9B4DFF;
-    color: #9B4DFF;
-    display: flex;
-    height: 48px;
-    padding: 1.2rem 3rem;
-    justify-content: center;
-    align-items: center;
+
+.custom-checkbox .checkmark {
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.05),
+    0px 1px 2px -1px rgba(0, 0, 0, 0.05);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid rgba(26, 26, 26, 0.4);
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-image: url("/pages/order-detail/checkbox-icon.svg");
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image in the checkmark area */
+  background-size: 130%; /* Adjust size as needed */
+  border: none;
+}
+
+.delete-button {
+  border-radius: 0.7rem;
+  background: #d14343;
+  display: flex;
+  padding: 1.2rem 2rem;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: white;
+}
+
+.edit-button {
+  border-radius: 0.7rem;
+  border: 1px solid #9b4dff;
+  color: #9b4dff;
+  display: flex;
+  padding: 1.2rem 2rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .operation-buttons {
-    display: flex;
+  display: flex;
 }
 
 .input-box label {
-    display: block;
-    margin: 0.5rem;
-    color: #5B4DFF;
-    font-family: Poppins;
-    font-size: 1.4rem;
+  display: block;
+  margin: 0.5rem;
+  color: #5b4dff;
+  font-family: Poppins;
+  font-size: 1.6rem;
 }
 
+.input-box input {
+  width: 25rem;
+}
 
 /* Order Expense */
 
 .expense-div-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    justify-content: left;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  justify-content: left;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
 }
 .expense-div-grid label {
-    color: #5B4DFF;
+  color: #5b4dff;
 }
 
 .currency {
-padding-left: 2rem;
+  padding-left: 2rem;
 }
 
 .currency-symbol {
-position:absolute;
-padding: 1rem 0.7rem;
-font-size: 1.4rem;
+  position: absolute;
+  padding: 1rem 0.7rem;
+  font-size: 1.4rem;
 }
 .mass-symbol {
-position:absolute;
-padding: 1rem 0.7rem;
-font-size: 1.4rem;
+  position: absolute;
+  padding: 1rem 0.7rem;
+  font-size: 1.4rem;
 }
 
-
 .mass {
-    padding-left: 3rem;
-    }
-    
+  padding-left: 3rem;
+}
+
+@media screen and (1200px > width > 1120px) {
+  :root {
+    font-size: 50%;
+  }
+}
+
+@media screen and (1120px > width > 900px) {
+  :root {
+    font-size: 45%;
+  }
+  .flex-logo {
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 0;
+  }
+
+  .logo-name {
+    margin-top: 0;
+    font-size: 3rem;
+  }
+
+  .logo {
+    width: 8.8441rem;
+    height: 4.9134rem;
+  }
+}
+
+@media screen and (width <= 900px) {
+  :root {
+    font-size: 40%;
+  }
+
+  .flex-logo {
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 0;
+  }
+
+  .logo-name {
+    margin-top: 0;
+    font-size: 3rem;
+  }
+
+  .logo {
+    width: 8.8441rem;
+    height: 4.9134rem;
+  }
+  table
+ {
+    font-size: 1.4rem;
+  }
+
+}
