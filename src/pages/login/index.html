@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewel Box - Login</title>
     <link rel="stylesheet" href="styles.css"></link>
+    <script src="script.js"></script>
 </head>
 <body>
     <div class="main-container">
@@ -14,7 +15,7 @@
                     <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
                     <p class="logo-name">Jewel Box</p>
                 </div>
-                <h1 class="welcome-message">&#128075; Welcome back to Jewelry Store Management Software</h1>
+                <h1 class="welcome-message">&#128075; Welcome to JewelBox</h1>
             </header>
             
             <div class="login-form">
@@ -22,10 +23,12 @@
                     <div class="input-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" placeholder="Enter your email">
+                        <p id="email-message"></p>
                     </div>
                     <div class="input-group">
                         <label for="password">Password</label>
                         <input style="border: 2px solid #5B4DFF" type="password" id="password" placeholder="Enter your password">
+                        <p id="password-message"></p>
                     </div>
                 </div>
                 <div class="remember-me">
@@ -33,7 +36,7 @@
                     <label for="remember-me">Remember me</label>
                 </div>
                 <a href="#" class="forgot-password">Forgot Password?</a>
-                <button type="submit" class="login-button">Log in</button>
+                <button onclick="verifyPassword()" type="submit" id="login-button" class="login-button">Log in</button>
                 <div class="signup">
                     Don’t have an account? <a href="#">Sign Up</a>
                 </div>

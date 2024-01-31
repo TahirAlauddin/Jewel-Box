@@ -9,7 +9,6 @@ var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal 
 btn.onclick = function() {
-  console.log('hi')
   modal.style.display = "block";
 }
 
@@ -24,3 +23,4 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
