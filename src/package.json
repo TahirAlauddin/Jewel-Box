@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.1"
+  },
+  "scripts": {
+    "start": "electron ."
+  },
+  "name": "jewelbox",
+  "version": "1.0.0",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TahirAlauddin/Jewel-Box.git"
+  },
+  "author": "Tahir Alauddin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TahirAlauddin/Jewel-Box/issues"
+  },
+  "homepage": "https://github.com/TahirAlauddin/Jewel-Box#readme",
+  "description": "",
+  "devDependencies": {
+    "electron": "^28.2.0",
+    "electron-packager": "^17.1.2"
+  }
+}
