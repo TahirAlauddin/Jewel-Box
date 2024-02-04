@@ -22,11 +22,11 @@
                 <img src="orders.svg" alt="Orders" class="icon"/>
                 <span>Orders</span>
             </div>
-            <div id="customers-page-btn" class="nav-item selected">
+            <div id="customers-page-btn" class="nav-item">
                 <img src="customers.svg" alt="Customers" class="icon"/>
                 <span>Customers</span>
             </div>
-            <div id="invoices-page-btn" class="nav-item">
+            <div id="invoices-page-btn" class="nav-item selected">
                 <img src="invoices.svg" alt="Invoices" class="icon"/>
                 <span>Invoices</span>
             </div>
@@ -39,13 +39,8 @@
 
         <div class="main-container">
             <div class="toolbar">
-                <div class="btn-container">
-                    <div class="add-customer-btn" id="add-customer-btn">
-                        <div>Add Customer</div>
-                        <div style="padding-bottom: 2.5px; font-size: 1.5rem;">+</div>
-                    </div>
-                    <button class="edit-btn">Edit</button>
-                </div>
+                
+
                 <div class="filter-group">
                     <input class="search-input" type="search" placeholder="Search...">
                     <button class="search-btn">
@@ -57,55 +52,73 @@
                 <table>
                     <thead>
                         <tr class="order-head-row">
-                            <th>CUSTOMER NAME</th>
-                            <th>ABBREVIATION</th>
+                            <th>Invoice #</th>
+                            <th>Customer</th>
+                            <th>Date In</th>
+                            <th>Total Price</th>
                             
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24001</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24002</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24003</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24004</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24005</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24006</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24007</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24008</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24009</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                         <tr class="order-row">
-                            <td class="order-column">John Doe</td>
+                            <td class="order-column">ADL24010</td>
+							<td class="order-column">JD</td>
                             <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
+							<td class="order-column">JD</td>
                         </tr>
                     </tbody>
 
@@ -144,11 +157,11 @@
 
 
 <script>
-    try {
-        const { ipcRenderer } = require('electron');
-    }  catch {}
-    
 
+try {
+        const { ipcRenderer } = require('electron');
+    }  catch {
+    }
     // Function to tell Electron to navigate to another page
     function navigateTo(page) {
         console.log('change page')
@@ -168,6 +181,5 @@
         navigateTo('orders')
     })
 </script>
-
 </body>
 </html>

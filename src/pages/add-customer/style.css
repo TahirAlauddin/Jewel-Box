@@ -1,31 +1,31 @@
 @font-face {
   font-family: "Qwitcher Grypen";
-  src: url("/fonts/QwitcherGrypen-Regular.woff") format("woff");
+  src: url("../../fonts/QwitcherGrypen-Regular.woff") format("woff");
 }
 @font-face {
   font-family: "Qwitcher Grypen";
-  src: url("/fonts/QwitcherGrypen-Bold.woff") format("woff");
+  src: url("../../fonts/QwitcherGrypen-Bold.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-ExtraLight.woff") format("woff");
+  src: url("../../fonts/Poppins-ExtraLight.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-Light.woff") format("woff");
+  src: url("../../fonts/Poppins-Light.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-Regular.woff") format("woff");
+  src: url("../../fonts/Poppins-Regular.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-Medium.woff") format("woff");
+  src: url("../../fonts/Poppins-Medium.woff") format("woff");
 }
 
 @font-face {
   font-family: "Plus Jakarta Sans";
-  src: url("/fonts/PlusJakartaSans.woff") format("woff");
+  src: url("../../fonts/PlusJakartaSans.woff") format("woff");
 }
 
 :root {

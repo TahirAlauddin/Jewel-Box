@@ -1,31 +1,31 @@
 @font-face {
   font-family: "Qwitcher Grypen";
-  src: url("/fonts/QwitcherGrypen-Regular.woff") format("woff");
+  src: url("../../fonts/QwitcherGrypen-Regular.woff") format("woff");
 }
 @font-face {
   font-family: "Qwitcher Grypen";
-  src: url("/fonts/QwitcherGrypen-Bold.woff") format("woff");
+  src: url("../../fonts/QwitcherGrypen-Bold.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-ExtraLight.woff") format("woff");
+  src: url("../../fonts/Poppins-ExtraLight.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-Light.woff") format("woff");
+  src: url("../../fonts/Poppins-Light.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-Regular.woff") format("woff");
+  src: url("../../fonts/Poppins-Regular.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/Poppins-Medium.woff") format("woff");
+  src: url("../../fonts/Poppins-Medium.woff") format("woff");
 }
 
 @font-face {
   font-family: "Plus Jakarta Sans";
-  src: url("/fonts/PlusJakartaSans.woff") format("woff");
+  src: url("../../fonts/PlusJakartaSans.woff") format("woff");
 }
 :root {
   --primary-color: #e1e4e8;
@@ -172,7 +172,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  margin-right: 15%;
+  margin-right: 3%;
 }
 
 .order-actions button {
@@ -512,13 +512,19 @@ input[type="checkbox"]:checked {
   border: none;
 }
 
-.delete-button, .edit-button {
+.production-sheet-button, .delete-button, .edit-button {
   border-radius: 0.7rem;
   display: flex;
   padding: 1.2rem 2rem;
   justify-content: center;
   align-items: center;
   font-family: 'Plus Jakarta Sans';
+}
+
+.production-sheet-button {
+  border: none;
+  background: #5b4dff;
+  color: white;
 }
 
 button {

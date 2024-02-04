@@ -30,7 +30,7 @@
                     </div>
 
                 </div>
-                <button type="submit" class="login-button">Log in</button>
+                <button onclick="navigateTo('invoices')" type="submit" class="login-button">Log in</button>
             </div>
         </div>
 
@@ -40,5 +40,17 @@
         </div>
     </div>
 
+    <script>
+
+        try {
+                const { ipcRenderer } = require('electron');
+            }  catch {
+        }
+        // Function to tell Electron to navigate to another page
+        function navigateTo(page) {
+            ipcRenderer.send('navigate', page);
+        }
+
+    </script>
 </body>
 </html>

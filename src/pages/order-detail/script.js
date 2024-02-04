@@ -17,6 +17,25 @@
       });
     };
 
+    $.fn.notCurrencyInput = function() {
+      this.each(function() {
+        var wrapper = $("<div class='currency-input' />");
+        $(this).wrap(wrapper);
+        $(this).before("<span></span>");
+        $(this).change(function() {
+          var min = parseFloat($(this).attr("min"));
+          var max = parseFloat($(this).attr("max"));
+          var value = this.valueAsNumber;
+          if(value < min)
+            value = min;
+          else if(value > max)
+            value = max;
+          $(this).val(value.toFixed(2)); 
+        });
+      });
+    };
+
+
     $.fn.massInput = function() {
       this.each(function() {
         var wrapper = $("<div class='mass-input' />");
@@ -40,7 +59,9 @@
   $(document).ready(function() {
     $('input.currency').currencyInput();
   });
-  
+  $(document).ready(function() {
+    $('input.not-currency').notCurrencyInput();
+  });
   $(document).ready(function() {
     $('input.mass').massInput();
   });

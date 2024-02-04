@@ -28,11 +28,11 @@
   src: url("../../fonts/PlusJakartaSans.woff") format("woff");
 }
 :root {
+  --primary-color: #e1e4e8;
+  --secondary-color: #0066cc;
+  --tertiary-color: #f6f6f6;
   font-size: 62.5%;
-    --primary-color: #E1E4E8;
-    --secondary-color: #0066cc;
-    --tertiary-color: #F6F6F6;    
-    --table-header-color: #7389FF
+  --table-header-color: #7389ff;
 }
 
 body {
@@ -43,6 +43,10 @@ body {
 
 button {
   cursor: pointer;
+}
+
+.btn-container {
+  display: flex;
 }
 
 .sidebar {
@@ -135,7 +139,7 @@ body {
 .logo-name {
   font-family: "Qwitcher Grypen";
   font-size: 2.5rem;
-  color:#5b4dff;
+  color: #5b4dff;
 }
 
 .main-container {
@@ -151,7 +155,8 @@ body {
   margin-bottom: 2rem;
 }
 
-.add-order-btn {
+.add-customer-btn {
+  cursor: pointer;
   gap: 1rem;
   display: flex;
   flex-direction: row;
@@ -159,10 +164,10 @@ body {
   align-items: center;
   border: none;
   border-radius: 0.8rem;
-  padding: 1.2rem 2rem;
+  padding: 1rem 1.5rem;
   color: white;
   font-family: "Plus Jakarta Sans";
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   background-image: linear-gradient(to right, #9b4dff, #5e50ff);
 }
 
@@ -214,32 +219,18 @@ body {
   margin-top: 2rem;
 }
 
-.invoice-btn,
-.sheet-btn {
+.edit-btn {
   /* Style your action buttons */
   margin-left: 1rem;
 }
 
-.sheet-btn {
-  background-image: linear-gradient(to right, #9b4dff, #5e50ff);
-  color: #fff;
-  font-family: "Plus Jakarta Sans";
-  font-size: 1.4rem;
-  font-style: normal;
-  line-height: 2.4rem;
-  letter-spacing: 0.15px;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 1rem 2rem;
-}
-
-.invoice-btn {
+.edit-btn {
   font-family: "Plus Jakarta Sans";
   border-radius: 0.7rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   border: 1px solid #9b4dff;
   background-color: white;
-  padding: 1.2rem 1.5rem;
+  padding: 0.2rem 2.5rem;
   color: #5b4dff;
 }
 
@@ -272,43 +263,13 @@ td {
   padding: 0.8rem;
 }
 
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
 
 tbody tr:hover {
   background-color: #f1f1f1;
 }
-
-/* 
-.pagination-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.pagination-btn {
-    padding: 5px 10px;
-    border: none;
-    font-size: large;
-    background-color: white;
-    cursor: pointer;
-    
-}
-
-.pagination-input {
-    width: 20px;
-    padding: 7px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.pagination-btn:disabled {
-    color: #ccc;
-    cursor: default;
-}
-
-.pagination-btn:not(:disabled):hover {
-    background-color: #f0f0f0;
-} */
 
 .order-row {
   background: white;
@@ -322,18 +283,11 @@ tbody tr:hover {
 .order-column {
   border: none;
 }
-.second-column {
-  max-width: 20vw;
-  padding: 2rem 0.5rem !important;
-}
-.first-column {
-  padding: 2rem 0.5rem !important;
-}
 
-.table-head-row {
-    background-color: var(--table-header-color);
-    color: white;
-    border: none
+.order-head-row {
+  background-color: var(--table-header-color);
+  color: white;
+  border: none;
 }
 
 thead th {
@@ -345,65 +299,138 @@ thead th {
   margin-bottom: 2rem;
 }
 
-/* Hide the browser's default dropdown arrow */
-.custom-select {
-  -webkit-appearance: none; /* For Safari */
-  -moz-appearance: none; /* For Firefox */
-  appearance: none;
-  background-color: white;
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  border-radius: 10px;
+  position: relative;
+}
+
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.input-container {
+  margin-bottom: 20px;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.input-container label {
+  color: rgba(91, 77, 255, 1);
+  font-size: 1.4rem;
+}
+
+.input-container input[type="text"] {
+  width: 90%;
+  padding: 10px;
+  margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  padding: 1rem;
-  padding-right: 3rem;
-  background-image: url("back.png");
-  background-repeat: no-repeat;
-  background-position: right 1rem center; /* Adjust as necessary */
-  background-size: 1.5rem; /* Adjust as necessary */
 }
 
-/* Style focus and hover states */
-.custom-select:focus {
-  border-color: white;
-  outline: none;
+.input-container input[type="text"]:hover,
+.input-container input[type="text"]:focus {
+  border-color: #666;
 }
 
-/* For older browsers that don't support the appearance property */
-.custom-select::-ms-expand {
-  display: none;
+#addButton {
+  margin-left: 40%;
+  background: linear-gradient(312deg, #9b4dff 39.49%, #5e50ff 110.2%);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: inline-flex;
+  height: 47px;
+  padding: var(--space-6, 12px) 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
-/* Optional: add a wrapper to position the select element if needed */
-.select-wrapper {
-  position: relative;
-  display: inline-block;
+#addButton:hover {
+  background-color: #ab47bc;
 }
 
-/* Optional: add an after pseudo-element to create an arrow */
-.select-wrapper:after {
-  content: "▼"; /* Add your custom arrow symbol or character */
+.add-new-customer {
+  font-size: 1.9rem;
+}
+
+/* Delete image */
+.delete-image {
   position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  pointer-events: none; /* Allows click events to pass through to the select element */
+  top: 0;
+  right: 0;
+  background-color: #d14343;
+  color: white;
+  border: none;
+  margin: 5px 10px;
+  /* padding: 10; */
+  padding-top: 3px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+  border-radius: 27px;
+  height: 25px;
+  width: 25px;
+}
+
+.delete-image img {
+  width: 15px;
+  height: 15px;
+  /* margin: 5px; */
 }
 
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
-width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-background: #f1f1f1; /* Color of the tracking area */
+  background: #f1f1f1; /* Color of the tracking area */
 }
 
 ::-webkit-scrollbar-thumb {
-background: #888; /* Color and style of the scrollbar itself */
-border-radius: 5px;
+  background: #888; /* Color and style of the scrollbar itself */
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-background: #555; /* Color when hovered */
+  background: #555; /* Color when hovered */
 }
 
 @media screen and (1200px > width > 1120px) {
@@ -437,7 +464,7 @@ background: #555; /* Color when hovered */
   :root {
     font-size: 40%;
   }
-  
+
   .flex-logo {
     flex-direction: column;
     margin-top: 2rem;
@@ -453,11 +480,14 @@ background: #555; /* Color when hovered */
     width: 8.8441rem;
     height: 4.9134rem;
   }
+  table,
+  .add-customer-btn,
+  .edit-btn {
+    font-size: 1.4rem;
+  }
+
+  .search-btn {
+    padding: 0.6rem 0.8rem;
+    padding-bottom: 0.3rem;
+  }
 }
-
-.selected-row {
-  border: 1px solid #0066cc;
-  font-weight: bold;
-}
-
-

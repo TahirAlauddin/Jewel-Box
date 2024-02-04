@@ -1,1 +1,19 @@
+# Document
 SRS.docx
+
+# cache
+*-cache
+
+# Advanced Installer
+*.aip
+
+# packaging
+*-SetupFiles
+package
+
+# Npm
+node_modules
+
+#configs/secrets
+.env
+package-lock.json
