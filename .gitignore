@@ -3,6 +3,7 @@ SRS.docx
 
 # cache
 *-cache
+__pycache__
 
 # Advanced Installer
 *.aip
@@ -17,3 +18,10 @@ node_modules
 #configs/secrets
 .env
 package-lock.json
+
+
+#datbase
+db.sqlite3
+
+# Python
+Pipfile.lock
