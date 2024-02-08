@@ -1,8 +1,8 @@
 from rest_framework.routers import DefaultRouter
-from .views import OrderViewSet
+from .views import CustomerViewSet
 
 router = DefaultRouter()
-router.register(r'orders', OrderViewSet)
+router.register(r'', CustomerViewSet)
 
 urlpatterns = [
     # ... other url patterns ...

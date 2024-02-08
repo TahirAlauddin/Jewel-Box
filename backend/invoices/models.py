@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from django.db import models
 
 
@@ -8,7 +9,7 @@ class Invoice(models.Model):
     """
     invoice_number = models.CharField(max_length=20, unique=True, primary_key=True)
     invoice_date = models.DateField()
-    customer = models.ForeignKey('Customer', on_delete=models.SET_NULL,
+    customer = models.ForeignKey('customers.Customer', on_delete=models.SET_NULL,
                                  null=True)
     
     # New method to get related orders
@@ -25,6 +26,31 @@ class Invoice(models.Model):
         return f"<Invoice {self.invoice_number} dated {self.invoice_date}>"
 
 
+    def save(self, *args, **kwargs):
+        if not self.order_id:
+            # Extract abbreviation from customer name (first two letters as an example)
+            abbreviation = self.customer.abbreviation.upper()
+            year = now().year % 100  # Get last two digits of the year
+
+            # Find the last order_id for this customer and year, if any
+            latest_invoice = Invoice.objects.filter(order_id__startswith=f'{abbreviation}{year}').order_by('date_in').last()
+
+            if latest_invoice:
+                # Extract the last sequence number and increment
+                last_sequence = int(latest_invoice.order_id[4:])
+                new_sequence = last_sequence + 1
+            else:
+                # If no existing order, start with 1
+                new_sequence = 1
+
+            # Handle sequence overflow
+            if new_sequence > 999:
+                self.order_id = f"{abbreviation}{year:02d}{new_sequence:04d}"
+            else:
+                # Format new order_id
+                self.order_id = f"{abbreviation}{year:02d}{new_sequence:03d}"
+
+        super(Invoice, self).save(*args, **kwargs)
 
 
 class InvoiceItem(models.Model):

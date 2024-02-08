@@ -1,5 +1,10 @@
 from django.db import models
-from datetime import datetime
+from django.utils.timezone import now
+
+main_attributes_kwargs = dict(max_length=20, blank=True, null=True)
+cost_kwargs = dict(max_digits=10, decimal_places=2, blank=True, null=True)
+stones_kwargs = dict(max_digits=5, decimal_places=2, blank=True, null=True)
+nullable_kwargs = dict(blank=True, null=True)
 
 class OrderImage(models.Model):
     """
@@ -19,59 +24,63 @@ class Order(models.Model):
     order details, expenses, and stone specifications.
     """
     #? Main Attributes
-    customer = models.CharField(max_length=255)
-    size = models.CharField(max_length=10)
-    order_number = models.CharField(max_length=20)
-    ct_number = models.CharField(max_length=20)
-    job_number = models.CharField(max_length=20)
-    kt_number = models.CharField(max_length=20)
-    date_in = models.DateField() # May add auto_now_add=True and blank=True
-    invoice_number = models.CharField(max_length=20)
+    order_id = models.CharField(max_length=10, primary_key=True, 
+                                unique=True, blank=True)
+    customer = models.ForeignKey('customers.Customer',
+                                null=True, related_name='orders',
+                                on_delete=models.SET_NULL)
+    size = models.CharField(**main_attributes_kwargs)
+    order_number = models.CharField(**main_attributes_kwargs)
+    ct_number = models.CharField(**main_attributes_kwargs)
+    job_number = models.CharField(**main_attributes_kwargs)
+    kt_number = models.CharField(**main_attributes_kwargs)
+    invoice_number = models.CharField(**main_attributes_kwargs)
+    shipping_details = models.CharField(max_length=255, **nullable_kwargs)
+    metal_type = models.CharField(max_length=100, **nullable_kwargs)
+    color = models.CharField(max_length=100, **nullable_kwargs)
+    setter = models.CharField(max_length=255, **nullable_kwargs)
+    date_in = models.DateTimeField(auto_now_add=True, **nullable_kwargs) # May add auto_now_add=True and blank=True, null=True
     date_due = models.DateField()
-    metal_type = models.CharField(max_length=100)
-    setter = models.CharField(max_length=255)
-    # Changed on the request of the client, from 'type' to 'color'
-    color = models.CharField(max_length=100)
-    shipping_details = models.CharField(max_length=255)
     
     #? Expenses
-    setting_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    polish_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    rhodium_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    soldering_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    miscellaneous_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    color_stone_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    finding_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    diamonds_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    mounting_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    others = models.DecimalField(max_digits=10, decimal_places=2)
+    setting_cost = models.DecimalField(**cost_kwargs)
+    polish_cost = models.DecimalField(**cost_kwargs)
+    rhodium_cost = models.DecimalField(**cost_kwargs)
+    soldering_cost = models.DecimalField(**cost_kwargs)
+    miscellaneous_cost = models.DecimalField(**cost_kwargs)
+    color_stone_cost = models.DecimalField(**cost_kwargs)
+    finding_cost = models.DecimalField(**cost_kwargs)
+    diamonds_cost = models.DecimalField(**cost_kwargs)
+    mounting_cost = models.DecimalField(**cost_kwargs)
+    others = models.DecimalField(**cost_kwargs)
 
     # Non-montery values
-    diamond_weight = models.DecimalField(max_digits=10, decimal_places=2)
-    dpc = models.DecimalField(max_digits=10, decimal_places=2)
+    diamond_weight = models.DecimalField(**cost_kwargs)
+    dpc = models.DecimalField(**cost_kwargs)
     
     # Totals
-    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    sale_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_cost = models.DecimalField(**cost_kwargs)
+    sale_price = models.DecimalField(**cost_kwargs)
     
     # Keep these as BooleanFields
-    is_polish = models.BooleanField(default=False)
-    is_rush = models.BooleanField(default=False)
-    is_rhodium = models.BooleanField(default=False)
-    is_repair = models.BooleanField(default=False)
-    is_order = models.BooleanField(default=False)
-    is_stamp = models.BooleanField(default=False)
-    is_clean = models.BooleanField(default=False)
+    checkboxes_kwargs = dict(default=False, **nullable_kwargs)
+    is_polish = models.BooleanField(**checkboxes_kwargs)
+    is_rush = models.BooleanField(**checkboxes_kwargs)
+    is_rhodium = models.BooleanField(**checkboxes_kwargs)
+    is_repair = models.BooleanField(**checkboxes_kwargs)
+    is_order = models.BooleanField(**checkboxes_kwargs)
+    is_stamp = models.BooleanField(**checkboxes_kwargs)
+    is_clean = models.BooleanField(**checkboxes_kwargs)
 
-    
     # Renamed and changed to CharFields to add information based on the condition
-    polish_detail = models.CharField(max_length=255, blank=True, null=True)
-    rush_detail = models.CharField(max_length=255, blank=True, null=True)
-    rhodium_detail = models.CharField(max_length=255, blank=True, null=True)
-    repair_detail = models.CharField(max_length=255, blank=True, null=True)
-    order_detail = models.CharField(max_length=255, blank=True, null=True)
-    stamp_detail = models.CharField(max_length=255, blank=True, null=True)
-    clean_detail = models.CharField(max_length=255, blank=True, null=True)
+    details_kwargs = dict(max_length=255, blank=True, null=True)
+    polish_detail = models.CharField(**details_kwargs)
+    rush_detail = models.CharField(**details_kwargs)
+    rhodium_detail = models.CharField(**details_kwargs)
+    repair_detail = models.CharField(**details_kwargs)
+    order_detail = models.CharField(**details_kwargs)
+    stamp_detail = models.CharField(**details_kwargs)
+    clean_detail = models.CharField(**details_kwargs)
 
     #? Notes and location checkboxes
     order_notes = models.TextField(blank=True, null=True)
@@ -82,7 +91,7 @@ class Order(models.Model):
 
     # Override the str method to return a more descriptive name
     def __str__(self):
-        return f"Order {self.order_number} for {self.client_name}"
+        return f"Order {self.order_id} for {self.customer}"
 
     # Additional methods, such as calculating totals or setting defaults, could be added here
 
@@ -112,8 +121,37 @@ class Order(models.Model):
         """
         Unambiguous representation of the object, useful in debugging.
         """
-        return f"<Order: {self.order_number}, Client: {self.client_name}, Date In: {self.date_in}>"
+        return f"<Order: {self.order_id}, Customer: {self.customer}, Date In: {self.date_in}>"
     
+    def save(self, *args, **kwargs):
+        if not self.order_id:
+            # Extract abbreviation from customer name (first two letters as an example)
+            abbreviation = self.customer.abbreviation.upper()
+            year = now().year % 100  # Get last two digits of the year
+
+            # Find the last order_id for this customer and year, if any
+            latest_order = Order.objects.filter(order_id__startswith=f'{abbreviation}{year}').order_by('date_in').last()
+
+            print(latest_order)
+            if latest_order:
+                # Extract the last sequence number and increment
+                last_sequence = int(latest_order.order_id[4:])
+                print(last_sequence)
+                new_sequence = last_sequence + 1
+            else:
+                # If no existing order, start with 1
+                new_sequence = 1
+
+            # Handle sequence overflow
+            if new_sequence > 999:
+                self.order_id = f"{abbreviation}{year:02d}{new_sequence:04d}"
+            else:
+                # Format new order_id
+                self.order_id = f"{abbreviation}{year:02d}{new_sequence:03d}"
+
+        super(Order, self).save(*args, **kwargs)
+
+
 
 class StoneSpecification(models.Model):
     """
@@ -123,11 +161,11 @@ class StoneSpecification(models.Model):
     stone_type = models.CharField(max_length=100)
     cut = models.CharField(max_length=100)
     stone_number = models.CharField(max_length=50, blank=True, null=True)
-    quantity = models.PositiveIntegerField()
-    length = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    width = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    height = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     carat_total = models.DecimalField(max_digits=5, decimal_places=2)
+    quantity = models.PositiveIntegerField()
+    length = models.DecimalField(**stones_kwargs)
+    width = models.DecimalField(**stones_kwargs)
+    height = models.DecimalField(**stones_kwargs)
 
     def __str__(self):
         return f"{self.order} {self.stone_type[:5]} {self.quantity}pcs"
