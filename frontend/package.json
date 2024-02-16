@@ -20,7 +20,7 @@
   "homepage": "https://github.com/TahirAlauddin/Jewel-Box#readme",
   "description": "",
   "devDependencies": {
-    "electron": "^28.2.0",
+    "electron": "^28.2.3",
     "electron-packager": "^17.1.2"
   }
 }

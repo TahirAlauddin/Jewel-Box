@@ -46,10 +46,9 @@
                 <h2><span>Orders</span> / Order Detail</h2>
             </div>
             <div class="order-actions">
-                <div class="operation-buttons">
-                    <button class="production-sheet-button">Production sheet</button>
-                    <button class="edit-button">Edit order</button>
-                    <button class="delete-button">Delete order</button>
+                <div id="operation-buttons" class="operation-buttons">
+                    <button class="production-sheet-button">Print Label</button>
+                    
                 </div>
                 
             </div>
@@ -123,20 +122,28 @@
         
             <div class="images-section">
                 <label>Images</label>
-                <div class="image-container">
+                <div id="imagesContainer" class="image-container">
                     <img id="left-arrow-btn" class="navigate-image-btn" src="left-arrow.svg" alt="" srcset="">
-                    <img src="product-image.png" alt="Product Image">
+                    <div id="jewel-images-list">
+                        <video id="webcam-video" style="display: none; position: absolute;" src=""></video>
+                        <img style="display: block;" id="emptyImage" src="product-image.png" alt="Product Image">
+                    </div>
                     <img id="right-arrow-btn" class="navigate-image-btn" src="right-arrow.svg" alt="" srcset="">
-                    <button class="delete-image">
+                    <button id="delete-image" class="delete-image" onclick="deleteImage()">
                         <img src="cross.svg" alt="" srcset="">
                     </button>
                 </div>
                 <div class="upload-webcam-btn-container">
-                    <button class="upload-image-btn">Upload image</button>
-                    <button class="use-webcam-btn">Use webcam</button>
+                    <!-- <img id="capturedImage" style="max-width: 200px; display: none;"> -->
+                    
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                    <button onclick="document.getElementById('imageInput').click()" class="upload-image-btn">Upload image</button>
+                    <div style="display: flex;">
+                        <img class="webcam-icon" src="Webcam.png" alt="" srcset="">
+                        <button onclick='openWebcam()' class="use-webcam-btn">Use webcam</button>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -213,9 +220,9 @@
                     <input type="checkbox" id="checkbox" name="repair">
                     <span class="checkmark"></span>
                 </label>
-                  
                 <input type="text" name="repair-input" id="repair-input">
             </div>
+            
         </div>
     </div>
     
@@ -348,15 +355,10 @@
 
 <script>
     
-    try {
-        const { ipcRenderer } = require('electron');
-    }  catch {
-        
-    }
+    const { ipcRenderer } = require('electron');
 
     // Function to tell Electron to navigate to another page
     function navigateTo(page) {
-        console.log('change page')
         ipcRenderer.send('navigate', page);
     }
 
@@ -372,6 +374,22 @@
     document.getElementById('orders-page-btn').addEventListener('click', () => {
         navigateTo('orders')
     })
+
+    let operation_buttons = document.getElementById('operation-buttons')
+    if (0) {
+        operation_buttons.innerHTML += 
+        `    
+                <button class="edit-button">Edit order</button>
+                <button class="delete-button">Delete order</button>
+            
+            `
+        
+    } else {
+            operation_buttons.innerHTML += 
+            `
+                <button onclick="saveOrder()" class="save-button">Save order</button>
+            `
+    }
 </script>
 
 </body>

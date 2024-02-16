@@ -155,21 +155,6 @@ body {
   margin-bottom: 2rem;
 }
 
-.add-customer-btn {
-  cursor: pointer;
-  gap: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: 0.8rem;
-  padding: 1rem 1.5rem;
-  color: white;
-  font-family: "Plus Jakarta Sans";
-  font-size: 1.2rem;
-  background-image: linear-gradient(to right, #9b4dff, #5e50ff);
-}
 
 .filter-group {
   display: flex;
@@ -219,20 +204,45 @@ body {
   margin-top: 2rem;
 }
 
-.edit-btn {
-  /* Style your action buttons */
-  margin-left: 1rem;
+.add-customer-btn, .edit-btn, .delete-btn {
+  border-radius: 0.7rem;
+  font-size: 1.2rem;
+  font-family: "Plus Jakarta Sans";
+}
+
+.add-customer-btn {
+  cursor: pointer;
+  gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  padding: 1rem 1.5rem;
+  color: white;
+  background-image: linear-gradient(to right, #9b4dff, #5e50ff);
 }
 
 .edit-btn {
-  font-family: "Plus Jakarta Sans";
-  border-radius: 0.7rem;
-  font-size: 1.2rem;
+  margin-left: 1rem;
   border: 1px solid #9b4dff;
   background-color: white;
   padding: 0.2rem 2.5rem;
   color: #5b4dff;
 }
+
+.delete-btn {
+  margin-left: 1rem;
+  border: none;
+  background: #d14343;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.delete-button:hover {
+  box-shadow: 1px 1px 1px gray;
+}
+
 
 /* Table */
 .table-container {
@@ -364,7 +374,7 @@ body {
   border-color: #666;
 }
 
-#addButton {
+#addButton, #editSaveButton {
   margin-left: 40%;
   background: linear-gradient(312deg, #9b4dff 39.49%, #5e50ff 110.2%);
   color: white;
@@ -372,7 +382,7 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 2rem;
   display: inline-flex;
   height: 47px;
   padding: var(--space-6, 12px) 32px;
@@ -382,7 +392,7 @@ body {
   flex-shrink: 0;
 }
 
-#addButton:hover {
+#addButton:hover, #editSaveButton:hover {
   background-color: #ab47bc;
 }
 
@@ -490,4 +500,34 @@ body {
     padding: 0.6rem 0.8rem;
     padding-bottom: 0.3rem;
   }
+}
+
+
+/* Messages/notification */
+#message-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #444;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.3);
+  text-align: center;
+  font-size: 16px;
+}
+
+.success {
+  background-color: #4CAF50 !important; /* Green */
+}
+
+.error {
+  background-color: #F44336 !important; /* Red */
+}
+
+.selected-row {
+  border: 1px solid #0066cc;
+  font-weight: bold;
 }

@@ -157,11 +157,8 @@
 
 
 <script>
+    const { ipcRenderer } = require('electron');
 
-try {
-        const { ipcRenderer } = require('electron');
-    }  catch {
-    }
     // Function to tell Electron to navigate to another page
     function navigateTo(page) {
         console.log('change page')

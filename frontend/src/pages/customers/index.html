@@ -44,7 +44,8 @@
                         <div>Add Customer</div>
                         <div style="padding-bottom: 2.5px; font-size: 1.5rem;">+</div>
                     </div>
-                    <button class="edit-btn">Edit</button>
+                    <button id="edit-btn" class="edit-btn">Edit</button>
+                    <button id="delete-btn" class="delete-btn">Delete</button>
                 </div>
                 <div class="filter-group">
                     <input class="search-input" type="search" placeholder="Search...">
@@ -62,53 +63,9 @@
                             
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">JD</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="table-body">
 
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -140,14 +97,41 @@
     </div>
 </div>
 
-<script src="script.js"></script>
-
-
-<script>
-    try {
-        const { ipcRenderer } = require('electron');
-    }  catch {}
     
+<div id="editModal" class="modal">
+    <div class="modal-content">
+
+      <div>
+        <button class="delete-image">
+          <img src="cross.svg" alt="" srcset="">
+      </button>
+      </div>
+
+      <h2 class="add-new-customer">Edit customer</h2>
+      <div class="input-container">
+        <p>
+          <label for="fullname">Edit name</label>
+        </p>
+        <input type="text" id="edit-modal-name" placeholder="Type full name of customer">
+      </div>
+      <div class="input-container">
+        <p>
+          <label for="abbreviation">Edit Abbreviation</label>
+        </p>
+        <input type="text" id="edit-modal-abbreviation" placeholder="Add abbreviation of full name">
+      </div>
+      <button id="editSaveButton">Save</button>
+    </div>
+</div>
+
+
+<div id="message-container" style="display: none;"></div>
+
+
+<script src="script.js"></script>
+<script>
+
+    const { ipcRenderer } = require('electron');
 
     // Function to tell Electron to navigate to another page
     function navigateTo(page) {

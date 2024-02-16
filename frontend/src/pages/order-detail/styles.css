@@ -261,7 +261,7 @@ body {
   position: relative;
   display: inline-block;
 }
-.image-container img {
+.jewel-images-list img, .jewel-images-list video {
   width: 30rem;
   height: 20rem;
   border-radius: 2rem;
@@ -294,6 +294,7 @@ body {
 
 .upload-webcam-btn-container {
     margin-top: 1rem;
+    display: flex;
 }
 
 .upload-image-btn,
@@ -308,15 +309,19 @@ body {
 }
 
 .use-webcam-btn {
-  background-image: linear-gradient(to right, #9b4dff, #5e50ff);
-  color: #fff;
+  background-color: #fff;
+  color: #5e50ff;
+  border: 1px solid #5e50ff;
+  padding-left: 3rem;
 }
+
 .use-webcam-btn:hover {
   box-shadow: 1px 1px 1px gray;
 }
 
 .upload-image-btn {
-  color: #5b4dff;
+  color: white;
+  background-image: linear-gradient(to right, #9b4dff, #5e50ff);
 }
 
 input {
@@ -505,14 +510,14 @@ input[type="checkbox"]:checked {
 }
 
 .custom-checkbox input[type="checkbox"]:checked + .checkmark {
-  background-image: url("/pages/order-detail/checkbox-icon.svg");
+  background-image: url("./src/pages/order-detail/checkbox-icon.svg");
   background-repeat: no-repeat;
   background-position: center; /* Center the image in the checkmark area */
   background-size: 130%; /* Adjust size as needed */
   border: none;
 }
 
-.production-sheet-button, .delete-button, .edit-button {
+.production-sheet-button, .delete-button, .edit-button, .save-button {
   border-radius: 0.7rem;
   display: flex;
   padding: 1.2rem 2rem;
@@ -531,6 +536,14 @@ button {
   cursor: pointer;
 }
 
+.save-button {
+  border: none;
+  background-image: linear-gradient(to right, #9b4dff, #5e50ff);
+  color: white;
+}
+.save-button:hover {
+  box-shadow: 1px 1px 1px gray;
+}
 .delete-button {
   border: none;
   background: #d14343;
@@ -544,6 +557,12 @@ button {
 .edit-button {
   border: 1px solid #9b4dff;
   color: #9b4dff;
+}
+
+.capture-button {
+  padding: 0.7rem 2rem;
+  font-size: 1.5rem;
+  margin-left: 0.4rem;
 }
 
 .operation-buttons {
@@ -675,4 +694,18 @@ button {
 .custom-checkbox .checkmark:hover {
   background-color: lightgrey;
   border-radius: 5px;
+}
+
+.webcam-icon {
+  margin-top: 0.5rem;
+  margin-left: 1.2rem; 
+  position: absolute; 
+}
+
+
+#jewel-images-list img, #jewel-images-list video {
+  width: 30rem;
+  height: 20rem;
+  border-radius: 2rem;
+  display: none; /* Start with all images hidden */
 }

@@ -39,7 +39,7 @@
 
         <div class="main-container">
             <div class="toolbar">
-                <div class="add-order-btn">
+                <div id="add-order-btn" class="add-order-btn">
                     <div>Add Order</div>
                     <div style="padding-bottom: 3px; font-size: 1.7rem;">+</div>
                 </div>
@@ -126,16 +126,12 @@
 
             <div class="action-buttons">
                 <button class="invoice-btn">Make invoice</button>
-                <button class="sheet-btn">Production sheet</button>
+                <button class="sheet-btn">Print Label</button>
             </div>
         </div>
 
         <script>
-            try {
-                const { ipcRenderer } = require('electron');
-            } catch {
-
-            }
+            const { ipcRenderer } = require('electron');
 
             // Function to tell Electron to navigate to another page
             function navigateTo(page) {
@@ -161,35 +157,38 @@
                 });
             }
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const selectedRows = []; // Initialize an empty array to keep track of selected rows
-                const rows = document.querySelectorAll('tr'); // Select all table rows
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedRows = []; // Initialize an empty array to keep track of selected rows
+            const rows = document.querySelectorAll('tr'); // Select all table rows
 
-                rows.forEach(row => {
-                    row.addEventListener('contextmenu', function() {
+            rows.forEach(row => {
+                row.addEventListener('contextmenu', function() {
 
-                        event.preventDefault();
-                        // Toggle 'selected' class
-                        this.classList.toggle('selected-row');
-                        
-                        // Add or remove the row from the selection list
-                        const rowIndex = this.rowIndex; // Assuming each row has a unique index
-                        
-                        if (this.classList.contains('selected-row')) {
-                            // If row is selected, add its reference
-                            selectedRows.push({rowIndex: rowIndex, reference: this});
-                        } else {
-                            // If row is deselected, remove its reference
-                            const indexToRemove = selectedRows.findIndex(item => item.rowIndex === rowIndex);
-                            if (indexToRemove > -1) {
-                                selectedRows.splice(indexToRemove, 1);
-                            }
+                    event.preventDefault();
+                    // Toggle 'selected' class
+                    this.classList.toggle('selected-row');
+                    
+                    // Add or remove the row from the selection list
+                    const rowIndex = this.rowIndex; // Assuming each row has a unique index
+                    
+                    if (this.classList.contains('selected-row')) {
+                        // If row is selected, add its reference
+                        selectedRows.push({rowIndex: rowIndex, reference: this});
+                    } else {
+                        // If row is deselected, remove its reference
+                        const indexToRemove = selectedRows.findIndex(item => item.rowIndex === rowIndex);
+                        if (indexToRemove > -1) {
+                            selectedRows.splice(indexToRemove, 1);
                         }
-
-                    });
-
+                    }
                 });
             });
+        });
+        
+
+        document.getElementById('add-order-btn').onclick = function () {
+            navigateTo('order-detail')
+        }
         </script>
 
 </body>

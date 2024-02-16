@@ -60,7 +60,8 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
 
-    mainWindow.loadFile('pages/login/index.html');
+    mainWindow.loadFile('src/pages/orders/index.html');
+    // mainWindow.loadFile('src/pages/login/index.html');
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
@@ -110,6 +111,30 @@ ipcMain.on('navigate', (event, page) => {
     }
     else if (page == 'login') {
         path = resolve('./resources/app/pages/login/index.html')
+        mainWindow.loadFile(path);
+    }
+});
+
+ipcMain.on('navigate', (event, page) => {
+    let path;
+    if (page == 'orders') {
+        path = resolve('./src/pages/orders/index.html')
+        mainWindow.loadFile(path);
+    }
+    else if (page == 'invoices') {
+        path = resolve('./src/pages/invoices/index.html')
+        mainWindow.loadFile(path);
+    }
+    else if (page == 'customers') {
+        path = resolve('./src/pages/customers/index.html')
+        mainWindow.loadFile(path);
+    }
+    else if (page == 'order-detail') {
+        path = resolve('./src/pages/order-detail/index.html')
+        mainWindow.loadFile(path);
+    }
+    else if (page == 'login') {
+        path = resolve('./src/pages/login/index.html')
         mainWindow.loadFile(path);
     }
 });
