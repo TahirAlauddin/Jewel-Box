@@ -47,10 +47,8 @@
             </div>
             <div class="order-actions">
                 <div id="operation-buttons" class="operation-buttons">
-                    <button class="production-sheet-button">Print Label</button>
-                    
+                    <button class="production-sheet-button">Print Label</button>    
                 </div>
-                
             </div>
         </div>
 
@@ -292,7 +290,7 @@
 
     <div class="order-notes">
         <h3>Order Notes</h3>
-        <textarea name="order_notes" rows="10"></textarea>
+        <textarea id="order-notes" name="order_notes" rows="10"></textarea>
     </div>
 
     <div class="stone-specification">
@@ -358,8 +356,8 @@
     const { ipcRenderer } = require('electron');
 
     // Function to tell Electron to navigate to another page
-    function navigateTo(page) {
-        ipcRenderer.send('navigate', page);
+    function navigateTo(page, ...args) {
+        ipcRenderer.send('navigate', page, args);
     }
 
     document.getElementById('logout-btn').addEventListener('click', () => {
@@ -375,21 +373,31 @@
         navigateTo('orders')
     })
 
+</script>
+
+<script>
+    
     let operation_buttons = document.getElementById('operation-buttons')
-    if (0) {
+
+    ipcRenderer.on('page-data', (event, args) => {
+    if (args.showEditAndDelete) {
+        
         operation_buttons.innerHTML += 
         `    
-                <button class="edit-button">Edit order</button>
-                <button class="delete-button">Delete order</button>
-            
-            `
-        
+            <button onclick="editOrder()" class="edit-button">Edit order</button>
+            <button onclick="deleteOrder()" class="delete-button">Delete order</button>
+        `;
+
+        // Call the function to populate data on page load or when needed
+        populateDataInFields(args.id);
+
     } else {
-            operation_buttons.innerHTML += 
-            `
-                <button onclick="saveOrder()" class="save-button">Save order</button>
-            `
+        operation_buttons.innerHTML += 
+        `
+            <button onclick="saveOrder()" class="save-button">Save order</button>
+        `;
     }
+});
 </script>
 
 </body>

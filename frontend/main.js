@@ -91,7 +91,7 @@ app.on('activate', function () {
 // });
 
 // Listen for the navigate message from the renderer process
-ipcMain.on('navigate', (event, page) => {
+ipcMain.on('navigate', (event, page, args) => {
     let path;
     if (page == 'orders') {
         path = resolve('./resources/app/pages/orders/index.html')
@@ -115,7 +115,7 @@ ipcMain.on('navigate', (event, page) => {
     }
 });
 
-ipcMain.on('navigate', (event, page) => {
+ipcMain.on('navigate', (event, page, args) => {
     let path;
     if (page == 'orders') {
         path = resolve('./src/pages/orders/index.html')
@@ -132,6 +132,10 @@ ipcMain.on('navigate', (event, page) => {
     else if (page == 'order-detail') {
         path = resolve('./src/pages/order-detail/index.html')
         mainWindow.loadFile(path);
+        // Send the arguments to the renderer process
+        mainWindow.webContents.once('did-finish-load', () => {
+            mainWindow.webContents.send('page-data', args);
+        });        
     }
     else if (page == 'login') {
         path = resolve('./src/pages/login/index.html')

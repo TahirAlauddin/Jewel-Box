@@ -294,3 +294,118 @@ function deleteImage() {
       }
   }
 }
+
+
+function deleteOrder() {
+}
+function editOrder() {
+}
+
+
+function populateDataInFields(id) {
+  const endpoint = `http://localhost:8000/order/${id}/`;
+
+  fetch(endpoint)
+  .then(response => {
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+  })
+  .then(data => {
+      // Assuming 'data' is the JSON object with the fields corresponding to the form inputs
+      document.getElementById('customer').value = data.customer || '';
+      document.getElementById('size').value = data.size || '';
+      document.getElementById('orderID').value = data.order_number || '';
+      document.getElementById('ct').value = data.ct_number || '';
+      // ... Continue for the rest of the form fields
+      document.getElementById('jobID').value = data.job_number || '';
+      document.getElementById('kt').value = data.kt_number || '';
+      document.getElementById('dateDue').value = data.date_due || '';
+      document.getElementById('invoiceId').value = data.invoice_number || '';
+      document.getElementById('metal').value = data.metal_type || '';
+      document.getElementById('setter').value = data.setter || '';
+      document.getElementById('type').value = data.type || '';
+
+      // Handle checkboxes and their details
+      document.querySelector('input[name="rush"]').checked = data.is_rush;
+      document.getElementById('rush-input').value = data.rush_detail || '';
+
+      // ... Continue for the rest of the checkboxes and their details
+      document.querySelector('input[name="polish"]').checked = data.is_polish;
+      document.getElementById('polish-input').value = data.polish_detail || '';
+
+      document.querySelector('input[name="stamp"]').checked = data.is_stamp;
+      document.getElementById('stamp-input').value = data.stamp_detail || '';
+
+      document.querySelector('input[name="clean"]').checked = data.is_clean;
+      document.getElementById('clean-input').value = data.clean_detail || '';
+
+      document.querySelector('input[name="rhodium"]').checked = data.is_rhodium;
+      document.getElementById('rhodium-input').value = data.rhodium_detail || '';
+
+      document.querySelector('input[name="setter"]').checked = data.is_setter; // Assuming there's a 'is_setter' in data
+      document.getElementById('setter-input').value = data.setter_detail || ''; // Assuming there's a 'setter_detail' in data
+
+      document.querySelector('input[name="repair"]').checked = data.is_repair;
+      document.getElementById('repair-input').value = data.repair_detail || '';
+      
+      
+      // Handle costs
+      document.getElementById('setting-input').value = data.setting_cost || 0;
+      // ... Continue for the rest of the cost inputs
+      document.getElementById('soldering-input').value = data.soldering_cost || 0;
+      document.getElementById('clean-input').value = data.clean_cost || 0;
+      document.getElementById('miscellaneous-input').value = data.miscellaneous_cost || 0;
+      document.getElementById('color-stone').value = data.color_stone_cost || 0;
+      document.getElementById('finding-input').value = data.finding_cost || 0;
+      document.getElementById('diamonds-input').value = data.diamonds_cost || 0;
+      document.getElementById('mounting-input').value = data.mounting_cost || 0;
+      document.getElementById('total-cost-input').value = data.total_cost || 0;
+      document.getElementById('sale-price-input').value = data.sale_price || 0;
+
+
+      // If images are included
+      if (data.images && data.images.length > 0) {
+          // Handle image population
+          const imagesContainer = document.getElementById('imagesContainer'); // Make sure this container exists
+          data.images.forEach(image => {
+              const imgElement = document.createElement('img');
+              imgElement.src = image.file; // Replace 'file' with the actual property that has the image URL
+              imgElement.alt = 'Product Image';
+              imagesContainer.appendChild(imgElement);
+          });
+        }
+
+
+      // If there are stone specifications
+      if (data.stones && data.stones.length > 0) {
+          // Handle stone specifications population
+          const stoneSpecsTableBody = document.querySelector('.stone-specification .table-container tbody');
+          data.stones.forEach(stone => {
+              const stoneRow = document.createElement('tr');
+              stoneRow.className = 'table-row';
+              stoneRow.innerHTML = `
+                  <td class="table-column">${stone.stone}</td>
+                  <td class="table-column">${stone.cut}</td>
+                  <td class="table-column">${stone.stone_number}</td>
+                  <td class="table-column">${stone.quantity}</td>
+                  <td class="table-column">${stone.length}</td>
+                  <td class="table-column">${stone.width}</td>
+                  <td class="table-column">${stone.height}</td>
+                  <td class="table-column">${stone.carat_total}</td>
+                  <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
+              `;
+              stoneSpecsTableBody.appendChild(stoneRow);
+          });    
+      }
+      
+      // Populate order notes
+      document.getElementById('order-notes').innerHTML = data.order_notes || '';
+
+  })
+  .catch((error) => {
+      console.error('Error:', error);
+      // Handle fetch error, such as displaying a message to the user
+  });
+}

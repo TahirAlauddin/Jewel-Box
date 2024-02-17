@@ -65,7 +65,7 @@
                             <th>INVOICE #</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table-body">
                         <tr class="order-row">
                             <td class="order-column first-column"><img src="product.png" alt=""></td>
                             <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
@@ -134,12 +134,12 @@
             const { ipcRenderer } = require('electron');
 
             // Function to tell Electron to navigate to another page
-            function navigateTo(page) {
-                ipcRenderer.send('navigate', page);
+            function navigateTo(page, args) {
+                ipcRenderer.send('navigate', page, args);
             }
             document.getElementById('logout-btn').addEventListener('click', () => {
                 navigateTo('login')
-            })
+            }) 
             document.getElementById('invoices-page-btn').addEventListener('click', () => {
                 navigateTo('invoices')
             })
@@ -153,7 +153,7 @@
             const orderRows = document.getElementsByClassName('order-row');
             for (let i = 0; i < orderRows.length; i++) {
                 orderRows[i].addEventListener('click', function() {
-                    navigateTo('order-detail');
+                    navigateTo('order-detail', {showEditAndDelete : true});
                 });
             }
 
@@ -184,10 +184,48 @@
                 });
             });
         });
-        
 
+        function addOrderRow(data) {
+            const tableBody = document.getElementById('table-body'); // Ensure this is the correct ID of your table body
+            const newRow = document.createElement('tr');
+            newRow.className = 'order-row';
+            newRow.innerHTML = `
+                <td class="order-column first-column"><img src="${data.images[0]}" alt="Image Not found"></td>
+                <td class="order-column second-column">${data.order_notes.slice(0, 50)}</td>
+                <td class="order-column">${data.order_id}</td>
+                <td class="order-column">${data.job_number}</td>
+                <td class="order-column">${data.customer}</td>
+                <td class="order-column">${data.date_due}</td>
+                <td class="order-column">${data.invoice_number}</td>
+            `;
+            tableBody.appendChild(newRow);
+
+            newRow.addEventListener('click', function() {
+                navigateTo('order-detail', {showEditAndDelete : true, id: data.order_id});
+            });
+        }
+
+        
+        addEventListener('DOMContentLoaded', function () {
+            
+            const endpoint = 'http://localhost:8000/order/';
+            fetch(endpoint)
+            .then(response => {
+                if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+            })
+            .then(dataArray => {
+                dataArray.forEach(data => {
+                    addOrderRow(data)
+                    
+                })
+            })
+        })
+                
         document.getElementById('add-order-btn').onclick = function () {
-            navigateTo('order-detail')
+            navigateTo('order-detail', {showEditAndDelete: false})
         }
         </script>
 
