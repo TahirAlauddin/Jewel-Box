@@ -710,3 +710,54 @@ button {
   border-radius: 2rem;
   display: none; /* Start with all images hidden */
 }
+
+
+.product-image {
+  max-width: 12rem;
+  border-radius: 1rem; 
+ }
+ 
+
+
+ .confirmation-container {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.confirmation-box p {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.confirmation-box button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border-radius: 0.4rem;
+  color: white;
+  border: none;
+}
+
+
+
+#confirm-yes {
+  background-color: #4CAF50 !important; /* Green */
+}
+
+#confirm-no {
+  background-color: #F44336 !important; /* Red */
+}

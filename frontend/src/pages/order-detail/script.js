@@ -39,7 +39,6 @@ let currentIndex = 0; // Track the current image index
       });
     };
 
-
     $.fn.massInput = function() {
       this.each(function() {
         var wrapper = $("<div class='mass-input' />");
@@ -149,7 +148,7 @@ function saveOrder() {
     };
 
     // Define the endpoint URL
-    const endpoint = 'https://yourapi.com/api/orders';
+    const endpoint = 'https://localhost:8000/order';
 
     // Send a POST request with the collected data
     fetch(endpoint, {
@@ -295,10 +294,11 @@ function deleteImage() {
   }
 }
 
-
 function deleteOrder() {
+  console.log('deleted')
 }
-function editOrder() {
+function updateOrder() {
+  console.log('edited')
 }
 
 
@@ -364,20 +364,34 @@ function populateDataInFields(id) {
       document.getElementById('total-cost-input').value = data.total_cost || 0;
       document.getElementById('sale-price-input').value = data.sale_price || 0;
 
-
       // If images are included
       if (data.images && data.images.length > 0) {
-          // Handle image population
-          const imagesContainer = document.getElementById('imagesContainer'); // Make sure this container exists
-          data.images.forEach(image => {
+
+        
+        const imagesContainer = document.getElementById('jewel-images-list'); 
+        data.images.forEach(image => {
+          fetch(image)
+          .then(response => {
+              if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+              return response.json();
+            })
+          .then(data => {
               const imgElement = document.createElement('img');
-              imgElement.src = image.file; // Replace 'file' with the actual property that has the image URL
+              imgElement.src = data.image;
               imgElement.alt = 'Product Image';
               imagesContainer.appendChild(imgElement);
-          });
+              addImageToStack(data.image)
+              // if (!imageAlreadyDisplaying) 
+              //   imgElement.style.display = 'block';
+              // imageAlreadyDisplaying = true;
+            })
+          })
+          document.getElementById('emptyImage').style.display = 'none'
+          
         }
-
-
+      
       // If there are stone specifications
       if (data.stones && data.stones.length > 0) {
           // Handle stone specifications population
@@ -386,16 +400,17 @@ function populateDataInFields(id) {
               const stoneRow = document.createElement('tr');
               stoneRow.className = 'table-row';
               stoneRow.innerHTML = `
-                  <td class="table-column">${stone.stone}</td>
-                  <td class="table-column">${stone.cut}</td>
-                  <td class="table-column">${stone.stone_number}</td>
-                  <td class="table-column">${stone.quantity}</td>
-                  <td class="table-column">${stone.length}</td>
-                  <td class="table-column">${stone.width}</td>
-                  <td class="table-column">${stone.height}</td>
-                  <td class="table-column">${stone.carat_total}</td>
+                  <td contentEditable=true class="table-column">${stone.stone_type}</td>
+                  <td contentEditable=true class="table-column">${stone.cut}</td>
+                  <td contentEditable=true class="table-column">${stone.stone_number}</td>
+                  <td contentEditable=true class="table-column">${stone.quantity}</td>
+                  <td contentEditable=true class="table-column">${stone.length}</td>
+                  <td contentEditable=true class="table-column">${stone.width}</td>
+                  <td contentEditable=true class="table-column">${stone.height}</td>
+                  <td contentEditable=true class="table-column">${stone.carat_total}</td>
                   <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
               `;
+
               stoneSpecsTableBody.appendChild(stoneRow);
           });    
       }

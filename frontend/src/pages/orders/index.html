@@ -66,60 +66,10 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        <tr class="order-row">
-                            <td class="order-column first-column"><img src="product.png" alt=""></td>
-                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
-                            <td class="order-column">ADL24001</td>
-                            <td class="order-column">Job 1</td>
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">12-04-2023</td>
-                            <td class="order-column">ADL2420</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column first-column"><img style='display: inline;' src="product.png" alt=""></td>
-                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
-                            <td class="order-column">ADL24002</td>
-                            <td class="order-column">Job 1</td>
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">12-04-2023</td>
-                            <td class="order-column">ADL2421</td>
-                        </tr>
-                        <tr style="background: rgba(238, 25, 25, 0.16); border: 1px solid #EE1919" class="order-row">
-                            <td class="order-column first-column"><img style='display: inline;' src="product.png" alt=""></td>
-                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
-                            <td class="order-column">ADL24003</td>
-                            <td class="order-column">Job 1</td>
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">12-04-2023</td>
-                            <td class="order-column">ADL2426</td>
-                        </tr>
-                        <tr>
-                            <td class="order-column first-column"><img style='display: inline;' src="product.png" alt=""></td>
-                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
-                            <td class="order-column">ADL24004</td>
-                            <td class="order-column">Job 1</td>
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">12-04-2023</td>
-                            <td class="order-column">ADL2425</td>
-                        </tr>
-                        <tr>
-                            <td class="order-column first-column"><img style='display: inline;' src="product.png" alt=""></td>
-                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
-                            <td class="order-column">ADL24005</td>
-                            <td class="order-column">Job 1</td>
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">12-04-2023</td>
-                            <td class="order-column">ADL2425</td>
-                        </tr>
-                        <tr>
-                            <td class="order-column first-column"><img style='display: inline;' src="product.png" alt=""></td>
-                            <td class="order-column second-column">Elegant Floral Zircon Jewelry Set: Zircons, Earrings: 23mm x 23mm, Pendant: 40mm x 28mm</td>
-                            <td class="order-column">ADL24006</td>
-                            <td class="order-column">Job 1</td>
-                            <td class="order-column">John Doe</td>
-                            <td class="order-column">12-04-2023</td>
-                            <td class="order-column">ADL2425</td>
-                        </tr>
+                        
+                        <!-- Orders list will go here -->
+
+
                     </tbody>
                 </table>
             </div>
@@ -131,6 +81,7 @@
         </div>
 
         <script>
+            const selectedRows = []; // Initialize an empty array to keep track of selected rows
             const { ipcRenderer } = require('electron');
 
             // Function to tell Electron to navigate to another page
@@ -186,11 +137,26 @@
         });
 
         function addOrderRow(data) {
+            let image = data.images[0];
             const tableBody = document.getElementById('table-body'); // Ensure this is the correct ID of your table body
             const newRow = document.createElement('tr');
+            
             newRow.className = 'order-row';
+            if (data.date_due) {
+                const dueDate = new Date(data.date_due);
+                const currentDate = new Date();
+                const twoDaysLater = new Date(currentDate.getTime() + (2 * 24 * 60 * 60 * 1000)); // 2 days in milliseconds
+
+                if (dueDate < twoDaysLater) {
+                    // date_due is less than 2 days from now
+                    newRow.classList.add('order-urgent-row')
+                }
+            }
+
             newRow.innerHTML = `
-                <td class="order-column first-column"><img src="${data.images[0]}" alt="Image Not found"></td>
+                <td class="order-column first-column">
+                    <img class="product-image" id="product-image-id" src="Product.png" alt="Image Not found">
+                </td>
                 <td class="order-column second-column">${data.order_notes.slice(0, 50)}</td>
                 <td class="order-column">${data.order_id}</td>
                 <td class="order-column">${data.job_number}</td>
@@ -199,6 +165,45 @@
                 <td class="order-column">${data.invoice_number}</td>
             `;
             tableBody.appendChild(newRow);
+            
+
+            if (image) {
+                fetch(image)
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                    })
+                .then(data => {
+                    image = data.image; 
+                    let imageElement = document.getElementById('product-image-id');
+                    imageElement.src = image
+                    imageElement.removeAttribute('id')
+                })
+            }
+
+            
+            newRow.addEventListener('contextmenu', function() {
+                event.preventDefault();
+                // Toggle 'selected' class
+                this.classList.toggle('selected-row');
+
+                // Add or remove the row from the selection list
+                const rowIndex = this.rowIndex; // Assuming each row has a unique index
+
+                if (this.classList.contains('selected-row')) {
+                    // If row is selected, add its reference
+                    selectedRows.push({rowIndex: rowIndex, reference: this});
+                } else {
+                    // If row is deselected, remove its reference
+                    const indexToRemove = selectedRows.findIndex(item => item.rowIndex === rowIndex);
+                    if (indexToRemove > -1) {
+                        selectedRows.splice(indexToRemove, 1);
+                    }
+                }
+            });
+            
 
             newRow.addEventListener('click', function() {
                 navigateTo('order-detail', {showEditAndDelete : true, id: data.order_id});

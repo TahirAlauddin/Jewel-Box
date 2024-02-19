@@ -25,3 +25,14 @@ db.sqlite3
 
 # Python
 Pipfile.lock
+
+
+# DIST & Builds
+dist
+build
+
+# Specs
+*.spec
+
+# Npx electron-package
+JewelBox/

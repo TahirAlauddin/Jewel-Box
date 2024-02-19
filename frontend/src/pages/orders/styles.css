@@ -459,3 +459,13 @@ background: #555; /* Color when hovered */
   border: 1px solid #0066cc;
   font-weight: bold;
 }
+
+.product-image {
+ max-width: 12rem;
+ border-radius: 1rem; 
+}
+
+.order-urgent-row {
+  background: rgba(238, 25, 25, 0.16);
+  border: 1px solid #EE1919
+}

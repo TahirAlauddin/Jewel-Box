@@ -10,7 +10,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        icon: '../jewel-box-logo.ico',
+        icon: 'jewel-box-logo.ico',
         webPreferences: {
             contextIsolation: false, // This should be true for security reasons
             nodeIntegration: true,
@@ -60,8 +60,8 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
 
-    mainWindow.loadFile('src/pages/orders/index.html');
-    // mainWindow.loadFile('src/pages/login/index.html');
+    // mainWindow.loadFile('src/pages/orders/index.html');
+    mainWindow.loadFile('src/pages/login/index.html');
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
@@ -94,23 +94,27 @@ app.on('activate', function () {
 ipcMain.on('navigate', (event, page, args) => {
     let path;
     if (page == 'orders') {
-        path = resolve('./resources/app/pages/orders/index.html')
+        path = resolve('./resources/app/src/pages/orders/index.html')
         mainWindow.loadFile(path);
     }
     else if (page == 'invoices') {
-        path = resolve('./resources/app/pages/invoices/index.html')
+        path = resolve('./resources/app/src/pages/invoices/index.html')
         mainWindow.loadFile(path);
     }
     else if (page == 'customers') {
-        path = resolve('./resources/app/pages/customers/index.html')
+        path = resolve('./resources/app/src/pages/customers/index.html')
         mainWindow.loadFile(path);
     }
     else if (page == 'order-detail') {
-        path = resolve('./resources/app/pages/order-detail/index.html')
+        path = resolve('./resources/app/src/pages/order-detail/index.html')
         mainWindow.loadFile(path);
+        // Send the arguments to the renderer process
+        mainWindow.webContents.once('did-finish-load', () => {
+            mainWindow.webContents.send('page-data', args);
+        });        
     }
     else if (page == 'login') {
-        path = resolve('./resources/app/pages/login/index.html')
+        path = resolve('./resources/app/src/pages/login/index.html')
         mainWindow.loadFile(path);
     }
 });

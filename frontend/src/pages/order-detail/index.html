@@ -310,43 +310,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="table-row">
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
-                </tr>
-                <tr class="table-row">
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
-                </tr>
-                <tr class="table-row">
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td class="table-column">TEXT</td>
-                    <td><button class="delete-row"><img src="minus.svg" alt=""></button></td>
-                </tr>
+                
+                <!-- Stone specifications goes here -->
+
             </tbody>
         </table>
     </div>
 </div>
+
+<div id="confirmation-container" class="confirmation-container">
+    <div class="confirmation-box">
+      <p id="confirmation-message"></p>
+      <button id="confirm-yes">Yes</button>
+      <button id="confirm-no">No</button>
+    </div>
+  </div>
+  
 
 <script src="script.js"></script>
 
@@ -374,9 +353,9 @@
     })
 
 </script>
-
+<script src="confirmation.js"></script>
 <script>
-    
+
     let operation_buttons = document.getElementById('operation-buttons')
 
     ipcRenderer.on('page-data', (event, args) => {
@@ -384,8 +363,8 @@
         
         operation_buttons.innerHTML += 
         `    
-            <button onclick="editOrder()" class="edit-button">Edit order</button>
-            <button onclick="deleteOrder()" class="delete-button">Delete order</button>
+            <button onclick="updateOrderWrapper()" class="edit-button">Update order</button>
+            <button onclick="deleteOrderWrapper()" class="delete-button">Delete order</button>
         `;
 
         // Call the function to populate data on page load or when needed
@@ -398,6 +377,13 @@
         `;
     }
 });
+
+    function deleteOrderWrapper() {
+        showConfirmation('Are you sure you want to delete this order?', deleteOrder)
+    }
+    function updateOrderWrapper() {
+        showConfirmation('Are you sure you want to update this order?', updateOrder)
+    }
 </script>
 
 </body>
