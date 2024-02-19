@@ -9,7 +9,10 @@ from django.contrib import admin
 from django.urls import path, include
 from invoices.views import InvoiceViewSet, InvoiceItemViewSet
 from customers.views import CustomerViewSet
-from orders.views import OrderViewSet, OrderImageViewSet
+from orders.views import OrderViewSet, OrderImageViewSet, StoneSpecificationViewSet
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 router = routers.SimpleRouter()
@@ -20,7 +23,8 @@ invoices_router.register(r'items', InvoiceItemViewSet)
 
 router.register(r'order', OrderViewSet)
 order_router = routers.NestedSimpleRouter(router, 'order', lookup='order')
-order_router.register(r'images', OrderImageViewSet)
+order_router.register(r'images', OrderImageViewSet, basename='order-images')
+order_router.register(r'stones', StoneSpecificationViewSet, basename='order-stones')
 
 router.register(r'customer', CustomerViewSet)
 
@@ -47,4 +51,5 @@ def api_root(request, format=None):
 # And in your urls.py, register this view at the API root
 urlpatterns += [
     path('', api_root, name='api-root'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

@@ -15,7 +15,7 @@ class OrderImage(models.Model):
     caption = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
-        return f"Image for Order {self.order.id} - {self.caption or 'No Caption'}"
+        return f"Image for Order {self.order.order_id} - {self.caption or 'No Caption'}"
 
 
 class Order(models.Model):
@@ -170,3 +170,4 @@ class StoneSpecification(models.Model):
     def __str__(self):
         return f"{self.order} {self.stone_type[:5]} {self.quantity}pcs"
 
+    

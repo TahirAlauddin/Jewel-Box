@@ -6,13 +6,10 @@ name = "pypi"
 [packages]
 django = "*"
 djangorestframework = "*"
-pillow = "*"
 django-cors-headers = "*"
-cors = "*"
-python-barcode = "*"
-drf-nested-routers = "*"
+pyinstaller = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.11"

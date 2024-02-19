@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Order, OrderImage, StoneSpecification
+from rest_framework_nested.relations import NestedHyperlinkedRelatedField
 
 class OrderImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,12 +11,14 @@ class StoneSpecificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoneSpecification
         fields = ['id', 'stone_type', 'cut', 'stone_number', 'quantity', 'length', 
-                  'width', 'height', 'carat_total']
+                  'width', 'height', 'carat_total', 'order']
 
 class OrderSerializer(serializers.ModelSerializer):
-    images = OrderImageSerializer(many=True, read_only=True)
+    images = NestedHyperlinkedRelatedField(queryset=OrderImage.objects.all(), 
+                                                view_name='order-images-detail',
+                                                many=True,
+                                                parent_lookup_kwargs={'order_pk': 'order__pk'})
     stones = StoneSpecificationSerializer(many=True, read_only=True)
-
     class Meta:
         model = Order
         read_only = ['date_in', 'order_id']
@@ -37,3 +40,4 @@ class OrderSerializer(serializers.ModelSerializer):
             'diamonds_cost', 'mounting_cost', 'others',
             #? Others
             'images', 'stones',  'order_notes']
+
