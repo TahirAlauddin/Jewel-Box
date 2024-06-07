@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewel Box - Dashboard</title>
+    <link rel="stylesheet" href="../../css/font-awesome.css">
+    <link rel="stylesheet" href="styles.css">
+    </link>
+    <script src="../../js/config.js"></script>
+</head>
+
+<body>
+
+    <div class="sidebar column-flex">
+        <header>
+            <div class="flex-logo">
+                <img src="../../img/jewel-box-logo.png" alt="JewelBox Logo" class="logo">
+                <p class="logo-name">Jewel Box</p>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <p class="made-by-p">made by</p>
+                <img src="../../img/abreu-gold-logo.png" alt="JewelBox Logo" class="abreu-gold-logo">
+            </div>
+        </header>
+
+        <div class="navigation">
+            <div id="orders-page-btn" class="nav-item">
+                <img src="../../svg/orders.svg" alt="Orders" class="icon" />
+                <span>Orders</span>
+            </div>
+            <div id="customers-page-btn" class="nav-item">
+                <img src="../../svg/customers.svg" alt="Customers" class="icon" />
+                <span>Customers</span>
+            </div>
+            <div id="invoices-page-btn" class="nav-item selected">
+                <img src="../../svg/invoices.svg" alt="Invoices" class="icon" />
+                <span>Invoices</span>
+            </div>
+        </div>
+        <div id="logout-btn" class="nav-item logout">
+            <img src="../../svg/logout.svg" alt="Orders" class="icon" />
+            <span style="padding-left: 17%;">Log Out</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="main-content">
+            <div class="invoice-header">
+                <div class="page-navigation">
+                    <img src="invoice.png" alt="Invoice" class="icon" />
+                    <h2><span>Invoices</span> / Invoice Detail</h2>
+                </div>
+            </div>
+            <div>
+                <!-- Data will be populated here -->
+                <div class="input-boxes">
+
+                    <div name="customer-input" class="input-box">
+                        <label for="customer">Customer</label>
+                        <select id="customer-select">
+                        </select>
+                    </div>
+                    <div name="invoice-id-input" class="input-box">
+                        <label for="invoice-id">Invoice Number</label>
+                        <input type="text" id="invoice-id">
+                    </div>
+
+                    <div name="date-in-input" class="input-box">
+                        <label for="date-in">Date - in</label>
+                        <input type="date" id="date-in">
+                    </div>
+
+                    <div name="address-input" class="input-box">
+                        <label for="address">Address</label>
+                        <textarea type="text" id="address" readonly></textarea>
+                    </div>
+
+                    <div name="ship-to-input" class="input-box">
+                        <label for="ship-to">Ship To</label>
+                        <textarea type="text" id="ship-to"> </textarea>
+                    </div>
+
+                    <div name="date-out-input" class="input-box">
+                        <label for="date-out">Invoice Date</label>
+                        <input type="date" id="date-out">
+                    </div>
+                    
+                    <div name="total-price-input" class="input-box">
+                        <label for="total-price">Total Price</label>
+                        <input type="text" id="total-price">
+                    </div>
+
+                </div>
+
+                <div class="invoice-items-table">
+                    <table class="table-container">
+                        <thead>
+                            <tr class="table-head-row">
+                                
+                                <th>REFERENCE JOB NUMBER</th>
+                                <th>DESCRIPTION</th>
+                                <th>TYPE</th>
+                                <th>QUANTITY</th>
+                                <th>UNIT PRICE</th>
+                                <th>TOTAL PRICE</th>
+                                <th><img id="add-row" src="svg/plus.svg" alt=""></th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Stone specifications goes here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="operation-buttons">
+                    <div class="order-actions">
+                        <div id="operation-buttons" class="operation-buttons">
+                            <button id="edit-button" class="edit-button">Edit</button>    
+                        </div>
+                    </div>
+                    <div class="order-actions">
+                        <div id="operation-buttons" class="operation-buttons">
+                            <button id="print-button" class="print-button">
+                                <img src="reprint.png" alt="Re-Print" class="button-icon">
+                                <span>Re-Print</span>
+                            </button>   
+                        </div>
+                    </div>
+                    <div class="order-actions">
+                        <div id="delete-button" class="operation-buttons">
+                            <button class="delete-button">Delete</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="message-container" style="display: none;"></div>
+    <div id="confirmation-container" class="confirmation-container">
+        <div class="confirmation-box">
+            <p id="confirmation-message"></p>
+            <button id="confirm-yes">Yes</button>
+            <button id="confirm-no">No</button>
+        </div>
+    </div>  
+</body>
+
+<script>    
+    // Function to tell Electron to navigate to another page
+    function navigateTo(page) {
+        ipcRenderer.send('navigate', page);
+    }
+    
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        navigateTo('login')
+    })
+    document.getElementById('invoices-page-btn').addEventListener('click', () => {
+        navigateTo('invoices')
+    })
+    document.getElementById('customers-page-btn').addEventListener('click', () => {
+        navigateTo('customers')
+    })
+    document.getElementById('orders-page-btn').addEventListener('click', () => {
+        navigateTo('orders')
+    })
+
+</script>
+
+<script src="utils.js"></script>
+<script src="script.js"></script>
+<script src="handler.js"></script>
+</html>

@@ -16,12 +16,13 @@ def create_barcode(data, file_path):
     if len(data) > 12:
         data = data[:12]
     elif len(data) < 12:
-        data = data.ljust(12, '0')
+        data = data.ljust(12, 'x')
 
     # Create the barcode
     barcode = Code128(data, writer=ImageWriter())
     
     # Save the barcode image
+    # barcode.save(file_path)
     barcode.save(file_path, {'write_text': False})
 
 if __name__ == '__main__':

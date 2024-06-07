@@ -6,33 +6,38 @@
     <title>Jewel Box - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css"></link>
+    <script src="../../js/config.js" ></script>
 </head>
 <body>
 
     <div class="sidebar column-flex">
         <header>
             <div class="flex-logo">
-                <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
+                <img src="../../img/jewel-box-logo.png" alt="JewelBox Logo" class="logo">
                 <p class="logo-name">Jewel Box</p>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <p class="made-by-p">made by</p>
+                <img src="../../img/abreu-gold-logo.png" alt="JewelBox Logo" class="abreu-gold-logo">
             </div>
         </header>
         
         <div class="navigation">
             <div id="orders-page-btn" class="nav-item selected">
-                <img src="orders.svg" alt="Orders" class="icon"/>
+                <img src="../../svg/orders.svg" alt="Orders" class="icon"/>
                 <span>Orders</span>
             </div>
             <div id="customers-page-btn" class="nav-item">
-                <img src="customers.svg" alt="Customers" class="icon"/>
+                <img src="../../svg/customers.svg" alt="Customers" class="icon"/>
                 <span>Customers</span>
             </div>
             <div id="invoices-page-btn" class="nav-item">
-                <img src="invoices.svg" alt="Invoices" class="icon"/>
+                <img src="../../svg/invoices.svg" alt="Invoices" class="icon"/>
                 <span>Invoices</span>
             </div>
         </div>
         <div id="logout-btn" class="nav-item logout">
-            <img src="logout.svg" alt="Orders" class="icon"/>
+            <img src="../../svg/logout.svg" alt="Orders" class="icon"/>
             <span style="padding-left: 17%;">Log Out</span>
         </div>
     </div>
@@ -45,11 +50,21 @@
                 </div>
                 <div class="filter-group">
                     <select class="custom-select" name="filter" id="filter">
-                        <option class="option-padding" value="all">Filter by customer: All</option>
+                        <option class="option-padding" value="customer">Filter by customer</option>
+                        <option class="option-padding" value="order_id">Filter by Order id</option>
+                        <option class="option-padding" value="invoice">Filter by invoice</option>
+                        <option class="option-padding" value="date-range">Select date range</option>
                     </select>
-                    <input class="search-input" type="search" placeholder="Search anything ...">
-                    <button class="search-btn">
-                        <img src="search.svg" alt="" srcset="">
+                    
+                    <!-- Additional fields for date range, initially hidden -->
+                    <div id="date-range-fields" style="display: none;">
+                        <input type="date" id="start-date" name="start-date">
+                        <input type="date" id="end-date" name="end-date">
+                    </div>
+                    
+                    <input id="search-input" class="search-input" type="search" placeholder="Search">
+                    <button id="search-btn" class="search-btn">
+                        <img src="../../svg/search.svg" alt="" srcset="">
                     </button>
                 </div>
             </div>
@@ -66,173 +81,39 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        
                         <!-- Orders list will go here -->
-
-
                     </tbody>
                 </table>
             </div>
 
             <div class="action-buttons">
-                <button class="invoice-btn">Make invoice</button>
-                <button class="sheet-btn">Print Label</button>
+                <button id="invoice-btn" class="invoice-btn">Make invoice</button>
+                <button id="print-label-btn" class="sheet-btn">Print Label</button>
             </div>
         </div>
+        <div id="confirmation-container" class="confirmation-container">
+            <div class="confirmation-box">
+                <p id="confirmation-message"></p>
+                <button id="confirm-yes">Yes</button>
+                <button id="confirm-no">No</button>
+            </div>
+        </div>  
+        <div id="message-container" style="display: none;"></div>
+    </body>
 
-        <script>
-            const selectedRows = []; // Initialize an empty array to keep track of selected rows
-            const { ipcRenderer } = require('electron');
+    <script src="print.js"></script>
+    <script src="script.js"></script>
 
-            // Function to tell Electron to navigate to another page
-            function navigateTo(page, args) {
-                ipcRenderer.send('navigate', page, args);
+    <script>
+        document.getElementById('filter').addEventListener('change', function() {
+            const dateRangeFields = document.getElementById('date-range-fields');
+            if (this.value === 'date-range') {
+                dateRangeFields.style.display = 'block';
+            } else {
+                dateRangeFields.style.display = 'none';
             }
-            document.getElementById('logout-btn').addEventListener('click', () => {
-                navigateTo('login')
-            }) 
-            document.getElementById('invoices-page-btn').addEventListener('click', () => {
-                navigateTo('invoices')
-            })
-            document.getElementById('customers-page-btn').addEventListener('click', () => {
-                navigateTo('customers')
-            })
-            document.getElementById('orders-page-btn').addEventListener('click', () => {
-                navigateTo('orders')
-            })
-
-            const orderRows = document.getElementsByClassName('order-row');
-            for (let i = 0; i < orderRows.length; i++) {
-                orderRows[i].addEventListener('click', function() {
-                    navigateTo('order-detail', {showEditAndDelete : true});
-                });
-            }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectedRows = []; // Initialize an empty array to keep track of selected rows
-            const rows = document.querySelectorAll('tr'); // Select all table rows
-
-            rows.forEach(row => {
-                row.addEventListener('contextmenu', function() {
-
-                    event.preventDefault();
-                    // Toggle 'selected' class
-                    this.classList.toggle('selected-row');
-                    
-                    // Add or remove the row from the selection list
-                    const rowIndex = this.rowIndex; // Assuming each row has a unique index
-                    
-                    if (this.classList.contains('selected-row')) {
-                        // If row is selected, add its reference
-                        selectedRows.push({rowIndex: rowIndex, reference: this});
-                    } else {
-                        // If row is deselected, remove its reference
-                        const indexToRemove = selectedRows.findIndex(item => item.rowIndex === rowIndex);
-                        if (indexToRemove > -1) {
-                            selectedRows.splice(indexToRemove, 1);
-                        }
-                    }
-                });
-            });
         });
+    </script>
 
-        function addOrderRow(data) {
-            let image = data.images[0];
-            const tableBody = document.getElementById('table-body'); // Ensure this is the correct ID of your table body
-            const newRow = document.createElement('tr');
-            
-            newRow.className = 'order-row';
-            if (data.date_due) {
-                const dueDate = new Date(data.date_due);
-                const currentDate = new Date();
-                const twoDaysLater = new Date(currentDate.getTime() + (2 * 24 * 60 * 60 * 1000)); // 2 days in milliseconds
-
-                if (dueDate < twoDaysLater) {
-                    // date_due is less than 2 days from now
-                    newRow.classList.add('order-urgent-row')
-                }
-            }
-
-            newRow.innerHTML = `
-                <td class="order-column first-column">
-                    <img class="product-image" id="product-image-id" src="Product.png" alt="Image Not found">
-                </td>
-                <td class="order-column second-column">${data.order_notes.slice(0, 50)}</td>
-                <td class="order-column">${data.order_id}</td>
-                <td class="order-column">${data.job_number}</td>
-                <td class="order-column">${data.customer}</td>
-                <td class="order-column">${data.date_due}</td>
-                <td class="order-column">${data.invoice_number}</td>
-            `;
-            tableBody.appendChild(newRow);
-            
-
-            if (image) {
-                fetch(image)
-                .then(response => {
-                    if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                    })
-                .then(data => {
-                    image = data.image; 
-                    let imageElement = document.getElementById('product-image-id');
-                    imageElement.src = image
-                    imageElement.removeAttribute('id')
-                })
-            }
-
-            
-            newRow.addEventListener('contextmenu', function() {
-                event.preventDefault();
-                // Toggle 'selected' class
-                this.classList.toggle('selected-row');
-
-                // Add or remove the row from the selection list
-                const rowIndex = this.rowIndex; // Assuming each row has a unique index
-
-                if (this.classList.contains('selected-row')) {
-                    // If row is selected, add its reference
-                    selectedRows.push({rowIndex: rowIndex, reference: this});
-                } else {
-                    // If row is deselected, remove its reference
-                    const indexToRemove = selectedRows.findIndex(item => item.rowIndex === rowIndex);
-                    if (indexToRemove > -1) {
-                        selectedRows.splice(indexToRemove, 1);
-                    }
-                }
-            });
-            
-
-            newRow.addEventListener('click', function() {
-                navigateTo('order-detail', {showEditAndDelete : true, id: data.order_id});
-            });
-        }
-
-        
-        addEventListener('DOMContentLoaded', function () {
-            
-            const endpoint = 'http://localhost:8000/order/';
-            fetch(endpoint)
-            .then(response => {
-                if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-            })
-            .then(dataArray => {
-                dataArray.forEach(data => {
-                    addOrderRow(data)
-                    
-                })
-            })
-        })
-                
-        document.getElementById('add-order-btn').onclick = function () {
-            navigateTo('order-detail', {showEditAndDelete: false})
-        }
-        </script>
-
-</body>
+    <script src="confirmation.js"></script>
 </html>

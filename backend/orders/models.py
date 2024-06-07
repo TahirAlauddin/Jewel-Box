@@ -1,5 +1,11 @@
 from django.db import models
-from django.utils.timezone import now
+from utils import create_barcode
+from django.core.files import File
+from django.conf import settings
+from django.db.models.signals import pre_save, pre_delete
+from django.dispatch import receiver
+import os
+
 
 main_attributes_kwargs = dict(max_length=20, blank=True, null=True)
 cost_kwargs = dict(max_digits=10, decimal_places=2, blank=True, null=True)
@@ -18,28 +24,59 @@ class OrderImage(models.Model):
         return f"Image for Order {self.order.order_id} - {self.caption or 'No Caption'}"
 
 
+    def delete(self, *args, **kwargs):
+        # Delete the image file associated with this instance
+        self.image.delete(save=False)
+        super(OrderImage, self).delete(*args, **kwargs)
+
+
+@receiver(pre_save, sender=OrderImage)
+def delete_old_image(sender, instance, **kwargs):
+    if instance.pk:
+        try:
+            old_image = OrderImage.objects.get(pk=instance.pk).image
+        except OrderImage.DoesNotExist:
+            return
+        else:
+            new_image = instance.image
+            if old_image and old_image.url != new_image.url:
+                if os.path.isfile(old_image.path):
+                    os.remove(old_image.path)
+
+@receiver(pre_delete, sender=OrderImage)
+def delete_current_image(sender, instance, **kwargs):
+    try:
+        os.remove(instance.image.path)
+    except Exception as e:
+        print(e)
+                    
+
 class Order(models.Model):
     """
     A Django model representing an order form, including customer information,
     order details, expenses, and stone specifications.
     """
     #? Main Attributes
-    order_id = models.CharField(max_length=10, primary_key=True, 
-                                unique=True, blank=True)
+    order_id = models.CharField(max_length=10, unique=True, blank=True,
+                                primary_key=True)
     customer = models.ForeignKey('customers.Customer',
                                 null=True, related_name='orders',
                                 on_delete=models.SET_NULL)
     size = models.CharField(**main_attributes_kwargs)
-    order_number = models.CharField(**main_attributes_kwargs)
+    resize = models.CharField(**main_attributes_kwargs)
     ct_number = models.CharField(**main_attributes_kwargs)
     job_number = models.CharField(**main_attributes_kwargs)
     kt_number = models.CharField(**main_attributes_kwargs)
     invoice_number = models.CharField(**main_attributes_kwargs)
     shipping_details = models.CharField(max_length=255, **nullable_kwargs)
-    metal_type = models.CharField(max_length=100, **nullable_kwargs)
+    metal = models.CharField(max_length=100, **nullable_kwargs)
+    type = models.CharField(max_length=100, **nullable_kwargs)
     color = models.CharField(max_length=100, **nullable_kwargs)
     setter = models.CharField(max_length=255, **nullable_kwargs)
-    date_in = models.DateTimeField(auto_now_add=True, **nullable_kwargs) # May add auto_now_add=True and blank=True, null=True
+    quantity = models.SmallIntegerField(default=1, blank=True)
+
+    date_in = models.DateTimeField(auto_now_add=True,
+                                   blank=True) # May add auto_now_add=True and blank=True, null=True
     date_due = models.DateField()
     
     #? Expenses
@@ -59,8 +96,8 @@ class Order(models.Model):
     dpc = models.DecimalField(**cost_kwargs)
     
     # Totals
-    total_cost = models.DecimalField(**cost_kwargs)
-    sale_price = models.DecimalField(**cost_kwargs)
+    total_cost = models.DecimalField(**cost_kwargs, default=0)
+    sale_price = models.DecimalField(**cost_kwargs, default=0)
     
     # Keep these as BooleanFields
     checkboxes_kwargs = dict(default=False, **nullable_kwargs)
@@ -71,6 +108,7 @@ class Order(models.Model):
     is_order = models.BooleanField(**checkboxes_kwargs)
     is_stamp = models.BooleanField(**checkboxes_kwargs)
     is_clean = models.BooleanField(**checkboxes_kwargs)
+    is_set = models.BooleanField(**checkboxes_kwargs)
 
     # Renamed and changed to CharFields to add information based on the condition
     details_kwargs = dict(max_length=255, blank=True, null=True)
@@ -81,6 +119,7 @@ class Order(models.Model):
     order_detail = models.CharField(**details_kwargs)
     stamp_detail = models.CharField(**details_kwargs)
     clean_detail = models.CharField(**details_kwargs)
+    set_detail = models.CharField(**details_kwargs)
 
     #? Notes and location checkboxes
     order_notes = models.TextField(blank=True, null=True)
@@ -88,6 +127,10 @@ class Order(models.Model):
     #? Foreign Keys
     invoice = models.ForeignKey('invoices.Invoice', on_delete=models.SET_NULL, null=True,
                                 blank=True, related_name='orders')
+    
+    barcode = models.FileField(upload_to='barcodes', null=True, blank=True)
+    barcode_generated = models.BooleanField(default=False)
+    
 
     # Override the str method to return a more descriptive name
     def __str__(self):
@@ -106,7 +149,7 @@ class Order(models.Model):
             self.others # Any other costs
         ]
         self.total_cost = sum(expense for expense in expenses if expense)
-        self.save()
+        
 
     def update_stone_details(self, **kwargs):
         """
@@ -123,35 +166,43 @@ class Order(models.Model):
         """
         return f"<Order: {self.order_id}, Customer: {self.customer}, Date In: {self.date_in}>"
     
+    def generate_barcode(self):
+
+        print("Generating barcode")
+        # Define the directory for barcode images
+        folder_path = os.path.join(settings.MEDIA_ROOT, 'barcode')
+        # Ensure the directory exists
+        os.makedirs(folder_path, exist_ok=True)
+
+        # Construct the file name and path
+        file_name = f"{self.order_id} - barcode.png"
+        file_path = os.path.join(folder_path, file_name)
+
+        # Check if updating and barcode exists, delete the old barcode file
+        if self.pk and self.barcode and hasattr(self.barcode, 'path') and os.path.exists(self.barcode.path):
+            os.remove(self.barcode.path)
+
+        # Generate the barcode and save it to the specified file path
+        create_barcode(self.order_id, file_path)
+
+        file_path += '.png' #!Important
+
+        # Now, attach the file to the model's FileField
+        with open(file_path, 'rb') as file:
+            self.barcode.save(file_name, File(file), save=False)
+
+        # Remove temp file
+        os.remove(file_path)
+
     def save(self, *args, **kwargs):
-        if not self.order_id:
-            # Extract abbreviation from customer name (first two letters as an example)
-            abbreviation = self.customer.abbreviation.upper()
-            year = now().year % 100  # Get last two digits of the year
-
-            # Find the last order_id for this customer and year, if any
-            latest_order = Order.objects.filter(order_id__startswith=f'{abbreviation}{year}').order_by('date_in').last()
-
-            print(latest_order)
-            if latest_order:
-                # Extract the last sequence number and increment
-                last_sequence = int(latest_order.order_id[4:])
-                print(last_sequence)
-                new_sequence = last_sequence + 1
-            else:
-                # If no existing order, start with 1
-                new_sequence = 1
-
-            # Handle sequence overflow
-            if new_sequence > 999:
-                self.order_id = f"{abbreviation}{year:02d}{new_sequence:04d}"
-            else:
-                # Format new order_id
-                self.order_id = f"{abbreviation}{year:02d}{new_sequence:03d}"
-
+        if not self.barcode_generated:
+            self.generate_barcode()
+            self.barcode_generated = True  # Ensure barcode is generated only once
         super(Order, self).save(*args, **kwargs)
 
-
+    class Meta:
+        ordering = ['-date_in']
+        
 
 class StoneSpecification(models.Model):
     """
@@ -170,4 +221,19 @@ class StoneSpecification(models.Model):
     def __str__(self):
         return f"{self.order} {self.stone_type[:5]} {self.quantity}pcs"
 
+    
+    def __getitem__(self, key):
+        """
+        Enable accessing stone specifications using dictionary-like syntax.
+        Example: object.get('stone_type') or object.get('height')
+        """
+        return getattr(self, key, None)
+    
+    
+    def get_attribute(self, key, default=None):
+        """
+        Enable accessing stone specifications using dictionary-like syntax.
+        Example: object.get('stone_type') or object.get('height')
+        """
+        return getattr(self, key, None)
     

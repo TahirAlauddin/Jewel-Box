@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewel Box - Login</title>
     <link rel="stylesheet" href="styles.css"></link>
+<script src="../../js/config.js" ></script> 
 </head>
 <body>
     <div class="main-container">
         <div class="forms-container main-flex-content">
             <div class="logo-inline">
-                <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
+                <img src="../../img/jewel-box-logo.png" alt="JewelBox Logo" class="logo">
                 <p class="logo-name">Jewel Box</p>
             </div>
             <h1 class="welcome-message">&#128075; Welcome to Jewel Box</h1>
@@ -42,10 +43,6 @@
 
     <script>
 
-        try {
-                const { ipcRenderer } = require('electron');
-            }  catch {
-        }
         // Function to tell Electron to navigate to another page
         function navigateTo(page) {
             ipcRenderer.send('navigate', page);

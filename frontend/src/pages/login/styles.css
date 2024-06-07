@@ -31,6 +31,11 @@
   src: url("../../fonts/Poppins-Medium.woff") format("woff");
 }
 
+@font-face {
+  font-family: "American Scribe";
+  src: url("../../fonts/american-scribe.woff") format("woff");
+}
+
 :root {
   font-size: 62.5%;
 }
@@ -76,9 +81,21 @@ html {
 }
 
 .logo {
+  max-width: 18rem;
+  width: 18.8441rem;
+  height: 9.9134rem;
+}
+
+.abreu-gold-logo {
   max-width: 15rem;
-  width: 8.8441rem;
-  height: 4.9134rem;
+  width: 15.8441rem;
+  height: 6.9134rem;
+}
+
+.made-by-p {
+  font-family: "American Scribe";
+  font-size: 2.5rem; 
+  align-self: center;
 }
 
 h1 {
@@ -134,12 +151,12 @@ h1 {
   cursor: pointer;
 }
 
-.signup {
+.admin-login {
   text-align: center;
   margin-top: 2rem;
 }
 
-.signup a {
+.admin-login a {
   color: #0066cc;
   text-decoration: none;
 }
@@ -188,11 +205,13 @@ h1 {
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+  /* text-align: center; */
 }
 
 .logo-name {
   font-family: "Qwitcher Grypen";
-  font-size: 4rem;
+  font-size: 9rem;
+  margin: 0px;
 }
 
 .logo-inline {
@@ -232,5 +251,15 @@ h1 {
   .forms-container {
     width: 100%;
   }
+  }
+  
+
+  #updateIpAddress {
+    color: #0066cc;
+    text-decoration: none;
+    background-color: transparent;  
+    border: none;
+    font-family: 'Poppins' sans-serif;
+    margin-top: 15rem
   }
   

@@ -36,3 +36,13 @@ build
 
 # Npx electron-package
 JewelBox/
+
+media
+
+JewelBox-win32-x64/
+
+# Archives
+*.zip
+
+# Docs
+templates/

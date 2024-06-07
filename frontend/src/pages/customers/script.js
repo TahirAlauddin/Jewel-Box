@@ -30,110 +30,131 @@ edit_customer_btn.onclick = function() {
   editModal.style.display = "block";
 }
 
-addButton.onclick = function() {
-  const fullname = document.getElementById('fullname').value;
-  const abbreviation = document.getElementById('abbreviation').value;
+// Improved code with cleanup and simplifications
 
-  // Define the data to be sent
-  let data = {
-      name: fullname,
-      abbreviation: abbreviation,
-  };
+// Common variables
+const fullnameInput = document.getElementById('fullname');
+const abbreviationInput = document.getElementById('abbreviation');
+const addressInput = document.getElementById('address');
+const phoneNumberInput = document.getElementById('phone-number');
 
-  saveCustomer(data)
-  closeModal()
-}
+const editFullnameInput = document.getElementById('edit-modal-name');
+const editAbbreviationInput = document.getElementById('edit-modal-abbreviation');
+const editAddressInput = document.getElementById('edit-modal-address');
+const editPhoneNumberInput = document.getElementById('edit-modal-phone-number');
 
-editSaveButton.onclick = function () {
-  if (!selectedRows.length) return
-  let len = selectedRows.length
-  let endpoint = `http://localhost:8000/customer/${selectedRows[len-1].id}/`;
-  let method = 'PUT'
-
-  const fullname = document.getElementById('edit-modal-name').value;
-  const abbreviation = document.getElementById('edit-modal-abbreviation').value;
-
-  // Define the data to be sent
-  let data = {
-      name: fullname,
-      abbreviation: abbreviation,
-  };
-
-  // Make the PUT request
-  fetch(endpoint, {
+// Utility function for making API requests
+async function makeApiRequest(endpoint, method, data) {
+  const response = await fetch(endpoint, {
     method: method,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
-  })
-  .then(response => {
-      if (!response.ok) {
-        // Showing an error message
-        showMessage("There was an error", "error", 5000); // Display for 5 seconds
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-  })
-  .then(data => {
-      console.log('Success:', data);
-        // Showing a success message
-        showMessage("Successfully added to the database", "success");
-
-        let selectedRowNode = document.getElementById(data.id);
-        selectedRowNode.children[0].innerHTML = data.name
-        selectedRowNode.children[1].innerHTML = data.abbreviation
-        // Handle success, such as showing a success message or clearing the form
-        closeModal()
-  })
-  .catch((error) => {
-      console.error('Error:', error);
-      // Handle errors, such as showing an error message
-      showMessage("There was an error editing the Customer" + error, "error");
-
   });
+  if (!response.ok) {
+    // Instead of throwing an Error immediately, first try to parse the response
+    return response.json().then(body => {
+      // Now, throw an Error with the response body
+      // so that the .catch block can receive the actual error message
+      throw new Error(body.abbreviation ? body.abbreviation.join() : 'Network response was not ok');
+    });
+  }
+  return await response.json();
 }
 
-function saveCustomer(data) {
+// Common validation function
+function validateInput(fullname, abbreviation, address, phoneNumber) {
+  if (!fullname || !abbreviation || !address || !phoneNumber) {
+    showMessage('Please enter all the information required.', 'error');
+    return false;
+  }
+  if (abbreviation.length !== 3) {
+    showMessage('The abbreviation must be exactly 3 characters long.', 'error');
+    return false;
+  }
+
+  // Phone number validation: ensuring it contains only digits and is 10 characters long
+  const phonePattern = /^\d{10}$/;
+  if (!phonePattern.test(phoneNumber)) {
+    showMessage('The phone number must be exactly 10 digits long.', 'error');
+    return false;
+  }
+
+  return true;
+}
+
+addButton.onclick = function() {
+  const fullname = fullnameInput.value;
+  const abbreviation = abbreviationInput.value;
+  const address = addressInput.value;
+  const phoneNumber = phoneNumberInput.value;
   
-  let endpoint = 'http://localhost:8000/customer/';
-  let method  = 'POST'
+  if (!validateInput(fullname, abbreviation, address, phoneNumber)) return;
 
-  // Make the POST request
-  fetch(endpoint, {
-      method: method,
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-  })
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
-      }
-      return response.json();
-  })
-  .then(data => {
-      const tableBody = document.getElementById('table-body');
-      while (tableBody.firstChild) {
-          tableBody.removeChild(tableBody.firstChild);
-      }
-      getCustomerData()
-      // Handle success, such as showing a success message or clearing the form
+  // Define the data to be sent
+  let data = {
+    name: fullname, abbreviation: abbreviation.toUpperCase(),
+    address: address, phone_number: phoneNumber
+   };
+
+  makeApiRequest(`${BASE_URL}/customer/`, 'POST', data)
+    .then(data => {
       showMessage("Successfully added to the database", "success");
-  })
-  .catch((error) => {
+      getCustomerData(); // Assuming this fetches and displays customer data
+      closeModal();
+    })
+    .catch(error => {
+      console.error(error.message)
+      showMessage("An error occurred: " + error.message, "error");
+    });
+}
+
+editSaveButton.onclick = function() {
+  if (!selectedRows.length) return;
+
+  const fullname = editFullnameInput.value;
+  const abbreviation = editAbbreviationInput.value;
+  const address =      editAddressInput.value;
+  const phoneNumber =  editPhoneNumberInput.value;
+  
+  if (!validateInput(fullname, abbreviation, address, phoneNumber)) return;
+
+  let selectedRowId = selectedRows[selectedRows.length-1].id; // Assuming last selected row's ID for edit
+  let data = {
+    name: fullname, abbreviation: abbreviation.toUpperCase(),
+    address: address, phone_number: phoneNumber
+   };
+
+  makeApiRequest(`${BASE_URL}/customer/${selectedRowId}/`, 'PUT', data)
+    .then(data => {
+      showMessage("Successfully updated in the database", "success");
+      let selectedRowNode = document.getElementById(data.id);
+      selectedRowNode.children[0].innerHTML = data.name;
+      selectedRowNode.children[1].innerHTML = data.abbreviation;
+      selectedRowNode.children[2].innerHTML = data.address;
+      selectedRowNode.children[3].innerHTML = data.phone_number;
+      closeModal();
+    })
+    .catch(error => {
       console.error('Error:', error);
-      // Handle errors, such as showing an error message
-      showMessage("An error occured" + error, "error");
-
-  });
-
+      showMessage("There was an error editing the Customer" + error, "error");
+    });
 }
 
 function closeModal() {
   modal.style.display = "none";
   editModal.style.display = "none";
+
+  // Clear the input fields of the modal once closed
+  document.getElementById('edit-modal-name').value = '';
+  document.getElementById('edit-modal-abbreviation').value = '';
+  document.getElementById('edit-modal-phone-number').value = '';
+  document.getElementById('edit-modal-address').value = '';
+
+  document.getElementById('fullname').value = ''
+  document.getElementById('abbreviation').value = ''
+  document.getElementById('phone-number').value = '';
+  document.getElementById('address').value = '';
+
 }
 
 // When the user clicks anywhere outside of the modal, close it
@@ -159,6 +180,8 @@ function populateTableWithData(dataArray) {
       row.innerHTML = `
           <td class="order-column">${data.name}</td>
           <td class="order-column">${data.abbreviation}</td>
+          <td class="order-column">${data.address}</td>
+          <td class="order-column">${data.phone_number}</td>
       `;
 
       // Attach contextmenu event listener to each row for selection
@@ -170,8 +193,11 @@ function populateTableWithData(dataArray) {
           
           if (this.classList.contains('selected-row')) {
               // If row is selected, add its reference
-              selectedRows.push({id: data.id, reference: this, name: data.name, 
-                                abbreviation: data.abbreviation});
+              selectedRows.push({
+                id: data.id, reference: this, 
+                name: data.name, phone_number: data.phone_number,
+                address: data.address,
+                abbreviation: data.abbreviation});
           } else {
               // If row is deselected, remove its reference
               const indexToRemove = selectedRows.findIndex(item => item.id === data.id);
@@ -187,7 +213,7 @@ function populateTableWithData(dataArray) {
 }
 
 function getCustomerData() {
-fetch('http://localhost:8000/customer/', {
+fetch(`${BASE_URL}/customer/?ordering=name`, {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
@@ -198,7 +224,6 @@ fetch('http://localhost:8000/customer/', {
     }
     return response.json();
   }).then(data => {
-    console.log('Success:', data);
     // Handle success, such as showing a success message or clearing the form
     populateTableWithData(data);
 
@@ -209,50 +234,56 @@ fetch('http://localhost:8000/customer/', {
 }
 
 function editCustomer() {
-  editModal.style.display = "block";
   let len = selectedRows.length
-  document.getElementById('edit-modal-name').value = selectedRows[len-1].name;
-  document.getElementById('edit-modal-abbreviation').value = selectedRows[len-1].abbreviation;
+  if (len >= 1) {
+    editModal.style.display = "block";
+    document.getElementById('edit-modal-name').value = selectedRows[len-1].name;
+    document.getElementById('edit-modal-abbreviation').value = selectedRows[len-1].abbreviation;
+    document.getElementById('edit-modal-phone-number').value = selectedRows[len-1].phone_number;
+    document.getElementById('edit-modal-address').value = selectedRows[len-1].address;
+  } else {
+    showMessage('Select a customer', 'error')
+  }
 }
-
-document.getElementById('edit-btn').onclick = editCustomer
-document.getElementById('delete-btn').onclick = deleteCustomer
-
 
 function deleteCustomer() {
-  if (!selectedRows.length) return
-  
-  let newEndpoint;
-  let endpoint = 'http://localhost:8000/customer/'
-  selectedRows.forEach(selectedRow => {
-    newEndpoint = endpoint + selectedRow.id + '/'
-  
-  // Make the POST request
-  fetch(newEndpoint, {
-    method: 'DELETE',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-  })
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
-      }
-      return response;
-  })
-  .then(data => {
-      console.log('Success:', data);
-      const tableBody = document.getElementById('table-body');
-      document.getElementById(selectedRow.id).remove()
-      // Handle success, such as showing a success message or clearing the form
-  })
-  .catch((error) => {
-      console.error('Error:', error);
-      // Handle errors, such as showing an error message
-  });
-})  
+  if (!selectedRows.length) 
+  {
+    showMessage('Select a customer', 'error')
+    return
+  }
+  function deleteCustomerFromDatabase() {
+    
+    let newEndpoint;
+    let endpoint = `${BASE_URL}/customer/`
+    selectedRows.forEach(selectedRow => {
+      newEndpoint = endpoint + selectedRow.id + '/'
+    
+    // Make the POST request
+    fetch(newEndpoint, {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response;
+    })
+    .then(data => {
+        document.getElementById(selectedRow.id).remove()
+        // Handle success, such as showing a success message or clearing the form
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        // Handle errors, such as showing an error message
+      });
+    })
+  } 
+  showConfirmation('Are you sure you want to delete the Customers? This cannot be undone.', deleteCustomerFromDatabase) 
 }
-
 
 function showMessage(message, type = 'success', duration = 3000) {
   const container = document.getElementById('message-container');
@@ -274,4 +305,60 @@ function showMessage(message, type = 'success', duration = 3000) {
 document.addEventListener('DOMContentLoaded', function() {
   getCustomerData();
   // Attach other initialization logic
+});
+
+
+document.getElementById('edit-btn').onclick = editCustomer
+document.getElementById('delete-btn').onclick = deleteCustomer
+
+
+let searchbtn = document.getElementById('search-btn')
+searchbtn.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent the default form submit action
+
+    let endpoint = `${BASE_URL}/customer/`; // Replace with your actual search endpoint
+    let searchInput = document.getElementById('search-input').value;
+
+    // Define an object to hold your request parameters
+    let params = new URLSearchParams();
+    // Append the parameters to the endpoint URL
+    params.append('search', searchInput)
+    endpoint += `?${params.toString()}`;
+
+    // Make the fetch request with the specified endpoint and parameters
+    fetch(endpoint)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(dataArray => {
+        // Handle the successful response data
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = '';
+
+        populateTableWithData(dataArray)
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle errors in fetching data
+    });
+});
+
+
+document.addEventListener('keydown', function(event) {
+    // Check if 'Enter' key is pressed
+    if (event.key === 'Enter') {
+      // Check if the input box is focused
+      let activeElement = document.activeElement.id
+      if (activeElement === 'search-input') {
+          // Trigger click event on search button
+          searchbtn.click();
+      } else if (activeElement === 'abbreviation' || activeElement === 'fullname') {
+        document.getElementById('addButton').click()
+      } else if (activeElement === 'edit-modal-name' || activeElement === 'edit-modal-abbreviation') {
+        document.getElementById('editSaveButton').click()
+      }
+  }
 });

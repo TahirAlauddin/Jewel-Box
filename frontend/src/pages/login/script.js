@@ -1,79 +1,106 @@
-const { ipcRenderer } = require('electron');
+function showLoginSuccessMessage(page) {
+  // Trigger the IPC event to show the dialog
+  ipcRenderer.send("show-message-box", {
+    type: "info",
+    title: "Login Successful",
+    message: `Successfully Logged In! Navigate to ${page} `,
+  });
+}
 
-let { resolve } = require('path');
-resolve = require('path').resolve
+function verifyPassword() {
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
 
-function showLoginSuccessMessage(page) {   
-    // Trigger the IPC event to show the dialog
-    ipcRenderer.send('show-message-box', {
-        type: 'info',
-        title: 'Login Successful',
-        message: `Successfully Logged In! Navigate to ${page} `
-    });
+  if (email == "") {
+    document.getElementById("email-message").innerHTML =
+      "**Fill the email please!";
+  }
+  if (password == "") {
+    document.getElementById("password-message").innerHTML =
+      "**Fill the password please!";
+    return false;
+  }
+
+  login(email, password);
 }
 
 // Function to tell Electron to navigate to another page
 function navigateTo(page) {
-    ipcRenderer.send('navigate', page);
+  ipcRenderer.send("navigate", page);
 }
-
-function verifyPassword() {
-    var email = document.getElementById("email").value;
-    var password = document.getElementById("password").value;  
-    
-    if (email == "") {
-        document.getElementById("email-message").innerHTML = "**Fill the email please!";  
-    }
-    if(password == "") {  
-        document.getElementById("password-message").innerHTML = "**Fill the password please!";  
-        return false
-    }  
-    
-    let isValid = login(email, password)
-    
-    if(isValid) {  
-        navigateTo('orders')
-        return true;
-    } else {  
-        document.getElementById("password-message").innerHTML = "**Incorrect Password";  
-        return false;  
-    }  
-  }  
-
-  // Example POST method implementation:
 async function postData(url = "", data = {}, method = "GET") {
-    // Default options are marked with *
-    const response = await fetch(url, {
-      method: method, // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+  try {
+    let response = await fetch(url, {
+      method: method,
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(data),
     });
-    return response.json(); // parses JSON response into native JavaScript objects
-  }
-  
-  
-async function login (email, password) {
-    let data = await postData('http://localhost:8000/login/', 
-            {'email': email, 'password': password}, 'POST')
-    
-    if (data.loggedIn) {
-        return true; 
-    } else {
-        return false;
+
+    if (!response.ok) {
+      // Assuming you want to throw for any non-2xx response:
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-        
+
+    console.log("response is coming from here");
+    return response; // You might want to return response.json() or similar here
+  } catch (error) {
+    console.error(error.message);
+
+    // Decide what to return or re-throw based on the error
+    if (error.message.includes("Failed")) {
+      console.log("Connection refused or failed.");
+    } else if (
+      error.message.includes("unauthorized") ||
+      error.message.includes("HTTP error")
+    ) {
+      return { status: 401, error: error.message };
+    }
+
+    // Fallback error handling
+    return { status: 404, error: error.message };
+  }
 }
 
+async function login(email, password) {
+  let response = await postData(
+    `${BASE_URL}/login/`,
+    { email: email, password: password },
+    "POST"
+  );
 
+  if (response && response.status === 404)
+    ipcRenderer.send("show-message-box", {
+      type: "info",
+      title: "Login Successful",
+      message:
+        "Couldn't connect with the server. Make sure the server is running and configured properly.",
+    });
+  console.log(response);
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("email").focus();
-})
+  if (response && response.status == 200) {
+    navigateTo("orders");
+  } else {
+    document.getElementById("password-message").innerHTML =
+      "**Incorrect Password";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("email").focus();
+  let softwareVersion = ''
+  
+  ipcRenderer.on('version', (event, args) => {
+      if (args && args.version) {
+          softwareVersion = args.version;
+          document.getElementById("software-version").textContent = softwareVersion;
+        }
+    });
+
+});

@@ -27,6 +27,11 @@
   font-family: "Plus Jakarta Sans";
   src: url("../../fonts/PlusJakartaSans.woff") format("woff");
 }
+
+@font-face {
+  font-family: "American Scribe";
+  src: url("../../fonts/american-scribe.woff") format("woff");
+}
 :root {
   --primary-color: #e1e4e8;
   --secondary-color: #0066cc;
@@ -127,6 +132,17 @@ body {
   max-width: 10rem;
   width: 6.8441rem;
   height: 3.9134rem;
+}
+.abreu-gold-logo {
+  max-width: 15rem;
+  width: 10.8441rem;
+  height: 4.9134rem;
+}
+
+.made-by-p {
+  font-family: "American Scribe";
+  font-size: 1.5rem; 
+  align-self: center;
 }
 
 .flex-logo {
@@ -271,20 +287,20 @@ tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-.order-row {
+.invoice-row {
   background: white;
   border: none;
 }
 
-.order-row > td {
+.invoice-row > td {
   padding: 2rem 1.5rem;
 }
 
-.order-column {
+.invoice-column {
   border: none;
 }
 
-.order-head-row {
+.invoice-head-row {
   background-color: var(--table-header-color);
   color: white;
   border: none;
@@ -451,6 +467,7 @@ body {
 
   .logo-name {
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 3rem;
   }
 
@@ -473,6 +490,7 @@ body {
 
   .logo-name {
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 3rem;
   }
 

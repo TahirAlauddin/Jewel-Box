@@ -4,35 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewel Box - Dashboard</title>
-    <link rel="stylesheet" href="font-awesome.css">
+    <link rel="stylesheet" href="../../css/font-awesome.css">
     <link rel="stylesheet" href="styles.css"></link>
+<script src="../../js/config.js" ></script> 
 </head>
 <body>
 
     <div class="sidebar column-flex">
         <header>
             <div class="flex-logo">
-                <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
+                <img src="../../img/jewel-box-logo.png" alt="JewelBox Logo" class="logo">
                 <p class="logo-name">Jewel Box</p>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <p class="made-by-p">made by</p>
+                <img src="../../img/abreu-gold-logo.png" alt="JewelBox Logo" class="abreu-gold-logo">
             </div>
         </header>
         
         <div class="navigation">
             <div id="orders-page-btn" class="nav-item">
-                <img src="orders.svg" alt="Orders" class="icon"/>
+                <img src="../../svg/orders.svg" alt="Orders" class="icon"/>
                 <span>Orders</span>
             </div>
             <div id="customers-page-btn" class="nav-item">
-                <img src="customers.svg" alt="Customers" class="icon"/>
+                <img src="../../svg/customers.svg" alt="Customers" class="icon"/>
                 <span>Customers</span>
             </div>
             <div id="invoices-page-btn" class="nav-item selected">
-                <img src="invoices.svg" alt="Invoices" class="icon"/>
+                <img src="../../svg/invoices.svg" alt="Invoices" class="icon"/>
                 <span>Invoices</span>
             </div>
         </div>
         <div id="logout-btn" class="nav-item logout">
-            <img src="logout.svg" alt="Orders" class="icon"/>
+            <img src="../../svg/logout.svg" alt="Orders" class="icon"/>
             <span style="padding-left: 17%;">Log Out</span>
         </div>
     </div>
@@ -40,129 +45,43 @@
         <div class="main-container">
             <div class="toolbar">
                 
-
                 <div class="filter-group">
-                    <input class="search-input" type="search" placeholder="Search...">
-                    <button class="search-btn">
-                        <img src="search.svg" alt="" srcset="">
+                    <input id="search-input" class="search-input" type="search" placeholder="Search...">
+                    <button id="search-btn" class="search-btn">
+                        <img src="../../svg/search.svg" alt="" srcset="">
                     </button>
                 </div>
             </div>
             <div class="table-container">
-                <table>
+                <table >
                     <thead>
-                        <tr class="order-head-row">
+                        <tr class="invoice-head-row">
                             <th>Invoice #</th>
                             <th>Customer</th>
-                            <th>Date In</th>
+                            <th>Invoice Date</th>
                             <th>Total Price</th>
                             
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24001</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24002</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24003</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24004</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24005</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24006</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24007</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24008</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24009</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
-                        <tr class="order-row">
-                            <td class="order-column">ADL24010</td>
-							<td class="order-column">JD</td>
-                            <td class="order-column">JD</td>
-							<td class="order-column">JD</td>
-                        </tr>
+                    <tbody id='table-body'>
+                        
+                        <!-- Data will be populated here -->
+                        
                     </tbody>
 
                 </table>
             </div>
         </div>
 
-        
-<div id="myModal" class="modal">
-    <div class="modal-content">
-
-      <div>
-        <button class="delete-image">
-          <img src="cross.svg" alt="" srcset="">
-      </button>
-      </div>
-
-      <h2 class="add-new-customer">Add new customer</h2>
-      <div class="input-container">
-        <p>
-          <label for="fullname">Add name</label>
-        </p>
-        <input type="text" id="fullname" placeholder="Type full name of customer">
-      </div>
-      <div class="input-container">
-        <p>
-          <label for="abbreviation">Add Abbreviation</label>
-        </p>
-        <input type="text" id="abbreviation" placeholder="Add abbreviation of full name">
-      </div>
-      <button id="addButton">Add</button>
-    </div>
-</div>
-
+    
 <script src="script.js"></script>
 
 
 <script>
-    const { ipcRenderer } = require('electron');
 
     // Function to tell Electron to navigate to another page
-    function navigateTo(page) {
-        console.log('change page')
-        ipcRenderer.send('navigate', page);
+    function navigateTo(page, args) {
+        ipcRenderer.send('navigate', page, args);
     }
 
     document.getElementById('logout-btn').addEventListener('click', () => {
@@ -178,5 +97,6 @@
         navigateTo('orders')
     })
 </script>
+
 </body>
 </html>

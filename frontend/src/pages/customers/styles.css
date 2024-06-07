@@ -27,6 +27,11 @@
   font-family: "Plus Jakarta Sans";
   src: url("../../fonts/PlusJakartaSans.woff") format("woff");
 }
+
+@font-face {
+  font-family: "American Scribe";
+  src: url("../../fonts/american-scribe.woff") format("woff");
+}
 :root {
   --primary-color: #e1e4e8;
   --secondary-color: #0066cc;
@@ -127,6 +132,17 @@ body {
   max-width: 10rem;
   width: 6.8441rem;
   height: 3.9134rem;
+}
+.abreu-gold-logo {
+  max-width: 15rem;
+  width: 10.8441rem;
+  height: 4.9134rem;
+}
+
+.made-by-p {
+  font-family: "American Scribe";
+  font-size: 1.5rem; 
+  align-self: center;
 }
 
 .flex-logo {
@@ -425,6 +441,48 @@ body {
   /* margin: 5px; */
 }
 
+
+.confirmation-container {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.confirmation-box p {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.confirmation-box button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border-radius: 0.4rem;
+  color: white;
+  border: none;
+}
+
+#confirm-yes {
+  background-color: #4CAF50 !important; /* Green */
+}
+
+#confirm-no {
+  background-color: #F44336 !important; /* Red */
+}
+
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 10px;
@@ -461,6 +519,7 @@ body {
 
   .logo-name {
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 3rem;
   }
 
@@ -483,6 +542,7 @@ body {
 
   .logo-name {
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 3rem;
   }
 
@@ -530,4 +590,50 @@ body {
 .selected-row {
   border: 1px solid #0066cc;
   font-weight: bold;
+}
+
+
+@media screen and (1120px > width > 786px) {
+  :root {
+    font-size: 45%;
+  }
+  .flex-logo {
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 0;
+  }
+
+  .logo-name {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 3rem;
+  }
+
+  .logo {
+    width: 8.8441rem;
+    height: 4.9134rem;
+  }
+}
+
+@media screen and (width <= 786px) {
+  :root {
+    font-size: 40%;
+  }
+  
+  .flex-logo {
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 0;
+  }
+
+  .logo-name {  
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 3rem;
+  }
+
+  .logo {
+    width: 8.8441rem;
+    height: 4.9134rem;
+  }
 }

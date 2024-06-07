@@ -7,7 +7,6 @@ class OrderAdminForm(ModelForm):
         model = Order
         fields = '__all__'
 
-
 class OrderImageInline(admin.TabularInline):
     model = OrderImage
     extra = 2  # Number of empty inline forms to display
@@ -21,8 +20,8 @@ class OrderAdmin(admin.ModelAdmin):
     fieldsets = [
         # Other fieldsets for organizing remaining fields
         ('Order Details', {'fields': [
-            'customer', 'size', 'order_number', 'ct_number', 'job_number', 'kt_number', 
-            'date_in', 'invoice_number', 'date_due', 'metal_type', 'setter', 'color', 
+            'customer', 'size', 'order_id', 'ct_number', 'job_number', 'kt_number', 
+             'invoice_number', 'date_due', 'metal', 'type', 'setter', 'color', 
             'shipping_details'
             ]}),
         ('Expenses', {'fields': [
@@ -39,3 +38,4 @@ class OrderAdmin(admin.ModelAdmin):
     ]
 
 admin.site.register(Order, OrderAdmin)
+admin.site.register((StoneSpecification))

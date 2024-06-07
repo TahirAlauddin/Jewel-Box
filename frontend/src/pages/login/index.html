@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewel Box - Login</title>
     <link rel="stylesheet" href="styles.css"></link>
-    <script src="script.js"></script>
+    <script src="../../js/config.js" ></script> 
 </head>
 <body>
+
+    <p style="font-size: 1.2rem; position: absolute; bottom: 0.5rem; left: 1rem" id="software-version">123kj</p>
+
     <div class="main-container">
         <div class="forms-container main-flex-content">
             <header>
                 <div class="logo-inline">
-                    <img src="jewel-box-logo.png" alt="JewelBox Logo" class="logo">
+                    <img src="../../img/jewel-box-logo.png" alt="JewelBox Logo" class="logo">
                     <p class="logo-name">Jewel Box</p>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <p class="made-by-p">made by</p>
+                    <img src="../../img/abreu-gold-logo.png" alt="JewelBox Logo" class="abreu-gold-logo">
                 </div>
                 <h1 class="welcome-message">&#128075; Welcome to JewelBox</h1>
             </header>
@@ -27,27 +34,61 @@
                     </div>
                     <div class="input-group">
                         <label for="password">Password</label>
-                        <input focused=true style="border: 2px solid #5B4DFF" type="password" id="password" placeholder="Enter your password">
+                        <div style="position: relative;">
+                            <input focused=true style="border: 2px solid #5B4DFF; padding-right: 30px;" type="password" id="password" placeholder="Enter your password">
+                            <button id="togglePassword" style="position: absolute; right: 0; top: 0; background: none; border: none; cursor: pointer; padding: 10px;">
+                                <img src="show-password.png" alt="Toggle Password Visibility" style="width: 3rem; height: 3rem;">
+                            </button>
+                        </div>
                         <p id="password-message"></p>
                     </div>
                 </div>
-                <div class="remember-me">
-                    <input type="checkbox" id="remember-me">
-                    <label for="remember-me">Remember me</label>
-                </div>
-                <a href="#" class="forgot-password">Forgot Password?</a>
+                <a href="#" class="forgot-password"style="margin-top: 1rem;" id="updateIpAddress">Update IP Address</a>
+
                 <button onclick="verifyPassword()" type="submit" id="login-button" class="login-button">Log in</button>
-                <div class="signup">
-                    Don’t have an account? <a href="#">Sign Up</a>
+                <div class="admin-login">
+                    Are you an admin? <a name="loginAsAdmin" href="#">Login here</a>
                 </div>
             </div>
         </div>
-
 
         <div class="image-container main-flex-content">
             <img class="rotated-image" src="login-right-image.png" alt="">
         </div>
     </div>
 
-    </body>
-    </html>
+    <script>
+        let loginBtn = document.getElementById('login-button')
+        document.addEventListener('keydown', function(event) {
+            // Check if 'Enter' key is pressed
+            if (event.key === 'Enter') {
+            // Check if the input box is focused
+            if (document.activeElement.id === 'email' || document.activeElement.id === 'password') {
+                // Trigger click event on search button
+                loginBtn.click();
+            }
+        }
+        });
+        document.getElementsByName('loginAsAdmin')[0].addEventListener('click', () => {
+            navigateTo('admin')
+        })
+        document.getElementById('togglePassword').addEventListener('click', function(e) {
+        const passwordInput = document.getElementById('password');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        // Toggle the eye / eye-slash icon
+        this.innerHTML = type === 'password' ? '<img src="show-password.png" alt="Toggle Password Visibility" style="width: 3rem; height: 3rem;">' : '<img src="hide-password.png" alt="Toggle Password Visibility" style="width: 3rem; height: 3rem;">';
+    });
+    </script>
+
+<script>
+  
+    document.getElementById('updateIpAddress').addEventListener('click', () => {
+      ipcRenderer.send('update-ip');
+    });
+  </script>
+  
+  <script src="script.js"></script>
+
+</body>
+</html>

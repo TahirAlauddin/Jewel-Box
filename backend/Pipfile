@@ -8,6 +8,9 @@ django = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 pyinstaller = "*"
+django-filter = "*"
+win32printing = "*"
+pywin32 = "*"
 
 [dev-packages]
 

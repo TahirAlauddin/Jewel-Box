@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Input IP</title>
+</head>
+<body>
+
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; /* Light gray background */
+}
+
+#ipForm {
+  padding: 20px;
+  background-color: #ffffff; /* White background for the form */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between form elements */
+}
+
+#ipInput {
+  padding: 10px;
+  border: 1px solid #cccccc; /* Light gray border */
+  border-radius: 4px; /* Rounded corners for the input field */
+  outline: none; /* Removes the default focus outline */
+}
+
+#ipInput:focus {
+  border-color: #007bff; /* Blue border on focus */
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff; /* Blue background for the button */
+  color: #ffffff; /* White text color */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+</style>
+  
+<form id="ipForm">
+    <input type="text" id="ipInput" placeholder="Enter IP Address">
+    <button type="submit">Save</button>
+  </form>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    document.getElementById('ipForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const ip = document.getElementById('ipInput').value;
+      ipcRenderer.send('save-ip', ip); // Send IP to main process
+    });
+  </script>
+</body>
+</html>

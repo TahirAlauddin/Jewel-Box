@@ -27,6 +27,11 @@
   font-family: "Plus Jakarta Sans";
   src: url("../../fonts/PlusJakartaSans.woff") format("woff");
 }
+
+@font-face {
+  font-family: "American Scribe";
+  src: url("../../fonts/american-scribe.woff") format("woff");
+}
 :root {
   font-size: 62.5%;
     --primary-color: #E1E4E8;
@@ -123,6 +128,18 @@ body {
   max-width: 10rem;
   width: 6.8441rem;
   height: 3.9134rem;
+}
+
+.abreu-gold-logo {
+  max-width: 15rem;
+  width: 10.8441rem;
+  height: 4.9134rem;
+}
+
+.made-by-p {
+  font-family: "American Scribe";
+  font-size: 1.5rem; 
+  align-self: center;
 }
 
 .flex-logo {
@@ -321,13 +338,14 @@ tbody tr:hover {
 
 .order-column {
   border: none;
+  min-width: 6vw;
 }
 .second-column {
-  max-width: 20vw;
-  padding: 2rem 0.5rem !important;
+  max-width: fit-content;
+  padding: 2rem 1.5rem !important;
 }
 .first-column {
-  padding: 2rem 0.5rem !important;
+  padding: 2rem 1.5rem !important;
 }
 
 .table-head-row {
@@ -340,6 +358,7 @@ thead th {
   border: none; /* Example border to see cells clearly */
   color: white; /* Example text color */
   padding: 0.5rem 1.5rem !important;
+  text-align: center;
 }
 .logout {
   margin-bottom: 2rem;
@@ -359,6 +378,18 @@ thead th {
   background-repeat: no-repeat;
   background-position: right 1rem center; /* Adjust as necessary */
   background-size: 1.5rem; /* Adjust as necessary */
+  font-size: 1.2rem;
+}
+
+.notes-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Ensure this is set to an appropriate value */
+  word-break: break-all;
+
 }
 
 /* Style focus and hover states */
@@ -424,6 +455,7 @@ background: #555; /* Color when hovered */
 
   .logo-name {
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 3rem;
   }
 
@@ -444,8 +476,9 @@ background: #555; /* Color when hovered */
     gap: 0;
   }
 
-  .logo-name {
+  .logo-name {  
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 3rem;
   }
 
@@ -461,6 +494,7 @@ background: #555; /* Color when hovered */
 }
 
 .product-image {
+max-height: 10rem;
  max-width: 12rem;
  border-radius: 1rem; 
 }
@@ -468,4 +502,93 @@ background: #555; /* Color when hovered */
 .order-urgent-row {
   background: rgba(238, 25, 25, 0.16);
   border: 1px solid #EE1919
+}
+.status-invoiced {
+  background: #69e56e8c;
+  border: 1px solid beige
+}
+#date-range-fields input[type="date"] {
+  padding: 5px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin-right: 10px;
+  line-height: 1.5;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+#date-range-fields input[type="date"]:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Messages/notification */
+#message-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #444;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.3);
+  text-align: center;
+  font-size: 16px;
+}
+
+.success {
+  background-color: #4CAF50 !important; /* Green */
+}
+
+.error {
+  background-color: #F44336 !important; /* Red */
+}
+
+.confirmation-container {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.confirmation-box p {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.confirmation-box button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border-radius: 0.4rem;
+  color: white;
+  border: none;
+}
+
+
+#confirm-yes {
+  background-color: #4CAF50 !important; /* Green */
+}
+
+#confirm-no {
+  background-color: #F44336 !important; /* Red */
 }

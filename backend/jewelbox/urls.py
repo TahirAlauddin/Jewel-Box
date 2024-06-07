@@ -14,6 +14,7 @@ from orders.views import OrderViewSet, OrderImageViewSet, StoneSpecificationView
 from django.conf import settings
 from django.conf.urls.static import static
 
+from orders.views import get_latest_order_id, print_production_sheet, download_invoice, create_invoice
 
 router = routers.SimpleRouter()
 
@@ -26,7 +27,7 @@ order_router = routers.NestedSimpleRouter(router, 'order', lookup='order')
 order_router.register(r'images', OrderImageViewSet, basename='order-images')
 order_router.register(r'stones', StoneSpecificationViewSet, basename='order-stones')
 
-router.register(r'customer', CustomerViewSet)
+router.register(r'customer', CustomerViewSet, basename='customer')
 
 
 urlpatterns = [
@@ -34,6 +35,10 @@ urlpatterns = [
     path('', include(router.urls)),
     path('', include(invoices_router.urls)),
     path('', include(order_router.urls)),
+    path('print-production-sheet/', print_production_sheet),
+    path('create-invoice/', create_invoice),
+    path('download-invoice/<str:invoice_id>/', download_invoice),
+    path('get_latest_order_id/<str:abbreviation>/', get_latest_order_id),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('login/', LoginView.as_view(), name='login'),
 ]
@@ -52,4 +57,5 @@ def api_root(request, format=None):
 urlpatterns += [
     path('', api_root, name='api-root'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
