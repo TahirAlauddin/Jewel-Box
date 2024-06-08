@@ -1,36 +1,36 @@
 @font-face {
   font-family: "Qwitcher Grypen";
-  src: url("../../fonts/QwitcherGrypen-Regular.woff") format("woff");
+  src: url("../../../fonts/QwitcherGrypen-Regular.woff") format("woff");
 }
 @font-face {
   font-family: "Qwitcher Grypen";
-  src: url("../../fonts/QwitcherGrypen-Bold.woff") format("woff");
+  src: url("../../../fonts/QwitcherGrypen-Bold.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("../../fonts/Poppins-ExtraLight.woff") format("woff");
+  src: url("../../../fonts/Poppins-ExtraLight.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("../../fonts/Poppins-Light.woff") format("woff");
+  src: url("../../../fonts/Poppins-Light.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("../../fonts/Poppins-Regular.woff") format("woff");
+  src: url("../../../fonts/Poppins-Regular.woff") format("woff");
 }
 @font-face {
   font-family: "Poppins";
-  src: url("../../fonts/Poppins-Medium.woff") format("woff");
+  src: url("../../../fonts/Poppins-Medium.woff") format("woff");
 }
 
 @font-face {
   font-family: "Plus Jakarta Sans";
-  src: url("../../fonts/PlusJakartaSans.woff") format("woff");
+  src: url("../../../fonts/PlusJakartaSans.woff") format("woff");
 }
 
 @font-face {
   font-family: "American Scribe";
-  src: url("../../fonts/american-scribe.woff") format("woff");
+  src: url("../../../fonts/american-scribe.woff") format("woff");
 }
 :root {
   --primary-color: #e1e4e8;
@@ -266,6 +266,7 @@ body {
   font-size: 1.2rem;
   border-collapse: collapse;
   max-height: 75vh;
+  min-height: 75vh;
 }
 
 table {

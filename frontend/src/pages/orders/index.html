@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewel Box - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css"></link>
+    <link rel="stylesheet" href="css/styles.css"></link>
+    <link rel="stylesheet" href="css/pagination.css"></link>
     <script src="../../js/config.js" ></script>
 </head>
 <body>
@@ -68,9 +69,25 @@
                     </button>
                 </div>
             </div>
+            
+            <div>
+                <table>
+                        <thead>
+                            <tr class="table-head-row">
+                                <th colspan="2">PRODUCT</th>
+                                <th>ORDER #</th>
+                                <th>JOB</th>
+                                <th>CUSTOMER</th>
+                                <th>DUE DATE</th>
+                                <th>INVOICE #</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
             <div class="table-container">
                 <table>
-                    <thead>
+                    <!-- <thead>
                         <tr class="table-head-row">
                             <th colspan="2">PRODUCT</th>
                             <th>ORDER #</th>
@@ -79,18 +96,40 @@
                             <th>DUE DATE</th>
                             <th>INVOICE #</th>
                         </tr>
-                    </thead>
+                    </thead> -->
                     <tbody id="table-body">
                         <!-- Orders list will go here -->
                     </tbody>
                 </table>
             </div>
 
+            <!-- Operation Buttons -->
             <div class="action-buttons">
                 <button id="invoice-btn" class="invoice-btn">Make invoice</button>
                 <button id="print-label-btn" class="sheet-btn">Print Label</button>
             </div>
+            
+            <!-- Pagination -->
+          <div id="pagination" class="pagination">
+            <div class="out-of-results">1-12 out of 67 customers</div>
+            <div class="pagination-navigate">
+                <div class="pagination-pages-text">Page <span id="current-page">1</span> of <span id="total-pages">5</span></div>
+                <div class="pagination-pages-button">
+                    <button id="first">|&lt;</button>
+                    <button id="prev">&lt;</button>
+                </div>
+                <div class="pagination-pages-text">
+                    <input id="pagination-page-input" value="1" type="number" class="pagination-page-input"></input>
+                </div>
+                <div class="pagination-pages-button">
+                    <button id="next">&gt;</button>
+                    <button id="last">&gt;|</button>
+                </div>
+            </div>
+          </div>
+
         </div>
+
         <div id="confirmation-container" class="confirmation-container">
             <div class="confirmation-box">
                 <p id="confirmation-message"></p>
@@ -101,9 +140,10 @@
         <div id="message-container" style="display: none;"></div>
     </body>
 
-    <script src="print.js"></script>
-    <script src="script.js"></script>
-
+    <script src="js/print.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/pagination.js"></script>
+    <script src="js/confirmation.js"></script>
     <script>
         document.getElementById('filter').addEventListener('change', function() {
             const dateRangeFields = document.getElementById('date-range-fields');
@@ -114,6 +154,4 @@
             }
         });
     </script>
-
-    <script src="confirmation.js"></script>
 </html>

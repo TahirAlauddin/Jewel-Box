@@ -225,7 +225,7 @@ searchbtn.addEventListener('click', (e) => {
         const tableBody = document.getElementById('table-body');
         tableBody.innerHTML = '';
 
-        dataArray.forEach(data => {
+        dataArray.results.forEach(data => {
             addOrderRow(data)
         })
     })
@@ -274,19 +274,19 @@ document.addEventListener('keydown', function(event) {
 // Fetch orders from Backend API
 addEventListener('DOMContentLoaded', function () {
     
-    const endpoint = `${BASE_URL}/order/`;
-    fetch(endpoint)
-    .then(response => {
-        if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-    })
-    .then(dataArray => {
-        dataArray.forEach(data => {
-            addOrderRow(data)
-        })
-    })
+    // const endpoint = `${BASE_URL}/order/`;
+    // fetch(endpoint)
+    // .then(response => {
+    //     if (!response.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    // }
+    // return response.json();
+    // })
+    // .then(dataArray => {
+    //     dataArray.results.forEach(data => {
+    //         addOrderRow(data)
+    //     })
+    // })
     let inputBuffer = '';
 
     document.addEventListener('keyup', function(e) {

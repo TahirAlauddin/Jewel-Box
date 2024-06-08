@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewel Box - Dashboard</title>
     <link rel="stylesheet" href="../../css/font-awesome.css">
-    <link rel="stylesheet" href="styles.css"></link>
+    <link rel="stylesheet" href="css/styles.css"></link>
+    <link rel="stylesheet" href="css/pagination.css"></link>
     <script src="../../js/config.js" ></script> 
 </head>
 <body>
@@ -76,6 +77,24 @@
                     </tbody>
                 </table>
             </div>
+          <!-- Pagination -->
+          <div id="pagination" class="pagination">
+            <div class="out-of-results">1-12 out of 67 customers</div>
+            <div class="pagination-navigate">
+                <div class="pagination-pages-text">Page <span id="current-page">1</span> of <span id="total-pages">5</span></div>
+                <div class="pagination-pages-button">
+                    <button id="first">|&lt;</button>
+                    <button id="prev">&lt;</button>
+                </div>
+                <div class="pagination-pages-text">
+                    <input id="pagination-page-input" value="1" type="number" class="pagination-page-input"></input>
+                </div>
+                <div class="pagination-pages-button">
+                    <button id="next">&gt;</button>
+                    <button id="last">&gt;|</button>
+                </div>
+            </div>
+          </div>
         </div>
 
         
@@ -88,7 +107,7 @@
       </button>
       </div>
 
-      <h2 class="add-new-customer">Add ew customer</h2>
+      <h2 class="add-new-customer">Add New customer</h2>
       <div class="input-container">
         <p>
           <label for="fullname">Add Name</label>
@@ -167,8 +186,9 @@
 
 <div id="message-container" style="display: none;"></div>
 
-<script src="confirmation.js"></script>
-<script src="script.js"></script>
+<script src="js/confirmation.js"></script>
+<script src="js/script.js"></script>
+<script src="js/pagination.js"></script>
 <script>
 
     // Function to tell Electron to navigate to another page

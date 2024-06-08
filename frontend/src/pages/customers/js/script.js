@@ -225,7 +225,7 @@ fetch(`${BASE_URL}/customer/?ordering=name`, {
     return response.json();
   }).then(data => {
     // Handle success, such as showing a success message or clearing the form
-    populateTableWithData(data);
+    populateTableWithData(data.results);
 
   }).catch((error) => {
     console.error('Error:', error);

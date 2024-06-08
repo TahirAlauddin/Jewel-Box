@@ -218,7 +218,7 @@ async function populateCustomers(defaultUrl = null) {
       let defaultCustomerAbbreviation = null;
       let isDefaultSet = false;
 
-      dataArray.forEach(data => {
+      dataArray.results.forEach(data => {
           let option = document.createElement('option');
           option.innerHTML = `${data.name} (${data.abbreviation})`;
           // Clean the endpoint, remove any query string arguments
