@@ -32,7 +32,7 @@ function updatePaginationDisplay() {
     }
 
     document.getElementById('current-page').innerText = currentPage;
-    document.querySelector('.out-of-results').innerText = `${(currentPage - 1) * resultsPerPage + 1}-${Math.min(currentPage * resultsPerPage, totalResults)} out of ${totalResults} orders`;
+    document.querySelector('.out-of-results').innerText = `${(currentPage - 1) * resultsPerPage + 1}-${Math.min(currentPage * resultsPerPage, totalResults)} out of ${totalResults} invoices`;
 
     document.getElementById('pagination-page-input').value = currentPage
 
@@ -44,7 +44,7 @@ function updatePaginationDisplay() {
 
 async function fetchResults(page, search='') {
     try {
-        const response = await fetch(`${BASE_URL}/order/?page=${page}&search=${search}`);
+        const response = await fetch(`${BASE_URL}/invoice/?page=${page}&search=${search}`);
         const data = await response.json();
 
         // Update totalResults and totalPages based on the response
@@ -60,7 +60,7 @@ async function fetchResults(page, search='') {
 
         // Update the DOM with the fetched data
         data.results.forEach(row => {
-            addOrderRow(row);
+            addInvoiceRow(row);
         });
 
         // Update pagination display

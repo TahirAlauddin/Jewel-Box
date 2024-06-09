@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewel Box - Dashboard</title>
     <link rel="stylesheet" href="../../css/font-awesome.css">
-    <link rel="stylesheet" href="styles.css"></link>
+    <link rel="stylesheet" href="css/styles.css"></link>
+    <link rel="stylesheet" href="css/pagination.css"></link>
 <script src="../../js/config.js" ></script> 
 </head>
 <body>
@@ -52,33 +53,55 @@
                     </button>
                 </div>
             </div>
-            <div class="table-container">
-                <table >
+            
+            <div>
+                <table>
                     <thead>
                         <tr class="invoice-head-row">
                             <th>Invoice #</th>
                             <th>Customer</th>
                             <th>Invoice Date</th>
                             <th>Total Price</th>
-                            
                         </tr>
                     </thead>
-                    <tbody id='table-body'>
-                        
-                        <!-- Data will be populated here -->
-                        
-                    </tbody>
-
                 </table>
             </div>
+
+            <div class="table-container">
+                <table >
+                    <tbody id='table-body'>
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="pagination">
+                <div class="out-of-results">1-12 out of 67 invoices</div>
+                <div class="pagination-navigate">
+                    <div class="pagination-pages-text">Page <span id="current-page">1</span> of <span id="total-pages">5</span></div>
+                    <div class="pagination-pages-button">
+                        <button id="first">|&lt;</button>
+                        <button id="prev">&lt;</button>
+                    </div>
+                    <div class="pagination-pages-text">
+                        <input id="pagination-page-input" value="1" type="number" class="pagination-page-input"></input>
+                    </div>
+                    <div class="pagination-pages-button">
+                        <button id="next">&gt;</button>
+                        <button id="last">&gt;|</button>
+                    </div>
+                </div>
+              </div>
+
         </div>
 
     
-<script src="script.js"></script>
+<script src="js/script.js"></script>
+<script src="js/pagination.js"></script>
 
 
 <script>
-
     // Function to tell Electron to navigate to another page
     function navigateTo(page, args) {
         ipcRenderer.send('navigate', page, args);

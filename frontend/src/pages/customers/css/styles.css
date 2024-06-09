@@ -39,6 +39,9 @@
   font-size: 62.5%;
   --table-header-color: #7389ff;
 }
+::-webkit-scrollbar {
+  height: 6px;
+}
 
 body {
   padding: 1% 2%;

@@ -113,9 +113,9 @@ def generate_excel(order_id, output_file):
         # 'quantity': order.quantity,
         'size': order.size,
         'resize': order.resize,
+        'color': order.color,
         'due_date': order.date_due,
         'client': order.customer.name,
-        # 'resize': order.resize or '',
         'order_number': order.order_id,
         'kt': order.kt_number,
         'ct': order.ct_number,
@@ -125,7 +125,7 @@ def generate_excel(order_id, output_file):
         'repair': order.repair_detail,
         'order': order.order_detail or '',
         'stamp': order.stamp_detail,
-        # 'set': order.set,
+        'set': order.set_detail,
         'stones': list(order.stones.all()),
     }
 

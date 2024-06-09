@@ -19,7 +19,7 @@ def set_dummy_data(ws, data):
     ws['D4'] = data.get('resize', '')  # Size
     ws['B3'] = str(due_date)  # Due date
     ws['B4'] = data.get('client', '')  # Client
-    ws['D4'] = data.get('resize', '')  # Resize
+    ws['D9'] = data.get('color', '')  # Resize
     ws['D5'] = data.get('type', '')  # Type
     ws['B5'] = data.get('order_number', '')  # Order #
     ws['B6'] = data.get('kt', '')  # KT

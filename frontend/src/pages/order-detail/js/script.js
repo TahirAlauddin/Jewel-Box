@@ -218,7 +218,7 @@ async function populateCustomers(defaultUrl = null) {
       let defaultCustomerAbbreviation = null;
       let isDefaultSet = false;
 
-      dataArray.results.forEach(data => {
+      dataArray.forEach(data => {
           let option = document.createElement('option');
           option.innerHTML = `${data.name} (${data.abbreviation})`;
           // Clean the endpoint, remove any query string arguments
@@ -799,6 +799,7 @@ function populateOrder(id) {
       // Assuming 'data' is the JSON object with the fields corresponding to the form inputs
       // document.getElementById('customer').value = data.customer || '';
       currentOrderId = data.order_id;
+      console.log(data.customer)
       populateCustomers(data.customer) 
       document.getElementById('size').value = data.size || '';
       document.getElementById('resize').value = data.resize || '';

@@ -9,3 +9,12 @@ class CustomerViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'abbreviation']
     ordering_fields = ['name', 'abbreviation']
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    pagination_class = None
+
+    
+class CustomerMainViewSet(viewsets.ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    search_fields = ['name', 'abbreviation']
+    ordering_fields = ['name', 'abbreviation']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]

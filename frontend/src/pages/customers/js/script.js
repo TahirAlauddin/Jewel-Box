@@ -1,3 +1,4 @@
+let searchInput = ''
 let selectedRows = []; // Initialize an empty array to keep track of selected rows
 let isEditing = false;
 // Get the modal
@@ -96,7 +97,7 @@ addButton.onclick = function() {
     address: address, phone_number: phoneNumber
    };
 
-  makeApiRequest(`${BASE_URL}/customer/`, 'POST', data)
+  makeApiRequest(`${BASE_URL}/customer-main/`, 'POST', data)
     .then(data => {
       showMessage("Successfully added to the database", "success");
       getCustomerData(); // Assuming this fetches and displays customer data
@@ -124,7 +125,7 @@ editSaveButton.onclick = function() {
     address: address, phone_number: phoneNumber
    };
 
-  makeApiRequest(`${BASE_URL}/customer/${selectedRowId}/`, 'PUT', data)
+  makeApiRequest(`${BASE_URL}/customer-main/${selectedRowId}/`, 'PUT', data)
     .then(data => {
       showMessage("Successfully updated in the database", "success");
       let selectedRowNode = document.getElementById(data.id);
@@ -213,7 +214,7 @@ function populateTableWithData(dataArray) {
 }
 
 function getCustomerData() {
-fetch(`${BASE_URL}/customer/?ordering=name`, {
+fetch(`${BASE_URL}/customer-main/?ordering=name`, {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
@@ -255,7 +256,7 @@ function deleteCustomer() {
   function deleteCustomerFromDatabase() {
     
     let newEndpoint;
-    let endpoint = `${BASE_URL}/customer/`
+    let endpoint = `${BASE_URL}/customer-main/`
     selectedRows.forEach(selectedRow => {
       newEndpoint = endpoint + selectedRow.id + '/'
     
@@ -316,8 +317,8 @@ let searchbtn = document.getElementById('search-btn')
 searchbtn.addEventListener('click', (e) => {
     e.preventDefault(); // Prevent the default form submit action
 
-    let endpoint = `${BASE_URL}/customer/`; // Replace with your actual search endpoint
-    let searchInput = document.getElementById('search-input').value;
+    let endpoint = `${BASE_URL}/customer-main/`; // Replace with your actual search endpoint
+    searchInput = document.getElementById('search-input').value;
 
     // Define an object to hold your request parameters
     let params = new URLSearchParams();
@@ -325,25 +326,30 @@ searchbtn.addEventListener('click', (e) => {
     params.append('search', searchInput)
     endpoint += `?${params.toString()}`;
 
-    // Make the fetch request with the specified endpoint and parameters
-    fetch(endpoint)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(dataArray => {
-        // Handle the successful response data
-        const tableBody = document.getElementById('table-body');
-        tableBody.innerHTML = '';
+    resetPagination()
+    fetchResults(1, searchInput)
 
-        populateTableWithData(dataArray)
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Handle errors in fetching data
-    });
+    // // Make the fetch request with the specified endpoint and parameters
+    // fetch(endpoint)
+    // .then(response => {
+    //     if (!response.ok) {
+    //         throw new Error('Network response was not ok');
+    //     }
+    //     return response.json();
+    // })
+    // .then(dataArray => {
+    //     // Handle the successful response data
+    //     const tableBody = document.getElementById('table-body');
+    //     tableBody.innerHTML = '';
+
+    //     populateTableWithData(dataArray.results)
+    // })
+    // .catch(error => {
+    //     console.error('Error:', error);
+    //     // Handle errors in fetching data
+    // });
+
+
 });
 
 

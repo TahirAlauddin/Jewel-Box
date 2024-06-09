@@ -183,7 +183,7 @@ async function populateCustomers(defaultUrl = null) {
         return defaultCustomerAbbreviation;
     } catch (error) {
         console.error("Failed to populate customers:", error);
-      ipcRenderer.send('show-message-box', {
+          ipcRenderer.send('show-message-box', {
           type: 'error',
           title: 'ERROR',
           message: `("Failed to populate customers:", error);`
@@ -229,7 +229,7 @@ function populateInvoice(id) {
         // If there are invoice items
         const tableBody = document.querySelector('.table-container tbody');
         invoiceItemsFromDatabase = data;
-        data.forEach(item => {
+        data.results.forEach(item => {
             const row = document.createElement('tr');
             row.className = 'table-row';
             row.innerHTML = `

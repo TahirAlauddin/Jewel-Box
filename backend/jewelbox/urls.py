@@ -8,7 +8,7 @@ from rest_framework_nested import routers
 from django.contrib import admin
 from django.urls import path, include
 from invoices.views import InvoiceViewSet, InvoiceItemViewSet
-from customers.views import CustomerViewSet
+from customers.views import CustomerViewSet, CustomerMainViewSet
 from orders.views import OrderViewSet, OrderImageViewSet, StoneSpecificationViewSet
 
 from django.conf import settings
@@ -28,7 +28,7 @@ order_router.register(r'images', OrderImageViewSet, basename='order-images')
 order_router.register(r'stones', StoneSpecificationViewSet, basename='order-stones')
 
 router.register(r'customer', CustomerViewSet, basename='customer')
-
+router.register(r'customer-main', CustomerMainViewSet, basename='customer-main')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

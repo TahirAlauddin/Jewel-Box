@@ -1,5 +1,5 @@
 const selectedRows = []; // Initialize an empty array to keep track of selected rows
-
+let searchInput = ''
 // Function to tell Electron to navigate to another page
 function navigateTo(page, args) {
     ipcRenderer.send('navigate', page, args);
@@ -175,7 +175,7 @@ searchbtn.addEventListener('click', (e) => {
 
     const filterValue = document.getElementById('filter').value;
     let endpoint = `${BASE_URL}/order/`; // Replace with your actual search endpoint
-    let searchInput = document.getElementById('search-input').value;
+    searchInput = document.getElementById('search-input').value;
 
     // Define an object to hold your request parameters
     let params = new URLSearchParams();
@@ -209,30 +209,9 @@ searchbtn.addEventListener('click', (e) => {
         params.append('order_id', searchInput)
     } 
 
-    // Append the parameters to the endpoint URL
-    endpoint += `?${params.toString()}`;
+    // Fetch  
+    fetchResults(1, searchInput)
 
-    // Make the fetch request with the specified endpoint and parameters
-    fetch(endpoint)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(dataArray => {
-        // Handle the successful response data
-        const tableBody = document.getElementById('table-body');
-        tableBody.innerHTML = '';
-
-        dataArray.results.forEach(data => {
-            addOrderRow(data)
-        })
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Handle errors in fetching data
-    });
 });
 
 document.getElementById('add-order-btn').onclick = function () {
@@ -274,19 +253,6 @@ document.addEventListener('keydown', function(event) {
 // Fetch orders from Backend API
 addEventListener('DOMContentLoaded', function () {
     
-    // const endpoint = `${BASE_URL}/order/`;
-    // fetch(endpoint)
-    // .then(response => {
-    //     if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    // }
-    // return response.json();
-    // })
-    // .then(dataArray => {
-    //     dataArray.results.forEach(data => {
-    //         addOrderRow(data)
-    //     })
-    // })
     let inputBuffer = '';
 
     document.addEventListener('keyup', function(e) {

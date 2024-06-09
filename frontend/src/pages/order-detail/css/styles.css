@@ -32,6 +32,25 @@
   font-family: "American Scribe";
   src: url("../../../fonts/american-scribe.woff") format("woff");
 }
+
+::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+background: #f1f1f1; /* Color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+background: #888; /* Color and style of the scrollbar itself */
+border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: #555; /* Color when hovered */
+}
+
 :root {
   --primary-color: #e1e4e8;
   --secondary-color: #0066cc;

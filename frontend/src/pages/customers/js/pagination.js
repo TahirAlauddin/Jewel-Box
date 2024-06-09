@@ -1,5 +1,5 @@
 let currentPage = 1;
-const resultsPerPage = 10;
+const resultsPerPage = 5;
 let totalResults = 0;
 let totalPages = 1;
 
@@ -19,15 +19,18 @@ function navigateToPage(page) {
     if (page < 1 || page > totalPages) return;
     currentPage = page;
     updatePaginationDisplay();
-    fetchResults(page);
+    fetchResults(page, searchInput);
 }
 
 function updatePaginationDisplay() {
 
     if (totalPages === 1) {
-        document.getElementById('pagination').remove()
+        document.getElementById('pagination').classList.add('hidden')
         return;
-    } 
+    } else {
+        document.getElementById('pagination').classList.remove('hidden')
+    }
+
     document.getElementById('current-page').innerText = currentPage;
     document.querySelector('.out-of-results').innerText = `${(currentPage - 1) * resultsPerPage + 1}-${Math.min(currentPage * resultsPerPage, totalResults)} out of ${totalResults} customers`;
 
@@ -39,18 +42,20 @@ function updatePaginationDisplay() {
     document.getElementById('last').disabled = currentPage === totalPages;
 }
 
-async function fetchResults(page) {
+async function fetchResults(page, search='') {
     try {
-        const response = await fetch(`${BASE_URL}/customer/?page=${page}`);
+        const response = await fetch(`${BASE_URL}/customer-main/?page=${page}&search=${search}`);
         const data = await response.json();
 
         // Update totalResults and totalPages based on the response
         totalResults = data.count;
         totalPages = Math.ceil(totalResults / resultsPerPage);
 
-        document.getElementById('total-pages').textContent = totalPages
-        document.getElementById('pagination-page-input').max = totalPages
-        document.getElementById('pagination-page-input').min = 0
+        if (document.getElementById('pagination')) {
+            document.getElementById('total-pages').textContent = totalPages
+            document.getElementById('pagination-page-input').max = totalPages
+            document.getElementById('pagination-page-input').min = 0
+        }
 
         // Update the DOM with the fetched data
         populateTableWithData(data.results);
@@ -60,6 +65,27 @@ async function fetchResults(page) {
     } catch (error) {
         console.error('Error fetching results:', error);
     }
+}
+
+
+function resetPagination() {
+    currentPage = 1;
+    totalResults = 0;
+    totalPages = 1;
+
+    document.getElementById('current-page').innerText = currentPage;
+    document.getElementById('total-pages').textContent = totalPages;
+    document.getElementById('pagination-page-input').value = currentPage;
+    document.getElementById('pagination-page-input').max = totalPages;
+    document.getElementById('pagination-page-input').min = 0;
+
+    document.getElementById('first').disabled = true;
+    document.getElementById('prev').disabled = true;
+    document.getElementById('next').disabled = true;
+    document.getElementById('last').disabled = true;
+
+    // Optionally fetch initial results again or clear the results display
+    fetchResults(currentPage);
 }
 
 // Initial setup

@@ -36,8 +36,13 @@
   --primary-color: #e1e4e8;
   --secondary-color: #0066cc;
   --tertiary-color: #f6f6f6;
-  font-size: 62.5%;
   --table-header-color: #7389ff;
+  font-size: 62.5%;
+  scrollbar-width: 5px;  
+}
+
+::-webkit-scrollbar {
+  height: 6px;
 }
 
 body {
@@ -281,7 +286,7 @@ textarea {
 }
 
 .input-box input {
-  width: 25rem;
+  width: 20rem;
 }
 
 .input-box select {

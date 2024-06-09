@@ -1,9 +1,12 @@
 let searchbtn = document.getElementById('search-btn')
+let searchInput = ''
+
+
 searchbtn.addEventListener('click', (e) => {
     e.preventDefault(); // Prevent the default form submit action
 
     let endpoint = `${BASE_URL}/invoice/`; // Replace with your actual search endpoint
-    let searchInput = document.getElementById('search-input').value;
+    searchInput = document.getElementById('search-input').value;
 
     // Define an object to hold your request parameters
     let params = new URLSearchParams();
@@ -12,31 +15,11 @@ searchbtn.addEventListener('click', (e) => {
     // Append the parameters to the endpoint URL
     endpoint += `?${params.toString()}`;
 
-    // Make the fetch request with the specified endpoint and parameters
-    fetch(endpoint)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(dataArray => {
-        // Handle the successful response data
-        const tableBody = document.getElementById('table-body');
-        tableBody.innerHTML = '';
-
-        dataArray.forEach(data => {
-            addInvoiceRow(data, tableBody)
-        })
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Handle errors in fetching data
-    });
+    fetchResults(1, '')
 });
 
 
-function addInvoiceRow(data, tableBody) {
+function addInvoiceRow(data) {
     const newRow = document.createElement('tr');
 
     newRow.className = 'invoice-row';
@@ -64,6 +47,7 @@ function addInvoiceRow(data, tableBody) {
     newRow.appendChild(totalPriceCell);
 
     // Append newRow to the tableBody
+    var tableBody = document.getElementById('table-body')
     tableBody.appendChild(newRow);
 
     newRow.addEventListener('click', function() {
@@ -71,8 +55,6 @@ function addInvoiceRow(data, tableBody) {
     });
 
 }
-
-searchbtn.click()
 
 document.addEventListener('keydown', function(event) {
     // Check if 'Enter' key is pressed
