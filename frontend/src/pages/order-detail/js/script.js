@@ -786,9 +786,9 @@ async function updateOrder() {
     // Call performOperations with the order_id
     await performOperations(data.order_id);
 
-      // setTimeout(() => {
-      //   document.getElementById('orders-page-btn').click();
-      // }, 100);
+      setTimeout(() => {
+        document.getElementById('orders-page-btn').click();
+      }, 100);
 
     // Return true if everything succeeds
     return true;

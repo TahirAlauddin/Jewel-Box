@@ -138,19 +138,18 @@ def generate_excel(order_id, output_file):
     fill_sheet.main(data, text, barcode_image, images, output_file)
 
 
-def get_data(obj):
-    the_type = f'{obj.ct_number}'
-    description = f'{obj.set_detail}'
-    if obj.polish_detail: 
-        description += f' {obj.polish_detail}'
-    if obj.rhodium_detail:
-        description += f' {obj.rhodium_detail}',
-    if obj.type:
-        the_type += f' {obj.type}'
+def get_data(obj: Order):
+    # format: KT, TYPE, COLOR/CT
+    the_type = f'{obj.kt_number}' if obj.kt_number else ''
+    # format: SET POLISH RHODIUM
+    description = 'SET ' if obj.is_set else ''
+
+    if obj.is_polish: description += f'POLISH '
+    if obj.is_rhodium: description += f'RHODIUM',
+    if obj.type: the_type += f' {obj.type}'
     if obj.color and len(obj.color) > 1:
-        the_type += f' {obj.color[0]}'
-    if obj.color and len(obj.color) > 1:
-        the_type += f' /{obj.kt_number}'
+        the_type += f' {obj.color[0]} /'
+    if obj.ct_number: the_type += f' {obj.ct_number}'
 
     return the_type, description
 
