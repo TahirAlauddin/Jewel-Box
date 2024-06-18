@@ -28,7 +28,7 @@ if (!fs.existsSync(jewelBoxFolderPath)) {
 const versionFilePath = path.join(jewelBoxFolderPath, "version.json");
 // This will create a path to "ipAddress.txt" inside a "JewelBox" directory within the user's home directory
 const ipFilePath = path.join(jewelBoxFolderPath, "ipAddress.txt");
-const SOFTWARE_VERSION = "2.3.2"; // Invoice printing, CRUD, bug fixes
+const SOFTWARE_VERSION = "2.4.1"; // Invoice printing, CRUD, bug fixes
 let runningAsPackaged = false;
 let mainWindow;
 let BASE_URL;
@@ -241,9 +241,9 @@ function createWindow() {
   });
 
   // mainWindow.loadFile('src/pages/orders/index.html');
-  mainWindow.loadFile('src/pages/customers/index.html');
+  // mainWindow.loadFile('src/pages/customers/index.html');
   // mainWindow.loadFile("src/pages/invoices/index.html");
-  // mainWindow.loadFile('src/pages/login/index.html');
+  mainWindow.loadFile('src/pages/login/index.html');
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.send('version', { version: SOFTWARE_VERSION });
   });

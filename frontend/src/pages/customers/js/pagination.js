@@ -1,5 +1,5 @@
 let currentPage = 1;
-const resultsPerPage = 5;
+const resultsPerPage = 20;
 let totalResults = 0;
 let totalPages = 1;
 
