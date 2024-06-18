@@ -209,11 +209,11 @@ class StoneSpecification(models.Model):
     A Django model representing specifications of a stone related to an order.
     """
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='stones')
-    stone_type = models.CharField(max_length=100)
-    cut = models.CharField(max_length=100)
+    stone_type = models.CharField(max_length=100, blank=True, null=True)
+    cut = models.CharField(max_length=100, blank=True, null=True)
     stone_number = models.CharField(max_length=50, blank=True, null=True)
-    carat_total = models.DecimalField(max_digits=5, decimal_places=2)
-    quantity = models.PositiveIntegerField()
+    carat_total = models.DecimalField(**stones_kwargs)
+    quantity = models.PositiveIntegerField(blank=True, null=True, default=1)
     length = models.DecimalField(**stones_kwargs)
     width = models.DecimalField(**stones_kwargs)
     height = models.DecimalField(**stones_kwargs)

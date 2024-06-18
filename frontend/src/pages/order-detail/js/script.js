@@ -422,6 +422,7 @@ function getData() {
     color: document.getElementById('metal').value,
     setter: document.getElementById('setter').value,
     date_due: document.getElementById('dateDue').value,
+    quantity: document.getElementById('quantity').value,
     // Expenses
     setting_cost: document.getElementById('setting-input').value,
     polish_cost: document.getElementById('polish-input').value,
@@ -506,24 +507,44 @@ async function updateOrAddStone(orderId, stone, cell) {
 }
 
 async function collectAndSaveStones(orderId) {
-  const stonesData = [];
+  const stonesData = [];  
   const rows = document.querySelectorAll('.table-row');
+
   rows.forEach(async row => {
-      const cells = row.querySelectorAll('td');
+      let cells = row.querySelectorAll('td');
+      cells = row ? Array.from(cells) : [];
+
+      let quantity = cells[4].textContent.trim();
+      let length = cells[5].textContent.trim();
+      let width = cells[6].textContent.trim();
+      let height = cells[7].textContent.trim();
+      let carat_total = cells[8].textContent.trim();
+
+      if (isNaN(quantity) || isNaN(length) || isNaN(width) || isNaN(height) || isNaN(carat_total)) {
+        showMessage('Quantity, Length, Width, Height or Carat are not valid numbers.', 'error')
+        return;
+      }
+
       let stone = {
-        id: cells[0].id, // Assuming the first cell contains the ID
-        stone_type: cells[1].textContent.trim(),
-        cut: cells[2].textContent.trim(),
-        stone_number: cells[3].textContent.trim(),
-        quantity: cells[4].textContent.trim(),
-        length: cells[5].textContent.trim(),
-        width: cells[6].textContent.trim(),
-        height: cells[7].textContent.trim(),
-        carat_total: cells[8].textContent.trim(),
-        order: orderId
+          id: cells[0].id, // Assuming the first cell contains the ID
+          stone_type: cells[1].textContent.trim(),
+          cut: cells[2].textContent.trim(),
+          stone_number: cells[3].textContent.trim(),
+          quantity: Number(quantity),
+          length: Number(length),
+          width: Number(width),
+          height: Number(height),
+          carat_total: Number(carat_total),
+          order: orderId
       };
+
       stonesData.push(stone);
-      await updateOrAddStone(orderId, stone, cells[0]);
+      let hasNonEmptyCell = cells.some((cell, index) => index > 0 && cell.textContent.trim() !== "");
+      if (hasNonEmptyCell) {
+          await updateOrAddStone(orderId, stone, cells[0]);
+      } else {
+          showMessage('Cannot save an empty Stone', 'error')
+      }
   });
 
   let currentStoneIds = Array.from(stonesData).map(stone => stone.id)
@@ -558,7 +579,6 @@ async function postImageDatabase(orderId, imageSrc) {
     if (!postResponse.ok) throw new Error(`HTTP error! status: ${postResponse.status}`);
     
     // Assuming success if we reach this point
-    console.log("Images saved");
     return true; // Function returns true if everything was successful
   } catch (error) {
     console.error('Image Error:', error);
@@ -766,9 +786,9 @@ async function updateOrder() {
     // Call performOperations with the order_id
     await performOperations(data.order_id);
 
-      setTimeout(() => {
-        document.getElementById('orders-page-btn').click();
-      }, 100);
+      // setTimeout(() => {
+      //   document.getElementById('orders-page-btn').click();
+      // }, 100);
 
     // Return true if everything succeeds
     return true;
@@ -799,7 +819,6 @@ function populateOrder(id) {
       // Assuming 'data' is the JSON object with the fields corresponding to the form inputs
       // document.getElementById('customer').value = data.customer || '';
       currentOrderId = data.order_id;
-      console.log(data.customer)
       populateCustomers(data.customer) 
       document.getElementById('size').value = data.size || '';
       document.getElementById('resize').value = data.resize || '';
@@ -813,6 +832,7 @@ function populateOrder(id) {
       document.getElementById('metal').value = data.color || '';
       document.getElementById('setter').value = data.setter || '';
       document.getElementById('type').value = data.type || '';
+      document.getElementById('quantity').value = data.quantity || '';
 
       // Handle checkboxes and their details
       document.querySelector('input[name="rush"]').checked = data.is_rush;

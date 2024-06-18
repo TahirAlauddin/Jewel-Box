@@ -19,10 +19,8 @@ class InvoiceItemViewSet(viewsets.ModelViewSet):
         queryset = super().get_queryset()
         invoice_pk = self.kwargs.get('invoice_pk')  # Retrieve the invoice_pk from the URL parameters
 
-        print(invoice_pk)
         if invoice_pk is not None:
             queryset = queryset.filter(invoice__pk=invoice_pk)  # Filter the queryset by invoice_pk
 
-        print(queryset)
         return queryset
     

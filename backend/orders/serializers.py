@@ -58,7 +58,8 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only = ['date_in', 'order_id']
         fields = [
             #? Main Attributes
-            'order_id', 'customer', 'size', 'resize', 'metal', 'type', 'setter', 'color', 
+            'order_id', 'customer', 'size', 'resize', 'metal', 'type', 
+            'setter', 'color', 'quantity',
             'date_due', 'date_in',
             #? Numbers/Identifiers
             'ct_number', 'job_number', 'kt_number', 'invoice_number',  

@@ -70,5 +70,5 @@ class InvoiceItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InvoiceItem
-        fields = ['id', 'invoice', 'ref_job_number', 'description', 'the_type', 'quantity', 'unit_price']
+        fields = ['id', 'invoice', 'order_id', 'ref_job_number', 'description', 'the_type', 'quantity', 'unit_price']
 
