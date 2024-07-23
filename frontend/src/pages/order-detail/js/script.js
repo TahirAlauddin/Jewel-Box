@@ -256,66 +256,134 @@ async function populateCustomers(defaultUrl = null) {
   }
 }
 
-function openWebcam() {
-
-  if (isOpened) return 
+async function openWebcam() {
+  if (isOpened) return;
 
   isOpened = true;
-  // Get access to the camera
+
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-          // Create a video element to show the live webcam stream
-          // let video = document.createElement('video');
-          let video = document.getElementById('webcam-video')
-          video.srcObject = stream;
-          video.style.display = 'block'
-          video.play();
+      try {
+          const devices = await navigator.mediaDevices.enumerateDevices();
+          const videoDevices = devices.filter(device => device.kind === 'videoinput');
 
-          let deleteBtn = document.getElementById('delete-image')
-          deleteBtn.style.display = 'none'
+          let preferredDeviceId = localStorage.getItem('preferredCameraId');
+          let selectedDeviceId;
 
-          // Insert the video element into the DOM or replace an existing one
-          let container = document.querySelector('.upload-webcam-btn-container');
-          // container.appendChild(video);
+          if (preferredDeviceId) {
+              // Check if the preferred device is available
+              const preferredDevice = videoDevices.find(device => device.deviceId === preferredDeviceId);
+              if (preferredDevice) {
+                  selectedDeviceId = preferredDeviceId;
+              } else {
+                  selectedDeviceId = videoDevices[0].deviceId;
+              }
+          } else {
+              if (videoDevices.length > 1) {
+                  // Create a popup with a dropdown to select the camera
+                  const popup = document.createElement('div');
+                  popup.id = 'camera-select-popup';
+                  popup.style.position = 'fixed';
+                  popup.style.top = '50%';
+                  popup.style.left = '50%';
+                  popup.style.transform = 'translate(-50%, -50%)';
+                  popup.style.backgroundColor = 'white';
+                  popup.style.padding = '20px';
+                  popup.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
 
-          // Prompt or create a button for capturing the image
-          let captureBtn = document.createElement('button');
-          captureBtn.innerText = 'Capture';
-          captureBtn.classList.add('capture-button')
-          container.appendChild(captureBtn);
+                  const select = document.createElement('select');
+                  select.id = 'camera-select';
+                  videoDevices.forEach(device => {
+                      const option = document.createElement('option');
+                      option.value = device.deviceId;
+                      option.text = device.label;
+                      select.appendChild(option);
+                  });
 
-          captureBtn.addEventListener('click', function() {
-              // Create a canvas to capture and convert the video frame to an image
-              let canvas = document.createElement('canvas');
-              canvas.width = video.videoWidth;
-              canvas.height = video.videoHeight;
-              let context = canvas.getContext('2d');
-              context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+                  const okButton = document.createElement('button');
+                  okButton.innerText = 'OK';
+                  okButton.addEventListener('click', async () => {
+                      selectedDeviceId = select.value;
+                      localStorage.setItem('preferredCameraId', selectedDeviceId);
+                      await startCamera(selectedDeviceId);
+                      document.body.removeChild(popup);
+                  });
 
-              // Stop the video stream
-              video.srcObject.getTracks().forEach(track => track.stop());
-              // video.remove();
-              deleteBtn.style.display = 'block'
-              video.style.display = 'none';
-              captureBtn.remove();
+                  const cancelButton = document.createElement('button');
+                  cancelButton.innerText = 'Cancel';
+                  cancelButton.addEventListener('click', () => {
+                      isOpened = false;
+                      document.body.removeChild(popup);
+                  });
 
-              // Convert canvas to an image and display or process it
-              addImageToStack(canvas.toDataURL('image/png')).id = 'new'
-              
-              document.getElementById('emptyImage').style.display = 'none'
-              // Here, you can also implement a way to convert the canvas data to a Blob
-              // and then set it as the value of the <input type="file"> if needed
+                  popup.appendChild(select);
+                  popup.appendChild(okButton);
+                  popup.appendChild(cancelButton);
+                  document.body.appendChild(popup);
+              } else {
+                  selectedDeviceId = videoDevices[0].deviceId;
+              }
+          }
 
-              //finally return isOpened to false, so the user can use webcam btn again
-              isOpened = false;
-            });
-          });
-        } else {
-          alert("Your browser does not support accessing the webcam.");
-        }
+          if (selectedDeviceId) {
+              await startCamera(selectedDeviceId);
+          }
+
+      } catch (error) {
+          console.error('Error accessing the camera:', error);
+          alert("There was an error accessing the camera.");
+          isOpened = false;
+      }
+  } else {
+      alert("Your browser does not support accessing the webcam.");
+  }
 }
 
-// Function to add an image to the stack
+async function startCamera(deviceId) {
+  try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+          video: { deviceId: deviceId ? { exact: deviceId } : undefined }
+      });
+
+      let video = document.getElementById('webcam-video');
+      video.srcObject = stream;
+      video.style.display = 'block';
+      video.play();
+
+      let deleteBtn = document.getElementById('delete-image');
+      deleteBtn.style.display = 'none';
+
+      let container = document.querySelector('.upload-webcam-btn-container');
+
+      let captureBtn = document.createElement('button');
+      captureBtn.innerText = 'Capture';
+      captureBtn.classList.add('capture-button');
+      container.appendChild(captureBtn);
+
+      captureBtn.addEventListener('click', function() {
+          let canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          let context = canvas.getContext('2d');
+          context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+          video.srcObject.getTracks().forEach(track => track.stop());
+          video.style.display = 'none';
+          deleteBtn.style.display = 'block';
+          captureBtn.remove();
+
+          addImageToStack(canvas.toDataURL('image/png')).id = 'new';
+
+          document.getElementById('emptyImage').style.display = 'none';
+
+          isOpened = false;
+      });
+
+  } catch (error) {
+      console.error('Error starting the camera:', error);
+      isOpened = false;
+  }
+}
+
 function addImageToStack(src) {
     const img = document.createElement('img');
     img.src = src;

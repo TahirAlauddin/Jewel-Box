@@ -242,8 +242,8 @@ function createWindow() {
 
   // mainWindow.loadFile('src/pages/orders/index.html');
   // mainWindow.loadFile('src/pages/customers/index.html');
-  mainWindow.loadFile('src/pages/login/index.html');
-  // mainWindow.loadFile("src/pages/invoices/index.html");
+  // mainWindow.loadFile('src/pages/login/index.html');
+  mainWindow.loadFile("src/pages/invoices/index.html");
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.send('version', { version: SOFTWARE_VERSION });
   });
