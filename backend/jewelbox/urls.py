@@ -7,7 +7,7 @@ from rest_framework_nested import routers
 
 from django.contrib import admin
 from django.urls import path, include
-from invoices.views import InvoiceViewSet, InvoiceItemViewSet
+from invoices.views import InvoiceViewSet, InvoiceItemViewSet, bulk_save_invoice_items
 from customers.views import CustomerViewSet, CustomerMainViewSet
 from orders.views import OrderViewSet, OrderImageViewSet, StoneSpecificationViewSet
 
@@ -41,6 +41,8 @@ urlpatterns = [
     path('get_latest_order_id/<str:abbreviation>/', get_latest_order_id),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('login/', LoginView.as_view(), name='login'),
+    path('save-invoice-items/<str:invoice_id>/', bulk_save_invoice_items, name='invoice-item-bulk-create'),
+
 ]
 
 

@@ -1,13 +1,33 @@
+let customerAbbreviation = ''
 let tableContainer = document.getElementsByClassName('table-container')[0]
-let invoiceItemsFromDatabase = [];
+let invoiceItemsDB = [];
+let customerOrdersDB = [];
 let currentInvoiceId = ''
+
+let customerData = {
+     'NBR24001': {'ref': '1', 'description': 'Description', 'type': 'gold', 'quantity': 2, 'unit_price': '12', 'total': 24},
+     'NBR24002': {'ref': '1', 'description': 'Description', 'type': 'gold', 'quantity': 2, 'unit_price': '12', 'total': 24},
+     'NBR24003': {'ref': '1', 'description': 'Description', 'type': 'gold', 'quantity': 2, 'unit_price': '12', 'total': 24},
+     'NBR24004': {'ref': '1', 'description': 'Description', 'type': 'gold', 'quantity': 2, 'unit_price': '12', 'total': 24},
+     'NBR24005': {'ref': '1', 'description': 'Description', 'type': 'gold', 'quantity': 2, 'unit_price': '12', 'total': 24},
+     'NBR24006': {'ref': '1', 'description': 'Description', 'type': 'gold', 'quantity': 2, 'unit_price': '12', 'total': 24},
+     'NBR24007': {'ref': '1', 'description': 'Description', 'type': 'gold', 'quantity': 2, 'unit_price': '12', 'total': 24},
+     'NBR24008': {'ref': '1', 'description': 'Description', 'type': 'gold', 'quantity': 2, 'unit_price': '12', 'total': 24},
+    }
 
 // Operations 
 function addRow(args) {
+
+    let selectOptions = '<select class="invoice-select">';
+    for (const order of customerOrdersDB) {
+        selectOptions += `<option value="${order.order_id}">${order.order_id}</option>`;
+    }
+    selectOptions += '</select>';
+
     let row = `
     <tr class="table-row">
     <td style="display: none;" id="new" ></td>
-    <td contenteditable=true class="table-column"></td>
+    <td class="table-column">${selectOptions}</td>
     <td contenteditable=true class="table-column"></td>
     <td contenteditable=true class="table-column"></td>
     <td contenteditable=true class="table-column"></td>
@@ -18,9 +38,10 @@ function addRow(args) {
     </tr>
     `;
     
-    let table = document.querySelector('table.table-container');
-    table.insertAdjacentHTML('beforeend', row);
-    // Initial call to bind event listeners to existing editable cells
+    // tableContainer.insertAdjacentHTML('beforeend', row);
+    let table = $('table.table-container');
+    table.append(row)
+      // Initial call to bind event listeners to existing editable cells
     applyPasteEventListeners();
     
     // Add listeners on new objects
@@ -31,21 +52,11 @@ function addRow(args) {
 // CRUD
 //? /////////////////////////////////
 
-async function updateOrAddInvoiceItems(invoiceId, item, cell, databaseItemIds) {
+async function addInvoiceItems(invoiceId, item, cell) {
     const endpointBase = `${BASE_URL}/invoice/${invoiceId}/items/`;
-    let endpoint;
-    let method;
-    let isAddingInvoiceItem = item.id.startsWith("new")
-    if (isAddingInvoiceItem) {
-        // Handle new item
-        endpoint = endpointBase; // POST to the collection endpoint
-        method = 'POST';
-    } else {
-        // Handle existing item
-        endpoint = `${endpointBase}${item.id}/`; // PATCH to the specific item endpoint
-        method = 'PATCH';
-    }
-  
+    let endpoint = endpointBase; // POST to the collection endpoint
+    let method = 'POST';
+    
     await fetch(endpoint, {
         method: method,
         headers: {
@@ -57,9 +68,6 @@ async function updateOrAddInvoiceItems(invoiceId, item, cell, databaseItemIds) {
     .then(response => response.json())
     .then(data => {
         cell.id = String(data.id)
-        if (isAddingInvoiceItem) {
-            databaseItemIds.push(data.id)
-        }
     })
     .catch(error => {
         console.error('Error:', error);
@@ -75,30 +83,17 @@ async function updateOrAddInvoiceItems(invoiceId, item, cell, databaseItemIds) {
   async function collectAndSaveItems(invoiceId) {
     const itemsData = [];
     const rows = document.querySelectorAll('.table-row');
-    rows.forEach(async row => {
+    for (let row of rows) {
         let cells = row.querySelectorAll('td');
         cells = row ? Array.from(cells) : [];
         const quantity = cells[5].textContent.trim()
         const unit_price = cells[6].textContent.trim()
-        const order_id = cells[1].textContent.trim()
+        const order_id = cells[1].firstChild.value;
         const ref_job_number = cells[2].textContent.trim()
         const description = cells[3].textContent.trim()
         const the_type = cells[4].textContent.trim()
 
-        if (isNaN(quantity)) {
-            console.error('Quantity is not a valid number.');
-            showMessage('Quantity is not a valid number', 'error');
-            return false;
-        }
-
-        if (isNaN(unit_price)) {
-            console.error('Unit price is not a valid number.');
-            showMessage('Unit price is not a valid number', 'error');
-            return false;
-        }
         let item = {
-          id: cells[0].id, // Assuming the first cell contains the ID
-          idCell: cells[0],
           order_id: order_id,
           ref_job_number: ref_job_number,
           description: description,
@@ -109,18 +104,27 @@ async function updateOrAddInvoiceItems(invoiceId, item, cell, databaseItemIds) {
         };
         // Push item to the list, regardless of validation
         itemsData.push(item);
-    });
-    
-    let currentItemIds = Array.from(itemsData).map(item => item.id)
-    let databaseItemIds = Array.from(invoiceItemsFromDatabase).map(item => item.id)
-    // Delete removed rows, update the list of databaseItemIds
-    databaseItemIds = await deleteRemovedInvoiceItems(invoiceItemsFromDatabase, databaseItemIds, currentItemIds, invoiceId)
-    console.log(databaseItemIds)
+    }
 
-    // Add items to database
-    for (const item of itemsData) {
-        if (!item.order_id || item.order_id.trim() === '') {
-            showMessage('Order ID is required', 'error');
+    let isValid = await validateInvoiceItems(itemsData);
+    if (isValid) {
+        // Save invoice items
+        saveInvoiceItems(invoiceId, itemsData)
+        return true;
+    }
+    return false;
+  }
+
+async function validateInvoiceItems(items) {
+
+    for (let item of items) {
+        if (isNaN(item.quantity)) {
+            console.error('Quantity is not a valid number.');
+            showMessage('Quantity is not a valid number', 'error');
+            return false;
+        } else if (isNaN(item.unit_price)) {
+            console.error('Unit price is not a valid number.');
+            showMessage('Unit price is not a valid number', 'error');
             return false;
         } else if (!item.ref_job_number || item.ref_job_number.trim() === '') {
             showMessage('Reference Job Number is required', 'error');
@@ -131,63 +135,38 @@ async function updateOrAddInvoiceItems(invoiceId, item, cell, databaseItemIds) {
         } else if (!item.the_type || item.the_type.trim() === '') {
             showMessage('Type is required', 'error');
             return false;
-        } else {
-            await updateOrAddInvoiceItems(item.invoice, item, item.idCell, databaseItemIds);            
-        }
+        } 
     }
+
+    const hasDuplicates = items.map(item => item.order_id).some((id, index, array) => array.indexOf(id) !== index);
+    console.log(hasDuplicates)
+    if (hasDuplicates) {
+        showMessage("Cannot have duplicate order ids", 'error')
+        return false
+    }
+
     return true;
-  }
-
-async function deleteRemovedInvoiceItems(invoiceItemsFromDatabase, databaseItemIds, currentItemIds, invoiceId) {
-    const remainingDatabaseItemIds = [];
-
-    for (const databaseItemId of databaseItemIds) {
-        if (!currentItemIds.includes(String(databaseItemId))) {
-            await deleteIndividualInvoiceItemDatabase(invoiceId, String(databaseItemId));
-            const index = invoiceItemsFromDatabase.findIndex(item => item.id === databaseItemId);
-            if (index !== -1) {
-                invoiceItemsFromDatabase.splice(index, 1);
-            }
-        } else {
-            remainingDatabaseItemIds.push(databaseItemId);
-        }
-    }
-
-    console.log(remainingDatabaseItemIds)
-    return remainingDatabaseItemIds;
 }
 
-
-async function deleteIndividualInvoiceItemDatabase(invoiceId, itemId) {
-    // Endpoint for deleting all images associated with an order
-    const endpoint = `${BASE_URL}/invoice/${invoiceId}/items/${itemId}/`;
-
-    fetch(endpoint, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => {
+  async function saveInvoiceItems(invoiceId, invoiceItems) {
+    try {
+        const response = await fetch(`${BASE_URL}/save-invoice-items/${invoiceId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(invoiceItems),
+        });
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error('Failed to save invoice items');
         }
-        return response.text(); // Assuming the API does not return a JSON response for DELETE operations
-    })
-    .then(data => {
-        console.log('Stone deleted successfully');
-        // Handle successful deletion, e.g., update the UI accordingly
-    })
-    .catch(error => {
-        console.error('Error deleting Invoice item:', error);
-        ipcRenderer.send('show-message-box', {
-                type: 'error',
-                title: 'ERROR',
-                message: `('Error deleting Invoice item:', ${error});`
-            });
-            // Handle any errors that occur during the fetch operation
-    });
+        const data = await response.json();
+        console.log('Success:', data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
+
 
 function getData() {  
     const data = {
@@ -255,49 +234,60 @@ async function populateCustomers(defaultUrl = null) {
     }
 }
   
-
-function populateInvoice(id) {
-    // Set current invoice Id globally
-    currentInvoiceId = id;
-
-    fetch(`${BASE_URL}/invoice/${id}/`).then(response => {
+async function fetchInvoice(id) {
+    try {
+        const response = await fetch(`${BASE_URL}/invoice/${id}/`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json()
-    }).then(data => {
+        const data = await response.json();
 
-        populateCustomers(data.customer) 
+        document.getElementById('customer-select').value = data.customer_name;
+        document.getElementById('invoice-id').value = data.invoice_number;
+        document.getElementById('ship-to').value = data.shipping_address;
+        document.getElementById('date-in').value = data.date_in;
+        document.getElementById('total-price').value = data.total_price;
+        document.getElementById('date-out').value = data.invoice_date;
+        document.getElementById('address').value = data.address;
 
-        document.getElementById('customer-select').value = data.customer_name
-        document.getElementById('invoice-id').value = data.invoice_number
-        document.getElementById('ship-to').value = data.shipping_address
-        document.getElementById('date-in').value = data.date_in
-        document.getElementById('total-price' ).value = data.total_price
-        document.getElementById('date-out' ).value = data.invoice_date
-        document.getElementById('address').value = data.address
-    })
+        const customerAbbreviation = await populateCustomers(data.customer);
+        await getCustomerOrders(customerAbbreviation);
 
-    const endpoint = `${BASE_URL}/invoice/${id}/items`;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
-    fetch(endpoint)
-    .then(response => {
+
+async function fetchInvoiceItems(id) {
+    try {
+        const endpoint = `${BASE_URL}/invoice/${id}/items`;
+        const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-    })
-    .then(data => {    
+        const data = await response.json();
+
         // If there are invoice items
-        data = data.results // Pagination 
+        const items = data.results; // Pagination 
         const tableBody = document.querySelector('.table-container tbody');
-        invoiceItemsFromDatabase = data;
-        data.forEach(item => {
+        
+        items.forEach(item => {
+            let selectOptions = `<select value="${item.order_id}" class="invoice-select">`;
+            for (const order of customerOrdersDB) {
+                if (order.order_id != item.order_id) {
+                    selectOptions += `<option value="${order.order_id}">${order.order_id}</option>`;
+                } else {
+                    selectOptions += `<option selected value="${order.order_id}">${order.order_id}</option>`;
+                }
+            }
+            selectOptions += '</select>';
+
             const row = document.createElement('tr');
             row.className = 'table-row';
             row.innerHTML = `
                 <td id="${item.id}" style="display: none"></td>
-                <td contentEditable=true class="table-column">${item.order_id}</td>
+                <td class="table-column">${selectOptions}</td> 
                 <td contentEditable=true class="table-column">${item.ref_job_number}</td>
                 <td contentEditable=true class="table-column">${item.description}</td>
                 <td contentEditable=true class="table-column">${item.the_type}</td>
@@ -305,18 +295,43 @@ function populateInvoice(id) {
                 <td contentEditable=true class="table-column">${item.unit_price || 0}</td>
                 <td contentEditable=true class="table-column">${item.unit_price * item.quantity}</td>
                 <td><button class="delete-row"><img src="svg/minus.svg" alt=""></button></td>
-        `;
-        tableBody.appendChild(row);
-        })
+            `;
+            tableBody.appendChild(row);
+        });
 
         // Initial call to bind event listeners to existing editable cells
         applyPasteEventListeners();
-        
-        // Add listeners on new objects
-        addEvents()
-        
 
-    })
+        // Add listeners on new objects
+        addEvents();
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+async function populateInvoice(id) {
+    // Set current invoice Id globally
+    currentInvoiceId = id;
+
+    await fetchInvoice(id)
+    await fetchInvoiceItems(id)
+
+}
+
+async function getCustomerOrders(abbreviation) {
+    try {
+        const endpoint = `${BASE_URL}/order/?customer__abbreviation=${abbreviation}`;
+        const response = await fetch(endpoint);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        customerOrdersDB = data.results;
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
 // Function to tell Electron to navigate to another page
@@ -356,8 +371,6 @@ async function editInvoice() {
       // ? Important line of code 
       // Call performOperations with the invoice_id
       let success = await collectAndSaveItems(data.invoice_number);
-      console.log(success)
-
       if (success !== false) showMessage('Invoice Update was Successful')
   
         // setTimeout(() => {

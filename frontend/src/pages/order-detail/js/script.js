@@ -30,8 +30,11 @@ function validateInputBeforeSaving(orderData) {
   if (!validateOrderID(orderData.order_id)) {
     return [false, 'Invalid OrderID, OrderID must start with the correct Abbreviation']
   }
+  if (!verifyDate(orderData.date_due)) {
+    return [false, 'Invalid Date']
+  }
 
-  return [verifyDate(orderData.date_due), 'Invalid Date'];
+  return [true, 'Valid'];
 
 }
 
@@ -77,7 +80,7 @@ async function saveOrder(redirect=false) {
   
   // Fixed destructuring for validation results
   let [valid, error_message] = validateInputBeforeSaving(orderData);
-  
+
   if (!valid) {
     showMessage('Error saving Order: ' + error_message, 'error');
     return false; // Correctly return false if validation fails
@@ -421,8 +424,8 @@ function getData() {
     metal_type: '', // Assuming there's an input for this
     color: document.getElementById('metal').value,
     setter: document.getElementById('setter').value,
+    quantity: Number(document.getElementById('quantity').value),
     date_due: document.getElementById('dateDue').value,
-    quantity: document.getElementById('quantity').value,
     // Expenses
     setting_cost: document.getElementById('setting-input').value,
     polish_cost: document.getElementById('polish-input').value,
@@ -1063,6 +1066,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set the default value of the date input
   document.getElementById('dateDue').value = getDateAfterSevenDays();
-
 
 })

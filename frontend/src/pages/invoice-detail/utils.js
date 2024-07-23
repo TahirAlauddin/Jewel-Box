@@ -56,7 +56,6 @@ function validateInvoiceNumber(invoice_number) {
     let customerSelect = document.getElementById('customer-select')
     const selectedCustomer = customerSelect.options[customerSelect.selectedIndex].text;
     const abbreviationMatch = selectedCustomer.match(/\(([^)]+)\)/);
-    console.log(abbreviationMatch)
     if (abbreviationMatch && !invoice_number.startsWith(abbreviationMatch[1])) {
         return false;
     }

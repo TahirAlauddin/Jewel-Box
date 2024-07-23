@@ -432,12 +432,16 @@ button {
   color: white;
 }
 
-
 .button-icon {
   margin-right: 0.5rem;  /* Adjust spacing between icon and text */
   height: 25px;  /* Adjust icon size as needed */
 }
 
+.invoice-select {
+  font-size: 1rem;
+  padding-left: 0rem;
+  background: transparent;
+}
 
 /* Messages/notification */
 #message-container {
