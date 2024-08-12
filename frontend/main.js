@@ -1,5 +1,4 @@
 const { spawn } = require("child_process");
-const prompt = require('electron-prompt');
 const {
   app,
   BrowserWindow,
@@ -29,7 +28,7 @@ if (!fs.existsSync(jewelBoxFolderPath)) {
 const versionFilePath = path.join(jewelBoxFolderPath, "version.json");
 // This will create a path to "ipAddress.txt" inside a "JewelBox" directory within the user's home directory
 const ipFilePath = path.join(jewelBoxFolderPath, "ipAddress.txt");
-const SOFTWARE_VERSION = "2.6.2"; // Invoice Printer Selection
+const SOFTWARE_VERSION = "2.6.2"; // Invoice Printer Selection, Total Price fix
 let runningAsPackaged = false;
 let mainWindow;
 let BASE_URL;

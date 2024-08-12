@@ -1,8 +1,7 @@
 {
   "dependencies": {
     "aws-sdk": "^2.1613.0",
-    "dotenv": "^16.4.5",
-    "electron-prompt": "^1.7.0"
+    "dotenv": "^16.4.5"
   },
   "scripts": {
     "start": "electron .",

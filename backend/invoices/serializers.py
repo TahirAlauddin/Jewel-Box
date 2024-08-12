@@ -16,7 +16,7 @@ class DateFromDateTimeField(serializers.DateField):
         return date_value
 
 class InvoiceSerializer(serializers.ModelSerializer):
-    total_price = serializers.SerializerMethodField(read_only=True)
+    total_price = serializers.SerializerMethodField()
     invoice_number = serializers.CharField()  
     customer_name = serializers.SerializerMethodField(read_only=True)  
     date_in = DateFromDateTimeField()
@@ -35,7 +35,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
     def get_total_price(self, obj):
         # Assuming `obj.items.all()` returns all items related to the invoice and each item has a `price` attribute
-        return sum(item.unit_price for item in obj.items.all() if item.unit_price)
+        return sum(item.unit_price * item.quantity for item in obj.items.all() if item.unit_price)
 
     def get_total_quantity(self, obj):
         # Assuming `obj.items.all()` returns all items related to the invoice and each item has a `price` attribute

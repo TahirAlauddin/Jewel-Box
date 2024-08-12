@@ -148,16 +148,17 @@ async function validateInvoiceItems(items) {
       console.error("Unit price is not a valid number.");
       showMessage("Unit price is not a valid number", "error");
       return false;
-    } else if (!item.ref_job_number || item.ref_job_number.trim() === "") {
-      showMessage("Reference Job Number is required", "error");
-      return false;
-    } else if (!item.description || item.description.trim() === "") {
-      showMessage("Description is required", "error");
-      return false;
-    } else if (!item.the_type || item.the_type.trim() === "") {
-      showMessage("Type is required", "error");
-      return false;
     }
+    //  else if (!item.ref_job_number || item.ref_job_number.trim() === "") {
+    //   showMessage("Reference Job Number is required", "error");
+    //   return false;
+    // } else if (!item.description || item.description.trim() === "") {
+    //   showMessage("Description is required", "error");
+    //   return false;
+    // } else if (!item.the_type || item.the_type.trim() === "") {
+    //   showMessage("Type is required", "error");
+    //   return false;
+    // }
   }
 
   const hasDuplicates = items
@@ -201,6 +202,7 @@ function getData() {
     invoice_date: document.getElementById("date-out").value,
     date_in: document.getElementById("date-in").value,
     shipping_address: document.getElementById("ship-to").value,
+    total_price: document.getElementById("total-price").value,
   };
   return data;
 }
