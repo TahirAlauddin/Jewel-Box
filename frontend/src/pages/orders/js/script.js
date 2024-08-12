@@ -6,11 +6,21 @@ function navigateTo(page, args) {
 }
 
 function addOrderRow(data) {
+
     let image = data.images[0];
     const tableBody = document.getElementById('table-body'); // Ensure this is the correct ID of your table body
     const newRow = document.createElement('tr');
 
-    newRow.className = 'order-row';
+    selectedRows.forEach(row => {
+        const orderIdColumn = row.reference.querySelector('.order-id-column');
+        if (orderIdColumn && orderIdColumn.textContent.trim() === data.order_id) {
+            console.log('Match found:', orderIdColumn.textContent.trim());
+            // Add your logic here for what to do when a match is found
+            newRow.classList.toggle('selected-row');
+        }
+    });
+
+    newRow.classList.add('order-row');
     if (data.date_due) {
         const dueDate = new Date(data.date_due);
         const currentDate = new Date();
@@ -271,8 +281,7 @@ addEventListener('DOMContentLoaded', function () {
             // Clear the buffer after processing
             inputBuffer = '';
         }
-    });
-    
+    });    
 
     document.getElementById('print-label-btn').addEventListener('click', function () {
         // Defined in print.js

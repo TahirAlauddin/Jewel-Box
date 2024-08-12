@@ -1,10 +1,12 @@
 {
   "dependencies": {
     "aws-sdk": "^2.1613.0",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "electron-prompt": "^1.7.0"
   },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "npx electron-packager . JewelBox --platform=win32 --arch=x64 --icon='jewel-box-logo.ico'"
   },
   "name": "jewelbox",
   "version": "1.0.0",

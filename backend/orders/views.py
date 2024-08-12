@@ -1,3 +1,6 @@
+import win32print
+from django.db.models import IntegerField
+from django.db.models.functions import Cast, Substr
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets, filters
 from rest_framework.response import Response
@@ -13,8 +16,8 @@ from .serializers import (  OrderSerializer,
                             StoneSpecificationSerializer
                         )
 from . import fill_sheet
+from .printer import print_sheet
 from invoices import fill_sheet as invoice_fill_sheet
-from . import printer
 from customers.models import Customer
 import zipfile
 import json
@@ -98,6 +101,13 @@ def get_latest_order_id(request, abbreviation):
                 status=HTTP_404_NOT_FOUND)
 
     order = Order.objects.filter(customer=customer).order_by('order_id').last()
+    print(order)
+    order = Order.objects.filter(customer=customer).annotate(
+        numeric_part=Substr('order_id', 4, 100)  # Extract the substring starting at the 4th character
+    ).annotate(
+        numeric_part_as_int=Cast('numeric_part', IntegerField())  # Convert to integer
+    ).order_by('numeric_part_as_int').last()
+
     if order:
         return Response({'orderID': order.order_id})
     return Response({'orderID': None})
@@ -154,8 +164,10 @@ def get_data(obj: Order):
     return the_type, description
 
 
-def prepare_invoice(invoice):
-    
+def print_invoice(invoice, printer):
+
+    print(printer)
+
     invoice_items_list = []
     invoice_dict = {
         'invoice_number': invoice.invoice_number,
@@ -185,7 +197,7 @@ def prepare_invoice(invoice):
     invoice_fill_sheet.main(invoice_dict, invoice_items_list, template_path, output_file)
 
     # Print the sheet
-    printer.print_sheet(output_file)
+    result = print_sheet(output_file, printer)
 
     try:
         with open(output_file, 'rb') as excel_file:
@@ -248,9 +260,13 @@ def download_invoice(request, invoice_id):
     """
     # Database
     invoice = Invoice.objects.get(invoice_number=invoice_id)  # Implement this function to retrieve the invoice
+    printer = None
+    if request.method == "POST":
+        printer = json.loads(request.body).get('printer')
 
+    print(printer)
     # Prepare the Excel file
-    response = prepare_invoice(invoice)
+    response = print_invoice(invoice, printer)
 
     # Return the Excel file as a response
     excel_filename = f'invoice_{invoice_id}.xlsx'
@@ -310,7 +326,7 @@ def print_production_sheet(request):
                 responses.append(response)
 
             # Print the sheet
-            printer.print_sheet(output_file)
+            print_sheet(output_file, printer_name='Brother QL-1110NWB')
         
         except Exception as e:
             # Handle any exceptions that occur during the process
@@ -331,3 +347,13 @@ def print_production_sheet(request):
     else:
         return HttpResponse("No production sheets generated.")
 
+
+def view_printers_list(request):
+    try:
+        # Get the list of printers
+        printers = [printer[2] for printer in win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL)]
+        print(printers)
+        return JsonResponse({"printers": printers})
+    except Exception as e:
+        return JsonResponse({"error": str(e)})
+    

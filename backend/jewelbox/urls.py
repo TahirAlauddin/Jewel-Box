@@ -14,10 +14,9 @@ from orders.views import OrderViewSet, OrderImageViewSet, StoneSpecificationView
 from django.conf import settings
 from django.conf.urls.static import static
 
-from orders.views import get_latest_order_id, print_production_sheet, download_invoice, create_invoice
+from orders.views import *
 
 router = routers.SimpleRouter()
-
 router.register(r'invoice', InvoiceViewSet)
 invoices_router = routers.NestedSimpleRouter(router, 'invoice', lookup='invoice')
 invoices_router.register(r'items', InvoiceItemViewSet)
@@ -38,11 +37,11 @@ urlpatterns = [
     path('print-production-sheet/', print_production_sheet),
     path('create-invoice/', create_invoice),
     path('download-invoice/<str:invoice_id>/', download_invoice),
+    path('printers-list/', view_printers_list),
     path('get_latest_order_id/<str:abbreviation>/', get_latest_order_id),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('login/', LoginView.as_view(), name='login'),
     path('save-invoice-items/<str:invoice_id>/', bulk_save_invoice_items, name='invoice-item-bulk-create'),
-
 ]
 
 
