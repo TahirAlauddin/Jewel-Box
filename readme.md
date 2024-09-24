@@ -131,3 +131,11 @@ Please ensure your code adheres to our coding standards and include tests for ne
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+
+## Screenshots
+Some screenshots of the software using dummy data
+![alt text](images/image-3.png)
+![alt text](images/image.png)
+![alt text](images/image-1.png)
+![alt text](images/image-2.png)
