@@ -11,7 +11,9 @@ Jewel Box is a comprehensive jewelry management application with a Django backen
 - [Contributing](#contributing)
 - [License](#license)
 
-## Installation
+# Installation
+
+## <h4 style='background: lightgrey; padding: 1px'>Developers</h4>
 
 ### Prerequisites
 - Python 3.9
@@ -87,6 +89,15 @@ Jewel Box is a comprehensive jewelry management application with a Django backen
    ```
    npm start
    ```
+
+## <h4 style='background: lightgrey; padding: 1px'>Non-Technical Users</h4>
+
+Download the installer from <a>Here</a>
+
+1. Go through the installation process
+2. Download the Source Code from Github
+3. Run the server through the guide above
+4. Run the executable
 
 ## Packaging
 
