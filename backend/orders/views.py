@@ -24,8 +24,9 @@ import json
 import os
 from django.contrib.contenttypes.models import ContentType
 
-Invoice = ContentType.objects.get(app_label='invoices', model='invoice').model_class()
-InvoiceItem = ContentType.objects.get(app_label='invoices', model='invoiceitem').model_class()
+from invoices.models import Invoice, InvoiceItem
+# Invoice = ContentType.objects.get(app_label='invoices', model='invoice').model_class()
+# InvoiceItem = ContentType.objects.get(app_label='invoices', model='invoiceitem').model_class()
 
 
 class OrderViewSet(viewsets.ModelViewSet):
