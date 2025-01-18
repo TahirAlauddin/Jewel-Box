@@ -59,7 +59,6 @@ async function selectPrinter() {
 }
 
 async function printInvoice() {
-  console.log("printInvoice");
 
   try {
     const selectedPrinter = await selectPrinter();

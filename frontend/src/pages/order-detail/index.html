@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jewel Box - Dashboard</title>
-    <link rel="stylesheet" href="css/styles.css"></link>
+    <link rel="stylesheet" href="css/styles.css">
+    </link>
     <script src="../../js/jquery.js"></script>
-<script src="../../js/config.js" ></script> 
+    <script src="../../js/config.js"></script>
 </head>
+
 <body>
 
     <div class="sidebar column-flex">
@@ -22,23 +25,23 @@
             </div>
 
         </header>
-        
+
         <div class="navigation">
             <div id="orders-page-btn" class="nav-item selected">
-                <img src="../../svg/orders.svg" alt="Orders" class="icon"/>
+                <img src="../../svg/orders.svg" alt="Orders" class="icon" />
                 <span>Orders</span>
             </div>
             <div id="customers-page-btn" class="nav-item">
-                <img src="../../svg/customers.svg" alt="Orders" class="icon"/>
+                <img src="../../svg/customers.svg" alt="Orders" class="icon" />
                 <span>Customers</span>
             </div>
             <div id="invoices-page-btn" class="nav-item">
-                <img src="../../svg/invoices.svg" alt="Orders" class="icon"/>
+                <img src="../../svg/invoices.svg" alt="Orders" class="icon" />
                 <span>Invoices</span>
             </div>
         </div>
         <div id="logout-btn" class="nav-item logout">
-            <img src="../../svg/logout.svg" alt="Orders" class="icon"/>
+            <img src="../../svg/logout.svg" alt="Orders" class="icon" />
             <span style="padding-left: 17%;">Log Out</span>
         </div>
     </div>
@@ -46,334 +49,344 @@
 
     <div class="main-content">
         <div class="order-header">
+            <!-- <div class="order-actions">
+                <div id="back-button" class="operation-buttons">
+                    <button class="production-sheet-button">Back</button>    
+                </div>
+            </div> -->
             <div class="page-navigation">
-                <img src="svg/orders-white.svg" alt="Orders" class="icon"/>
+                <img src="svg/orders-white.svg" alt="Orders" class="icon" />
                 <h2><span>Orders</span> / Order Detail</h2>
             </div>
             <div class="order-actions">
-                <div id="save-and-add-button" class="operation-buttons">
-                    <button class="production-sheet-button">Save & Add</button>    
+                <div class="operation-buttons">
+                    <button id="save-and-add-button" class="production-sheet-button">Save & Add</button>
+                    <button id="go-back-button" class="production-sheet-button">Go Back</button>
                 </div>
             </div>
             <div class="order-actions">
                 <div id="operation-buttons" class="operation-buttons">
-                    <button id="print-label-button" class="production-sheet-button">Print Label</button>    
+                    <button id="print-label-button" class="production-sheet-button">Print Label</button>
                 </div>
             </div>
 
         </div>
 
-    <div class="order-detail">
+        <div class="order-detail">
 
-        <div class="order-information">            
-            <!-- <div class="input-box">
+            <div class="order-information">
+                <!-- <div class="input-box">
                 <label for="customer">Customer</label>
                 <input type="text" id="customer">
             </div>
          -->
-            <div class="input-box">
-                <label for="customer">Customer</label>
-                <select id="customer-select">
-                </select>
-            </div>
-        
-             <div class="input-box">
-                <label for="size">Size</label>
-                <input type="text" id="size">
-            </div>
-
-            <div class="input-box">
-                <label for="resize">Resize</label>
-                <input type="text" id="resize">
-            </div>
-
-            <div name="order-id-input" class="input-box">
-                <label for="orderID">Order ID</label>
-                <input type="text" id="orderID">
-            </div>
-
-            <div name="leave-space-input" class="input-box">
-                <label for="LeaveSpaceInput">Leave Space For Order ID</label>
-                <input type="number" id="leave-space-input" min="0">
-            </div>
-
-            <div class="input-box">
-                <label for="ct">CT</label>
-                <input type="text" id="ct">
-            </div>
-
-            <div class="input-box">
-                <label for="jobID">Job ID</label>
-                <input type="text" id="jobID">
-            </div>
-
-            <div class="input-box">
-                <label for="kt">KT</label>
-                <input type="text" id="kt">
-            </div>
-            
-            <div name="date-in-input" class="input-box">
-                <label for="dateIn">Date In</label>
-                <input readonly type="date" id="dateIn">
-            </div>
-
-            <div class="input-box">
-                <label for="dateDue">Date Due*</label>
-                <input type="date" id="dateDue" name="dateDue" >
-            </div>
-
-            <div class="input-box">
-                <label for="metal">Color</label>
-                <input type="text" id="metal">
-            </div>
-
-            <div class="input-box">
-                <label for="setter">Setter</label>
-                <input type="text" id="setter">
-            </div>
-            
-            <div class="input-box">
-                <label for="type">Type</label>
-                <input type="text" id="type">
-            </div>
-
-            <div class="input-box">
-                <label for="quantity">Quantity</label>
-                <input type="number" id="quantity" min="1" max="10">
-            </div>
-
-        </div>
-        
-        <div class="order-images">
-            <div id="barcode-section" class="barcode-section">
-                <label>Barcode</label>
-                <img id="barcode-img" src="img/barcode.png" alt="Barcode">
-            </div>
-        
-            <div class="images-section">
-                <label>Images</label>
-                <div id="imagesContainer" class="image-container">
-                    <img id="left-arrow-btn" class="navigate-image-btn" src="svg/left-arrow.svg" alt="" srcset="">
-                    <div id="jewel-images-list">
-                        <video id="webcam-video" style="display: none; position: absolute;" src=""></video>
-                        <img style="display: block;" id="emptyImage" src="img/product-image.png" alt="Product Image">
-                    </div>
-                    <img id="right-arrow-btn" class="navigate-image-btn" src="svg/right-arrow.svg" alt="" srcset="">
-                    <button id="delete-image" class="delete-image" onclick="deleteImage()">
-                        <img src="../../svg/cross.svg" alt="" srcset="">
-                    </button>
+                <div class="input-box">
+                    <label for="customer">Customer</label>
+                    <select id="customer-select">
+                    </select>
                 </div>
-                <div class="upload-webcam-btn-container">
-                    <!-- <img id="capturedImage" style="max-width: 200px; display: none;"> -->
-                    
-                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
-                    <button onclick="document.getElementById('imageInput').click()" class="upload-image-btn">Upload image</button>
-                    <div style="display: flex;">
-                        <img class="webcam-icon" src="img/Webcam.png" alt="" srcset="">
-                        <button onclick='openWebcam()' class="use-webcam-btn">Use webcam</button>
+
+                <div class="input-box">
+                    <label for="size">Size</label>
+                    <input type="text" id="size">
+                </div>
+
+                <div class="input-box">
+                    <label for="resize">Resize</label>
+                    <input type="text" id="resize">
+                </div>
+
+                <div name="order-id-input" class="input-box">
+                    <label for="orderID">Order ID</label>
+                    <input type="text" id="orderID">
+                </div>
+
+                <div name="leave-space-input" class="input-box">
+                    <label for="LeaveSpaceInput">Leave Space For Order ID</label>
+                    <input type="number" id="leave-space-input" min="0">
+                </div>
+
+                <div class="input-box">
+                    <label for="ct">CT</label>
+                    <input type="text" id="ct">
+                </div>
+
+                <div class="input-box">
+                    <label for="jobID">Job ID</label>
+                    <input type="text" id="jobID">
+                </div>
+
+                <div class="input-box">
+                    <label for="kt">KT</label>
+                    <input type="text" id="kt">
+                </div>
+
+                <div name="date-in-input" class="input-box">
+                    <label for="dateIn">Date In</label>
+                    <input readonly type="date" id="dateIn">
+                </div>
+
+                <div class="input-box">
+                    <label for="dateDue">Date Due*</label>
+                    <input type="date" id="dateDue" name="dateDue">
+                </div>
+
+                <div class="input-box">
+                    <label for="metal">Color</label>
+                    <input type="text" id="metal">
+                </div>
+
+                <div class="input-box">
+                    <label for="setter">Setter</label>
+                    <input type="text" id="setter">
+                </div>
+
+                <div class="input-box">
+                    <label for="type">Type</label>
+                    <input type="text" id="type">
+                </div>
+
+                <div class="input-box">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" min="1" max="10">
+                </div>
+
+            </div>
+
+            <div class="order-images">
+                <div id="barcode-section" class="barcode-section">
+                    <label>Barcode</label>
+                    <img id="barcode-img" src="img/barcode.png" alt="Barcode">
+                </div>
+
+                <div class="images-section">
+                    <label>Images</label>
+                    <div id="imagesContainer" class="image-container">
+                        <img id="left-arrow-btn" class="navigate-image-btn" src="svg/left-arrow.svg" alt="" srcset="">
+                        <div id="jewel-images-list">
+                            <video id="webcam-video" style="display: none; position: absolute;" src=""></video>
+                            <img style="display: block;" id="emptyImage" src="img/product-image.png"
+                                alt="Product Image">
+                        </div>
+                        <img id="right-arrow-btn" class="navigate-image-btn" src="svg/right-arrow.svg" alt="" srcset="">
+                        <button id="delete-image" class="delete-image" onclick="deleteImage()">
+                            <img src="../../svg/cross.svg" alt="" srcset="">
+                        </button>
+                    </div>
+                    <div class="upload-webcam-btn-container">
+                        <!-- <img id="capturedImage" style="max-width: 200px; display: none;"> -->
+
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                        <button onclick="document.getElementById('imageInput').click()" class="upload-image-btn">Upload
+                            image</button>
+                        <div style="display: flex;">
+                            <img class="webcam-icon" src="img/Webcam.png" alt="" srcset="">
+                            <button onclick='openWebcam()' class="use-webcam-btn">Use webcam</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="specifications-section">
-        <h3>Order Specifications</h3>
-        <div class="checkbox-grid">
-            <div class="checkbox-with-input">
-                <label class="specification-name-label" for="rush">Rush</label>
-                <label class="custom-checkbox">
-                    <input type="checkbox" id="checkbox" name="rush">
-                    <span class="checkmark"></span>
-                </label>
-                <input type="text" name="rush-detail" id="rush-detail">
-            </div>
-            <div class="checkbox-with-input">
-                <label class="specification-name-label" for="order">Order</label>
-                <label class="custom-checkbox">
-                    <input type="checkbox" id="checkbox" name="order">
-                    <span class="checkmark"></span>
-                </label>
-                <input type="text" name="order-detail" id="order-detail">
-            </div>
-            <div class="checkbox-with-input">
-                <label class="specification-name-label" for="clean">Clean</label>
-                <label class="custom-checkbox">
-                    <input type="checkbox" id="checkbox" name="clean">
-                    <span class="checkmark"></span>
-                </label>
-                <input type="text" name="clean-detail" id="clean-detail">
-            </div>
-            <div class="checkbox-with-input">
-                <label class="specification-name-label" for="polish">Polish</label>
-                <label class="custom-checkbox">
-                    <input type="checkbox" id="checkbox" name="polish">
-                    <span class="checkmark"></span>
-                </label>
-                <input type="text" name="polish-detail" id="polish-detail">
-            </div>
-            <div class="checkbox-with-input">
-                <label class="specification-name-label" for="stamp">Stamp</label>
-                <label class="custom-checkbox">
-                    <input type="checkbox" id="checkbox" name="stamp">
-                    <span class="checkmark"></span>
-                </label>                
-                <input type="text" name="stamp-detail" id="stamp-detail">
-            </div>
-            <div class="checkbox-with-input">
-                <label class="specification-name-label" for="rhodium">Rhodium</label>
-                <label class="custom-checkbox">
-                    <input type="checkbox" id="checkbox" name="rhodium">
-                    <span class="checkmark"></span>
-                </label>
-                <input type="text" name="rhodium-detail" id="rhodium-detail">
-            </div>
-            <div class="checkbox-with-input">
-                <label class="specification-name-label" for="set">Set</label>
-                <label class="custom-checkbox">
-                    <input type="checkbox" id="checkbox" name="set">
-                    <span class="checkmark"></span>
-                </label>
-                <input type="text" name="set-detail" id="set-detail">
-            </div>
-            <div class="checkbox-with-input">
-                <label class="specification-name-label" for="repair">Repair</label>
-                <label class="custom-checkbox">
-                    <input type="checkbox" id="checkbox" name="repair">
-                    <span class="checkmark"></span>
-                </label>
-                <input type="text" name="repair-detail" id="repair-detail">
+        <div class="specifications-section">
+            <h3>Order Specifications</h3>
+            <div class="checkbox-grid">
+                <div class="checkbox-with-input">
+                    <label class="specification-name-label" for="rush">Rush</label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="checkbox" name="rush">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="rush-detail" id="rush-detail">
+                </div>
+                <div class="checkbox-with-input">
+                    <label class="specification-name-label" for="order">Order</label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="checkbox" name="order">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="order-detail" id="order-detail">
+                </div>
+                <div class="checkbox-with-input">
+                    <label class="specification-name-label" for="clean">Clean</label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="checkbox" name="clean">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="clean-detail" id="clean-detail">
+                </div>
+                <div class="checkbox-with-input">
+                    <label class="specification-name-label" for="polish">Polish</label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="checkbox" name="polish">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="polish-detail" id="polish-detail">
+                </div>
+                <div class="checkbox-with-input">
+                    <label class="specification-name-label" for="stamp">Stamp</label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="checkbox" name="stamp">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="stamp-detail" id="stamp-detail">
+                </div>
+                <div class="checkbox-with-input">
+                    <label class="specification-name-label" for="rhodium">Rhodium</label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="checkbox" name="rhodium">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="rhodium-detail" id="rhodium-detail">
+                </div>
+                <div class="checkbox-with-input">
+                    <label class="specification-name-label" for="set">Set</label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="checkbox" name="set">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="set-detail" id="set-detail">
+                </div>
+                <div class="checkbox-with-input">
+                    <label class="specification-name-label" for="repair">Repair</label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="checkbox" name="repair">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="repair-detail" id="repair-detail">
+                </div>
             </div>
         </div>
+
+
+        <div class="expenses-section">
+            <h3>Order Expenses</h3>
+            <div class="expense-div-grid">
+                <div>
+                    <label for="setting">Set</label>
+                    <input class="currency" min="0" type="number" name="setting-input" id="setting-input">
+                </div>
+                <div>
+                    <label for="polish">Polish</label>
+                    <input class="currency" min="0" type="number" name="polish-input" id="polish-input">
+                </div>
+                <div>
+                    <label for="rhodium">Rhodium</label>
+                    <input class="currency" min="0" type="number" name="rhodium-input" id="rhodium-input">
+                </div>
+                <div>
+                    <label for="soldering">Soldering</label>
+                    <input class="currency" min="0" type="number" name="soldering-input" id="soldering-input">
+                </div>
+                <div>
+                    <label for="clean">Clean</label>
+                    <input class="currency" min="0" type="number" name="clean-input" id="clean-input">
+                </div>
+                <div>
+                    <label for="miscellaneous">Miscellaneous</label>
+                    <input class="currency" min="0" type="number" name="miscellaneous-input" id="miscellaneous-input">
+                </div>
+                <div>
+                    <label for="color-stone">Color Stone</label>
+                    <input class="currency" min="0" type="number" name="color-stone" id="color-stone">
+                </div>
+                <div>
+                    <label for="finding">Finding</label>
+                    <input class="currency" min="0" type="number" name="finding-input" id="finding-input">
+                </div>
+                <div>
+                    <label for="diamonds">Diamonds</label>
+                    <input class="currency" min="0" type="number" name="diamonds-input" id="diamonds-input">
+                </div>
+                <div>
+                    <label for="diamond-weight">Diamond Weight</label>
+                    <input class="mass" type="number" name="diamond-weight-input" id="diamond-weight-input">
+                </div>
+                <div>
+                    <label for="dpc">DPC</label>
+                    <input class="not-currency" type="number" name="dpc-input" id="dpc-input">
+                </div>
+                <div>
+                    <label for="mounting">Mounting</label>
+                    <input class="currency" min="0" type="number" name="mounting-input" id="mounting-input">
+                </div>
+                <div>
+                    <label for="others">Others</label>
+                    <input class="currency" min="0" type="number" name="others-input" id="others-input">
+                </div>
+                <div>
+                    <label style="color: tomato;" for="total-cost">Total Cost</label>
+                    <input readonly style="border: 1px solid tomato" class="currency" type="number"
+                        name="total-cost-input" id="total-cost-input">
+                </div>
+                <div>
+                    <label style="color: green" for="sale-price">Sale Price</label>
+                    <input style="border: 1px solid green" class="currency" type="number" name="sale-price-input"
+                        id="sale-price-input">
+                </div>
+                <div>
+                    <label for="revenue-percent">Revenue Percent</label>
+                    <input class="percent" type="number" name="revenue-percent-input" id="revenue-percent-input">
+                </div>
+
+            </div>
+        </div>
+
+        <div>
+            <div class="input-box">
+                <label for="invoiceId">Invoice ID</label>
+                <input readonly type="text" id="invoiceId">
+            </div>
+        </div>
+
+        <div class="order-notes">
+            <h3>Shipping Details</h3>
+            <input id="shipping-details" name="shipping_details" rows="3"></input>
+        </div>
+
+        <div class="order-notes">
+            <h3>Order Notes</h3>
+            <textarea id="order-notes" name="order_notes" rows="10"></textarea>
+        </div>
+
+        <div class="stone-specification">
+            <h3>Stone specification</h3>
+            <table class="table-container">
+                <thead>
+                    <tr class="table-head-row">
+                        <th>STONE</th>
+                        <th>CUT</th>
+                        <th>STONE#</th>
+                        <th>QUANTITY</th>
+                        <th>LENGTH</th>
+                        <th>WIDTH</th>
+                        <th>HEIGHT</th>
+                        <th>CT</th>
+                        <th><img id="add-row" src="svg/plus.svg" alt=""></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- Stone specifications goes here -->
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <div style="height: 5rem;"></div>
     </div>
-    
 
-    <div class="expenses-section">
-        <h3>Order Expenses</h3>
-        <div class="expense-div-grid">
-            <div>
-                <label for="setting">Set</label>
-                <input class="currency" min="0" type="number" name="setting-input" id="setting-input">
-            </div>
-            <div>
-                <label for="polish">Polish</label>
-                <input class="currency" min="0" type="number" name="polish-input" id="polish-input">
-            </div>
-            <div>
-                <label for="rhodium">Rhodium</label>
-                <input class="currency" min="0" type="number" name="rhodium-input" id="rhodium-input">
-            </div>
-            <div>
-                <label for="soldering">Soldering</label>
-                <input class="currency" min="0" type="number" name="soldering-input" id="soldering-input">
-            </div>
-            <div>
-                <label for="clean">Clean</label>
-                <input class="currency" min="0" type="number" name="clean-input" id="clean-input">
-            </div>
-            <div>
-                <label for="miscellaneous">Miscellaneous</label>
-                <input class="currency" min="0" type="number" name="miscellaneous-input" id="miscellaneous-input">
-            </div>
-            <div>
-                <label for="color-stone">Color Stone</label>
-                <input class="currency" min="0" type="number" name="color-stone" id="color-stone">  
-            </div>
-            <div>
-                <label for="finding">Finding</label>
-                <input class="currency" min="0" type="number" name="finding-input" id="finding-input">
-            </div>
-            <div>
-                <label for="diamonds">Diamonds</label>  
-                <input class="currency" min="0" type="number" name="diamonds-input" id="diamonds-input">
-            </div>
-            <div>
-                <label for="diamond-weight">Diamond Weight</label>  
-                <input class="mass" type="number" name="diamond-weight-input" id="diamond-weight-input">
-            </div>
-            <div>
-                <label for="dpc">DPC</label>  
-                <input class="not-currency" type="number" name="dpc-input" id="dpc-input">
-            </div>
-            <div>
-                <label for="mounting">Mounting</label>  
-                <input class="currency" min="0" type="number" name="mounting-input" id="mounting-input">
-            </div>
-            <div>
-                <label for="others">Others</label>  
-                <input class="currency" min="0" type="number" name="others-input" id="others-input">
-            </div>
-            <div>
-                <label style="color: tomato;" for="total-cost">Total Cost</label>  
-                <input readonly style="border: 1px solid tomato" class="currency" type="number" name="total-cost-input" id="total-cost-input">
-            </div>
-            <div>
-                <label style="color: green" for="sale-price">Sale Price</label>
-                <input style="border: 1px solid green" class="currency" type="number" name="sale-price-input" id="sale-price-input">
-            </div>
-            <div>
-                <label for="revenue-percent">Revenue Percent</label>
-                <input class="percent" type="number" name="revenue-percent-input" id="revenue-percent-input">
-            </div>
+    <div id="message-container" style="display: none;"></div>
 
+
+    <div id="confirmation-container" class="confirmation-container">
+        <div class="confirmation-box">
+            <p id="confirmation-message"></p>
+            <button id="confirm-yes">Yes</button>
+            <button id="confirm-no">No</button>
         </div>
     </div>
-    
-    <div>
-        <div class="input-box">
-            <label for="invoiceId">Invoice ID</label>
-            <input readonly type="text" id="invoiceId">
-        </div>
-    </div>
-
-    <div class="order-notes">
-        <h3>Shipping Details</h3>
-        <input id="shipping-details" name="shipping_details" rows="3"></input>
-    </div>
-    
-    <div class="order-notes">
-        <h3>Order Notes</h3>
-        <textarea id="order-notes" name="order_notes" rows="10"></textarea>
-    </div>
-
-    <div class="stone-specification">
-        <h3>Stone specification</h3>
-        <table class="table-container">
-            <thead>
-                <tr class="table-head-row">
-                    <th>STONE</th>
-                    <th>CUT</th>
-                    <th>STONE#</th>
-                    <th>QUANTITY</th>
-                    <th>LENGTH</th>
-                    <th>WIDTH</th>
-                    <th>HEIGHT</th>
-                    <th>CT</th>
-                    <th><img id="add-row" src="svg/plus.svg" alt=""></th> 
-                </tr>
-            </thead>
-            <tbody>
-                
-                <!-- Stone specifications goes here -->
-
-            </tbody>
-        </table>
-    </div>
-
-
-    <div style="height: 5rem;"></div>
-</div>
-
-<div id="message-container" style="display: none;"></div>
-
-
-<div id="confirmation-container" class="confirmation-container">
-    <div class="confirmation-box">
-        <p id="confirmation-message"></p>
-        <button id="confirm-yes">Yes</button>
-        <button id="confirm-no">No</button>
-    </div>
-</div>  
 </body>
 
 <script src="js/utils.js"></script>
@@ -402,4 +415,5 @@
 </script>
 <script src="js/confirmation.js"></script>
 <script src="js/handler.js"></script>
+
 </html>
