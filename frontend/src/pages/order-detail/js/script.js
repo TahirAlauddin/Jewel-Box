@@ -17,7 +17,7 @@ function showMessage(message, type = 'success', duration = 3000) {
 
   // Automatically hide the message after 'duration' milliseconds
   setTimeout(() => {
-      container.style.display = 'none';
+    container.style.display = 'none';
   }, duration);
 }
 
@@ -73,11 +73,11 @@ function validateOrderID(orderID) {
 
 }
 
-async function saveOrder(redirect=false) {
+async function saveOrder(redirect = false) {
   // Collect main attributes
   const orderData = getData();
   orderData.barcode_generated = false;
-  
+
   // Fixed destructuring for validation results
   let [valid, error_message] = validateInputBeforeSaving(orderData);
 
@@ -85,7 +85,7 @@ async function saveOrder(redirect=false) {
     showMessage('Error saving Order: ' + error_message, 'error');
     return false; // Correctly return false if validation fails
   }
-  
+
   // Define the endpoint URL
   const endpoint = `${BASE_URL}/order/`;
 
@@ -101,12 +101,12 @@ async function saveOrder(redirect=false) {
     if (!response.ok) throw new Error('Network response was not ok');
 
     const data = await response.json();
-    
+
     // ? Important line of code 
     // Call performOperations with the order_id
     await performOperations(data.order_id);
 
-    if (redirect) 
+    if (redirect)
       setTimeout(() => {
         document.getElementById('orders-page-btn').click();
       }, 100);
@@ -124,24 +124,24 @@ async function saveOrder(redirect=false) {
 async function retrieveOrderID() {
   const orderID = localStorage.getItem('orderID');
   const selectedCustomer = localStorage.getItem('selectedCustomer');
-  
+
   if (orderID && selectedCustomer) {
     localStorage.clear()
     document.querySelector('div[name="date-in-input"]').style.display = 'none';
 
     removeBarcode()
-    operation_buttons.innerHTML += 
-    `
+    operation_buttons.innerHTML +=
+      `
     <button onclick="saveOrder(redirect=true)" class="save-button">Save order</button>
     `;
     await populateCustomers()
     // await populateCustomers().then(defaultCustomer => {
-      // Additional logic using defaultCustomer
-      // if (defaultCustomer)
-          // document.getElementById('orderID').value = getDynamicOrderID(defaultCustomer)
+    // Additional logic using defaultCustomer
+    // if (defaultCustomer)
+    // document.getElementById('orderID').value = getDynamicOrderID(defaultCustomer)
     // })
   }
-  
+
   // Check if there is an orderID saved
   if (orderID) {
     console.log('Retrieved orderID:', orderID);
@@ -151,7 +151,7 @@ async function retrieveOrderID() {
 
   if (selectedCustomer) {
     console.log('Retrieved selectedCustomer:', selectedCustomer);
-    document.getElementById('customer-select').value = selectedCustomer    
+    document.getElementById('customer-select').value = selectedCustomer
     localStorage.removeItem('selectedCustomer');
   }
 
@@ -162,7 +162,7 @@ function incrementOrderId(orderID) {
   const prefix = orderID.substring(0, 3); // ADL
   const year = orderID.substring(3, 5); // 24
   let id = parseInt(orderID.substring(5), 10); // 001, converted to 1
-  
+
   // Increment the ID
   id++;
 
@@ -179,80 +179,79 @@ function takeToTheNextPage() {
 
     const customerSelect = document.getElementById('customer-select');
     const selectedCustomer = customerSelect.options[customerSelect.selectedIndex]; // This line is correct for <select> elements
-    
+
     // Save the orderID in localStorage before refreshing
     orderID = incrementOrderId(orderID)
-    
+
     let response = await fetch(`${BASE_URL}/order/${orderID}`)
-    if (response.ok)
-      {
-        showMessage('Next order already exists', 'error')
-        return
-      }
+    if (response.ok) {
+      showMessage('Next order already exists', 'error')
+      return
+    }
 
     localStorage.setItem('orderID', orderID);
-    localStorage.setItem('selectedCustomer', 
-                          selectedCustomer.value);
-  
+    localStorage.setItem('selectedCustomer',
+      selectedCustomer.value);
+
     // Refresh the page
     window.location.reload();
   }
-  
+
   refreshPageWithOrderID(document.getElementById('orderID').value)
 
 }
 
 async function populateCustomers(defaultUrl = null) {
   try {
-      const endpoint = `${BASE_URL}/customer/`
-      const endpointwithParams = `${endpoint}?ordering=name`;
-      const response = await fetch(endpointwithParams);
+    const endpoint = `${BASE_URL}/customer/`
+    const endpointwithParams = `${endpoint}?ordering=name`;
+    const response = await fetch(endpointwithParams);
 
-      if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const dataArray = await response.json();
+    let customer_select = document.getElementById('customer-select');
+
+    // Clear the dropdown before populating
+    customer_select.innerHTML = '';
+
+    let defaultCustomerAbbreviation = null;
+    let isDefaultSet = false;
+
+    dataArray.forEach(data => {
+      let option = document.createElement('option');
+      option.innerHTML = `${data.name} (${data.abbreviation})`;
+      // Clean the endpoint, remove any query string arguments
+      option.value = endpoint + data.id + '/';
+      option.id = data.id;
+      customer_select.appendChild(option);
+
+      // Check if defaultUrl is provided and matches the current option
+      if (defaultUrl === option.value) {
+        customer_select.value = defaultUrl;
+        defaultCustomerAbbreviation = data.abbreviation;
+        isDefaultSet = true;
       }
-      
-      const dataArray = await response.json();
-      let customer_select = document.getElementById('customer-select');
-      
-      // Clear the dropdown before populating
-      customer_select.innerHTML = '';
-
-      let defaultCustomerAbbreviation = null;
-      let isDefaultSet = false;
-
-      dataArray.forEach(data => {
-          let option = document.createElement('option');
-          option.innerHTML = `${data.name} (${data.abbreviation})`;
-          // Clean the endpoint, remove any query string arguments
-          option.value = endpoint + data.id + '/';
-          option.id = data.id;
-          customer_select.appendChild(option);
-
-          // Check if defaultUrl is provided and matches the current option
-          if (defaultUrl === option.value) {
-              customer_select.value = defaultUrl;
-              defaultCustomerAbbreviation = data.abbreviation;
-              isDefaultSet = true;
-          }
-      });
-
-      // Set to first customer if defaultUrl is not provided or doesn't match
-      if (!isDefaultSet && dataArray.length > 0) {
-          customer_select.value = endpoint + dataArray[0].id + '/';
-          defaultCustomerAbbreviation = dataArray[0].abbreviation;
-      }
-
-      return defaultCustomerAbbreviation;
-  } catch (error) {
-      console.error("Failed to populate customers:", error);
-    ipcRenderer.send('show-message-box', {
-        type: 'error',
-        title: 'ERROR',
-        message: `("Failed to populate customers:", error);`
     });
-      // Handle error or return a fallback value
-      return null;
+
+    // Set to first customer if defaultUrl is not provided or doesn't match
+    if (!isDefaultSet && dataArray.length > 0) {
+      customer_select.value = endpoint + dataArray[0].id + '/';
+      defaultCustomerAbbreviation = dataArray[0].abbreviation;
+    }
+
+    return defaultCustomerAbbreviation;
+  } catch (error) {
+    console.error("Failed to populate customers:", error);
+    ipcRenderer.send('show-message-box', {
+      type: 'error',
+      title: 'ERROR',
+      message: `("Failed to populate customers:", error);`
+    });
+    // Handle error or return a fallback value
+    return null;
   }
 }
 
@@ -262,175 +261,175 @@ async function openWebcam() {
   isOpened = true;
 
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      try {
-          const devices = await navigator.mediaDevices.enumerateDevices();
-          const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
 
-          let preferredDeviceId = localStorage.getItem('preferredCameraId');
-          let selectedDeviceId;
+      let preferredDeviceId = localStorage.getItem('preferredCameraId');
+      let selectedDeviceId;
 
-          if (preferredDeviceId) {
-              // Check if the preferred device is available
-              const preferredDevice = videoDevices.find(device => device.deviceId === preferredDeviceId);
-              if (preferredDevice) {
-                  selectedDeviceId = preferredDeviceId;
-              } else {
-                  selectedDeviceId = videoDevices[0].deviceId;
-              }
-          } else {
-              if (videoDevices.length > 1) {
-                  // Create a popup with a dropdown to select the camera
-                  const popup = document.createElement('div');
-                  popup.id = 'camera-select-popup';
-                  popup.style.position = 'fixed';
-                  popup.style.top = '50%';
-                  popup.style.left = '50%';
-                  popup.style.transform = 'translate(-50%, -50%)';
-                  popup.style.backgroundColor = 'white';
-                  popup.style.padding = '20px';
-                  popup.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+      if (preferredDeviceId) {
+        // Check if the preferred device is available
+        const preferredDevice = videoDevices.find(device => device.deviceId === preferredDeviceId);
+        if (preferredDevice) {
+          selectedDeviceId = preferredDeviceId;
+        } else {
+          selectedDeviceId = videoDevices[0].deviceId;
+        }
+      } else {
+        if (videoDevices.length > 1) {
+          // Create a popup with a dropdown to select the camera
+          const popup = document.createElement('div');
+          popup.id = 'camera-select-popup';
+          popup.style.position = 'fixed';
+          popup.style.top = '50%';
+          popup.style.left = '50%';
+          popup.style.transform = 'translate(-50%, -50%)';
+          popup.style.backgroundColor = 'white';
+          popup.style.padding = '20px';
+          popup.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
 
-                  const select = document.createElement('select');
-                  select.id = 'camera-select';
-                  videoDevices.forEach(device => {
-                      const option = document.createElement('option');
-                      option.value = device.deviceId;
-                      option.text = device.label;
-                      select.appendChild(option);
-                  });
+          const select = document.createElement('select');
+          select.id = 'camera-select';
+          videoDevices.forEach(device => {
+            const option = document.createElement('option');
+            option.value = device.deviceId;
+            option.text = device.label;
+            select.appendChild(option);
+          });
 
-                  const okButton = document.createElement('button');
-                  okButton.innerText = 'OK';
-                  okButton.addEventListener('click', async () => {
-                      selectedDeviceId = select.value;
-                      localStorage.setItem('preferredCameraId', selectedDeviceId);
-                      await startCamera(selectedDeviceId);
-                      document.body.removeChild(popup);
-                  });
+          const okButton = document.createElement('button');
+          okButton.innerText = 'OK';
+          okButton.addEventListener('click', async () => {
+            selectedDeviceId = select.value;
+            localStorage.setItem('preferredCameraId', selectedDeviceId);
+            await startCamera(selectedDeviceId);
+            document.body.removeChild(popup);
+          });
 
-                  const cancelButton = document.createElement('button');
-                  cancelButton.innerText = 'Cancel';
-                  cancelButton.addEventListener('click', () => {
-                      isOpened = false;
-                      document.body.removeChild(popup);
-                  });
+          const cancelButton = document.createElement('button');
+          cancelButton.innerText = 'Cancel';
+          cancelButton.addEventListener('click', () => {
+            isOpened = false;
+            document.body.removeChild(popup);
+          });
 
-                  popup.appendChild(select);
-                  popup.appendChild(okButton);
-                  popup.appendChild(cancelButton);
-                  document.body.appendChild(popup);
-              } else {
-                  selectedDeviceId = videoDevices[0].deviceId;
-              }
-          }
-
-          if (selectedDeviceId) {
-              await startCamera(selectedDeviceId);
-          }
-
-      } catch (error) {
-          console.error('Error accessing the camera:', error);
-          alert("There was an error accessing the camera.");
-          isOpened = false;
+          popup.appendChild(select);
+          popup.appendChild(okButton);
+          popup.appendChild(cancelButton);
+          document.body.appendChild(popup);
+        } else {
+          selectedDeviceId = videoDevices[0].deviceId;
+        }
       }
+
+      if (selectedDeviceId) {
+        await startCamera(selectedDeviceId);
+      }
+
+    } catch (error) {
+      console.error('Error accessing the camera:', error);
+      alert("There was an error accessing the camera.");
+      isOpened = false;
+    }
   } else {
-      alert("Your browser does not support accessing the webcam.");
+    alert("Your browser does not support accessing the webcam.");
   }
 }
 
 async function startCamera(deviceId) {
   try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-          video: { deviceId: deviceId ? { exact: deviceId } : undefined }
-      });
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { deviceId: deviceId ? { exact: deviceId } : undefined }
+    });
 
-      let video = document.getElementById('webcam-video');
-      video.srcObject = stream;
-      video.style.display = 'block';
-      video.play();
+    let video = document.getElementById('webcam-video');
+    video.srcObject = stream;
+    video.style.display = 'block';
+    video.play();
 
-      let deleteBtn = document.getElementById('delete-image');
-      deleteBtn.style.display = 'none';
+    let deleteBtn = document.getElementById('delete-image');
+    deleteBtn.style.display = 'none';
 
-      let container = document.querySelector('.upload-webcam-btn-container');
+    let container = document.querySelector('.upload-webcam-btn-container');
 
-      let captureBtn = document.createElement('button');
-      captureBtn.innerText = 'Capture';
-      captureBtn.classList.add('capture-button');
-      container.appendChild(captureBtn);
+    let captureBtn = document.createElement('button');
+    captureBtn.innerText = 'Capture';
+    captureBtn.classList.add('capture-button');
+    container.appendChild(captureBtn);
 
-      captureBtn.addEventListener('click', function() {
-          let canvas = document.createElement('canvas');
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          let context = canvas.getContext('2d');
-          context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    captureBtn.addEventListener('click', function () {
+      let canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      let context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
-          video.srcObject.getTracks().forEach(track => track.stop());
-          video.style.display = 'none';
-          deleteBtn.style.display = 'block';
-          captureBtn.remove();
+      video.srcObject.getTracks().forEach(track => track.stop());
+      video.style.display = 'none';
+      deleteBtn.style.display = 'block';
+      captureBtn.remove();
 
-          addImageToStack(canvas.toDataURL('image/png')).id = 'new';
+      addImageToStack(canvas.toDataURL('image/png')).id = 'new';
 
-          document.getElementById('emptyImage').style.display = 'none';
+      document.getElementById('emptyImage').style.display = 'none';
 
-          isOpened = false;
-      });
+      isOpened = false;
+    });
 
   } catch (error) {
-      console.error('Error starting the camera:', error);
-      isOpened = false;
+    console.error('Error starting the camera:', error);
+    isOpened = false;
   }
 }
 
 function addImageToStack(src) {
-    const img = document.createElement('img');
-    img.src = src;
-    img.setAttribute('name', 'captured-images-class')
-    img.style.display = 'none'; // Start with the image hidden
-    document.getElementById('jewel-images-list').appendChild(img);
-    images.push(img);
-    if (images.length === 1) {
-        // Show the first image if it's the only one
-        img.style.display = 'block';
-    }
-    navigateImage(1)
-    return img;
+  const img = document.createElement('img');
+  img.src = src;
+  img.setAttribute('name', 'captured-images-class')
+  img.style.display = 'none'; // Start with the image hidden
+  document.getElementById('jewel-images-list').appendChild(img);
+  images.push(img);
+  if (images.length === 1) {
+    // Show the first image if it's the only one
+    img.style.display = 'block';
+  }
+  navigateImage(1)
+  return img;
 }
 
 // Function to navigate images
 function navigateImage(direction) {
-    if (images.length === 0) return; // Do nothing if no images
-    images[currentIndex].style.display = 'none'; // Hide current image
-    currentIndex += direction;
-    // Wrap around the images array
-    if (currentIndex < 0) currentIndex = images.length - 1;
-    if (currentIndex >= images.length) currentIndex = 0;
-    images[currentIndex].style.display = 'block'; // Show new current image
+  if (images.length === 0) return; // Do nothing if no images
+  images[currentIndex].style.display = 'none'; // Hide current image
+  currentIndex += direction;
+  // Wrap around the images array
+  if (currentIndex < 0) currentIndex = images.length - 1;
+  if (currentIndex >= images.length) currentIndex = 0;
+  images[currentIndex].style.display = 'block'; // Show new current image
 }
 
 function deleteImage() {
   if (currentIndex > -1 && images.length > 0) { // Ensure there is an image to delete
-      // Remove the image element from the webpage
-      images[currentIndex].remove();
-      
-      // Remove the image from the array
-      images.splice(currentIndex, 1);
-      
-      // After deletion, adjust currentIndex and navigate
-      if (images.length === 0) {
-          // If no images left, possibly show a placeholder or hide the container
-          currentIndex = -1; // Reset currentIndex as there are no images
-          document.getElementById('emptyImage').style.display = 'block'; // Show placeholder if desired
-      } else {
-          // Adjust currentIndex to ensure it's within the new bounds of the array
-          if (currentIndex >= images.length) {
-              currentIndex = images.length - 1; // Move to the last image if needed
-          }
-          // Navigate to the new current image
-          navigateImage(0); // Pass 0 to simply update visibility without changing index
+    // Remove the image element from the webpage
+    images[currentIndex].remove();
+
+    // Remove the image from the array
+    images.splice(currentIndex, 1);
+
+    // After deletion, adjust currentIndex and navigate
+    if (images.length === 0) {
+      // If no images left, possibly show a placeholder or hide the container
+      currentIndex = -1; // Reset currentIndex as there are no images
+      document.getElementById('emptyImage').style.display = 'block'; // Show placeholder if desired
+    } else {
+      // Adjust currentIndex to ensure it's within the new bounds of the array
+      if (currentIndex >= images.length) {
+        currentIndex = images.length - 1; // Move to the last image if needed
       }
+      // Navigate to the new current image
+      navigateImage(0); // Pass 0 to simply update visibility without changing index
+    }
   }
 }
 
@@ -439,37 +438,37 @@ function deleteOrder() {
   const endpoint = `${BASE_URL}/order/${orderId}/`;
 
   fetch(endpoint, {
-      method: 'DELETE',
-      headers: {
-          // Include any necessary authentication headers
-          // 'Authorization': 'Bearer <token>'
-      }
+    method: 'DELETE',
+    headers: {
+      // Include any necessary authentication headers
+      // 'Authorization': 'Bearer <token>'
+    }
   })
-  .then(response => {
+    .then(response => {
       if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.text(); // or .json() if your API returns a JSON response
-  })
-  .then(data => {
+    })
+    .then(data => {
       console.log('Order Deleted Successfully');
       // Handle success, such as updating the UI or redirecting the user
       document.getElementById('orders-page-btn').click()
-  })
-  .catch(error => {
+    })
+    .catch(error => {
       console.error('Error Deleting Order:', error);
- ipcRenderer.send('show-message-box', {
+      ipcRenderer.send('show-message-box', {
         type: 'error',
         title: 'ERROR',
         message: `('Error Deleting Order:', ${error});`
-    });
+      });
       // Handle errors, such as showing an error message to the user
-  });
+    });
 }
 
 const calculateTotals = (expenseInputs, totalCostInput) => {
   let totalCost = 0;
-  
+
   expenseInputs.forEach(input => {
     const value = parseFloat(input.value) || 0;
     totalCost += value;
@@ -478,12 +477,12 @@ const calculateTotals = (expenseInputs, totalCostInput) => {
   totalCostInput.value = totalCost.toFixed(2); // Update the total cost input
 };
 
-function getData() {  
+function getData() {
   const data = {
     customer: document.getElementById('customer-select').value,
     size: document.getElementById('size').value,
     resize: document.getElementById('resize').value,
-    order_id: document.getElementById('orderID').value, 
+    order_id: document.getElementById('orderID').value,
     ct_number: document.getElementById('ct').value,
     job_number: document.getElementById('jobID').value,
     kt_number: document.getElementById('kt').value,
@@ -532,9 +531,9 @@ function getData() {
     order_notes: document.querySelector('textarea[name="order_notes"]').value,
     // Assuming you have a way to collect invoice and stone specification information
     shipping_details: document.getElementById('shipping-details').value || '',
-};  
+  };
 
-return data;
+  return data;
 }
 
 //  UPDATE STONES
@@ -544,78 +543,78 @@ async function updateOrAddStone(orderId, stone, cell) {
   let method;
 
   if (stone.id.startsWith("new")) {
-      // Handle new stone
-      endpoint = endpointBase; // POST to the collection endpoint
-      method = 'POST';
+    // Handle new stone
+    endpoint = endpointBase; // POST to the collection endpoint
+    method = 'POST';
   } else {
-      // Handle existing stone
-      endpoint = `${endpointBase}${stone.id}/`; // PATCH to the specific stone endpoint
-      method = 'PATCH';
+    // Handle existing stone
+    endpoint = `${endpointBase}${stone.id}/`; // PATCH to the specific stone endpoint
+    method = 'PATCH';
   }
 
   await fetch(endpoint, {
-      method: method,
-      headers: {
-          'Content-Type': 'application/json',
-          // Include any necessary authentication headers
-      },
-      body: JSON.stringify(stone),
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      // Include any necessary authentication headers
+    },
+    body: JSON.stringify(stone),
   })
-  .then(response => response.json())
-  .then(data => {
+    .then(response => response.json())
+    .then(data => {
       cell.id = String(data.id)
       // Handle success, such as updating the UI or showing a confirmation
-  })
-  .catch(error => {
+    })
+    .catch(error => {
       console.error('Error:', error);
- ipcRenderer.send('show-message-box', {
+      ipcRenderer.send('show-message-box', {
         type: 'error',
         title: 'ERROR',
         message: `('Error:', ${error});`
-    });
+      });
       // Handle errors, such as showing an error message
-  });
+    });
 }
 
 async function collectAndSaveStones(orderId) {
-  const stonesData = [];  
+  const stonesData = [];
   const rows = document.querySelectorAll('.table-row');
 
   rows.forEach(async row => {
-      let cells = row.querySelectorAll('td');
-      cells = row ? Array.from(cells) : [];
+    let cells = row.querySelectorAll('td');
+    cells = row ? Array.from(cells) : [];
 
-      let quantity = cells[4].textContent.trim();
-      let length = cells[5].textContent.trim();
-      let width = cells[6].textContent.trim();
-      let height = cells[7].textContent.trim();
-      let carat_total = cells[8].textContent.trim();
+    let quantity = cells[4].textContent.trim();
+    let length = cells[5].textContent.trim();
+    let width = cells[6].textContent.trim();
+    let height = cells[7].textContent.trim();
+    let carat_total = cells[8].textContent.trim();
 
-      if (isNaN(quantity) || isNaN(length) || isNaN(width) || isNaN(height) || isNaN(carat_total)) {
-        showMessage('Quantity, Length, Width, Height or Carat are not valid numbers.', 'error')
-        return;
-      }
+    if (isNaN(quantity) || isNaN(length) || isNaN(width) || isNaN(height) || isNaN(carat_total)) {
+      showMessage('Quantity, Length, Width, Height or Carat are not valid numbers.', 'error')
+      return;
+    }
 
-      let stone = {
-          id: cells[0].id, // Assuming the first cell contains the ID
-          stone_type: cells[1].textContent.trim(),
-          cut: cells[2].textContent.trim(),
-          stone_number: cells[3].textContent.trim(),
-          quantity: Number(quantity),
-          length: Number(length),
-          width: Number(width),
-          height: Number(height),
-          carat_total: Number(carat_total),
-          order: orderId
-      };
+    let stone = {
+      id: cells[0].id, // Assuming the first cell contains the ID
+      stone_type: cells[1].textContent.trim(),
+      cut: cells[2].textContent.trim(),
+      stone_number: cells[3].textContent.trim(),
+      quantity: Number(quantity),
+      length: Number(length),
+      width: Number(width),
+      height: Number(height),
+      carat_total: Number(carat_total),
+      order: orderId
+    };
 
-      stonesData.push(stone);
-      let hasNonEmptyCell = cells.some((cell, index) => index > 0 && cell.textContent.trim() !== "");
-      if (hasNonEmptyCell) {
-          await updateOrAddStone(orderId, stone, cells[0]);
-      } else {
-          showMessage('Cannot save an empty Stone', 'error')
-      }
+    stonesData.push(stone);
+    let hasNonEmptyCell = cells.some((cell, index) => index > 0 && cell.textContent.trim() !== "");
+    if (hasNonEmptyCell) {
+      await updateOrAddStone(orderId, stone, cells[0]);
+    } else {
+      showMessage('Cannot save an empty Stone', 'error')
+    }
   });
 
   let currentStoneIds = Array.from(stonesData).map(stone => stone.id)
@@ -648,16 +647,16 @@ async function postImageDatabase(orderId, imageSrc) {
     });
 
     if (!postResponse.ok) throw new Error(`HTTP error! status: ${postResponse.status}`);
-    
+
     // Assuming success if we reach this point
     return true; // Function returns true if everything was successful
   } catch (error) {
     console.error('Image Error:', error);
     ipcRenderer.send('show-message-box', {
-            type: 'error',
-            title: 'Error',
-            message: `Error: ${error})`
-        });
+      type: 'error',
+      title: 'Error',
+      message: `Error: ${error})`
+    });
     throw error; // Rethrow the error or handle it as needed
   }
 }
@@ -705,76 +704,76 @@ async function deleteAllImages(orderId) {
 
 
 async function deleteIndividualImageDatabase(orderId, imageId) {
-  
-    // Endpoint for deleting all images associated with an order
-    const endpoint = `${BASE_URL}/order/${orderId}/images/${imageId}/`;
 
-    fetch(endpoint, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            // Include authentication headers if needed
-            // 'Authorization': 'Bearer <your-access-token>'
-        }
-    })
+  // Endpoint for deleting all images associated with an order
+  const endpoint = `${BASE_URL}/order/${orderId}/images/${imageId}/`;
+
+  fetch(endpoint, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      // Include authentication headers if needed
+      // 'Authorization': 'Bearer <your-access-token>'
+    }
+  })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.text(); // Assuming the API does not return a JSON response for DELETE operations
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.text(); // Assuming the API does not return a JSON response for DELETE operations
     })
     .then(data => {
-        console.log('Image deleted successfully');
-        // Handle successful deletion, e.g., update the UI accordingly
+      console.log('Image deleted successfully');
+      // Handle successful deletion, e.g., update the UI accordingly
     })
     .catch(error => {
-        console.error('Error deleting image:', error);
-        ipcRenderer.send('show-message-box', {
-                type: 'error',
-                title: 'ERROR',
-                message: `('Error deleting image:', error);`
-            });
-        // Handle any errors that occur during the fetch operation
+      console.error('Error deleting image:', error);
+      ipcRenderer.send('show-message-box', {
+        type: 'error',
+        title: 'ERROR',
+        message: `('Error deleting image:', error);`
+      });
+      // Handle any errors that occur during the fetch operation
     });
 }
 
 async function deleteIndividualStoneDatabase(orderId, stoneId) {
-    // Endpoint for deleting all images associated with an order
-    const endpoint = `${BASE_URL}/order/${orderId}/stones/${stoneId}/`;
+  // Endpoint for deleting all images associated with an order
+  const endpoint = `${BASE_URL}/order/${orderId}/stones/${stoneId}/`;
 
-    fetch(endpoint, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            // Include authentication headers if needed
-            // 'Authorization': 'Bearer <your-access-token>'
-        }
-    })
+  fetch(endpoint, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      // Include authentication headers if needed
+      // 'Authorization': 'Bearer <your-access-token>'
+    }
+  })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.text(); // Assuming the API does not return a JSON response for DELETE operations
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.text(); // Assuming the API does not return a JSON response for DELETE operations
     })
     .then(data => {
-        console.log('Stone deleted successfully');
-        // Handle successful deletion, e.g., update the UI accordingly
+      console.log('Stone deleted successfully');
+      // Handle successful deletion, e.g., update the UI accordingly
     })
     .catch(error => {
-        console.error('Error deleting stone:', error);
- ipcRenderer.send('show-message-box', {
+      console.error('Error deleting stone:', error);
+      ipcRenderer.send('show-message-box', {
         type: 'error',
         title: 'ERROR',
         message: `('Error deleting stone:', error);`
-    });
-        // Handle any errors that occur during the fetch operation
+      });
+      // Handle any errors that occur during the fetch operation
     });
 
 }
 async function collectAndSaveImages(orderId) {
   const imagesContainer = document.getElementById('jewel-images-list');
   const capturedImages = imagesContainer.querySelectorAll('img[name="captured-images-class"]'); // Assuming images are <img> elements within the container
-  
+
   // It seems there's a typo in your check; it should be 'capturedImages' instead of 'images'
   if (!capturedImages || capturedImages.length === 0) {
     return deleteAllImages(orderId);
@@ -812,10 +811,10 @@ async function performOperations(orderId) {
     // Proceed with other operations after both have completed
   } catch (error) {
     console.error('An error occurred:', error);
- ipcRenderer.send('show-message-box', {
-        type: 'error',
-        title: 'ERROR',
-        message: `An error occurred:', ${error}`
+    ipcRenderer.send('show-message-box', {
+      type: 'error',
+      title: 'ERROR',
+      message: `An error occurred:', ${error}`
     });
   }
 }
@@ -827,7 +826,7 @@ async function updateOrder() {
 
   // Fixed destructuring for validation results
   let [valid, error_message] = validateInputBeforeSaving(updateData);
-  
+
   if (!valid) {
     showMessage('Error saving Order: ' + error_message, 'error');
     return false; // Correctly return false if validation fails
@@ -840,8 +839,8 @@ async function updateOrder() {
     const response = await fetch(endpoint, {
       method: 'PATCH', // Use PATCH for partial updates
       headers: {
-          'Content-Type': 'application/json',
-          // Include authorization header if required, e.g., 'Authorization': 'Bearer <token>'
+        'Content-Type': 'application/json',
+        // Include authorization header if required, e.g., 'Authorization': 'Bearer <token>'
       },
       body: JSON.stringify(updateData),
     });
@@ -852,23 +851,23 @@ async function updateOrder() {
 
     let data = await response.json();
     console.log('Order Update was Successful');
-    
+
     // ? Important line of code 
     // Call performOperations with the order_id
     await performOperations(data.order_id);
 
-      setTimeout(() => {
-        document.getElementById('orders-page-btn').click();
-      }, 100);
+    setTimeout(() => {
+      document.getElementById('go-back-button').click();
+    }, 100);
 
     // Return true if everything succeeds
     return true;
   } catch (error) {
     console.error('Update Error:', error);
- ipcRenderer.send('show-message-box', {
-        type: 'error',
-        title: 'ERROR',
-        message: `('Update Error:', error);`
+    ipcRenderer.send('show-message-box', {
+      type: 'error',
+      title: 'ERROR',
+      message: `('Update Error:', error);`
     });
     // Handle errors, e.g., show an error message
     return false;
@@ -880,17 +879,17 @@ function populateOrder(id) {
   const endpoint = `${BASE_URL}/order/${id}/`;
 
   fetch(endpoint)
-  .then(response => {
+    .then(response => {
       if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
-  })
-  .then(data => {
+    })
+    .then(data => {
       // Assuming 'data' is the JSON object with the fields corresponding to the form inputs
       // document.getElementById('customer').value = data.customer || '';
       currentOrderId = data.order_id;
-      populateCustomers(data.customer) 
+      populateCustomers(data.customer)
       document.getElementById('size').value = data.size || '';
       document.getElementById('resize').value = data.resize || '';
       document.getElementById('orderID').value = data.order_id || '';
@@ -945,36 +944,36 @@ function populateOrder(id) {
       if (data.barcode) {
         document.getElementById('barcode-img').src = data.barcode;
       }
-      
+
       // If images are included
       if (data.images && data.images.length > 0) {
-        
-        imagesFromDatabase = data.images;  
+
+        imagesFromDatabase = data.images;
         data.images.forEach(image => {
           fetch(image)
-          .then(response => {
+            .then(response => {
               if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
               return response.json();
             })
-          .then(data => {
-            let imgElement = addImageToStack(data.image)
-            imgElement.id = data.id;
+            .then(data => {
+              let imgElement = addImageToStack(data.image)
+              imgElement.id = data.id;
             })
-          })
-          document.getElementById('emptyImage').style.display = 'none' 
-        }
-      
+        })
+        document.getElementById('emptyImage').style.display = 'none'
+      }
+
       // If there are stone specifications
       if (data.stones && data.stones.length > 0) {
         stonesFromDatabase = data.stones;
-          // Handle stone specifications population
-          const stoneSpecsTableBody = document.querySelector('.stone-specification .table-container tbody');
-          data.stones.forEach(stone => {
-              const stoneRow = document.createElement('tr');
-              stoneRow.className = 'table-row';
-              stoneRow.innerHTML = `
+        // Handle stone specifications population
+        const stoneSpecsTableBody = document.querySelector('.stone-specification .table-container tbody');
+        data.stones.forEach(stone => {
+          const stoneRow = document.createElement('tr');
+          stoneRow.className = 'table-row';
+          stoneRow.innerHTML = `
                   <td id="${stone.id}" style="display: none"></td>
                   <td contentEditable=true class="table-column">${stone.stone_type}</td>
                   <td contentEditable=true class="table-column">${stone.cut}</td>
@@ -986,8 +985,8 @@ function populateOrder(id) {
                   <td contentEditable=true class="table-column">${stone.carat_total}</td>
                   <td><button class="delete-row"><img src="svg/minus.svg" alt=""></button></td>
               `;
-              stoneSpecsTableBody.appendChild(stoneRow);
-          });    
+          stoneSpecsTableBody.appendChild(stoneRow);
+        });
       }
 
       addEvents()
@@ -995,26 +994,26 @@ function populateOrder(id) {
       // Populate order notes
       document.getElementById('order-notes').innerHTML = data.order_notes || '';
 
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       console.error('Error:', error);
- ipcRenderer.send('show-message-box', {
+      ipcRenderer.send('show-message-box', {
         type: 'error',
         title: 'ERROR',
         message: `('Error:', error);`
-    });
+      });
       // Handle fetch error, such as displaying a message to the user
-  });
+    });
 }
 
-document.getElementById('imageInput').addEventListener('change', function(event) {
+document.getElementById('imageInput').addEventListener('change', function (event) {
   let file = event.target.files[0];
   let reader = new FileReader();
-  reader.onload = function(e) {
-  
-  addImageToStack(e.target.result).id = 'new';
-  
-  document.getElementById('emptyImage').style.display = 'none'
+  reader.onload = function (e) {
+
+    addImageToStack(e.target.result).id = 'new';
+
+    document.getElementById('emptyImage').style.display = 'none'
   };
   reader.readAsDataURL(file);
 });
@@ -1024,19 +1023,19 @@ document.getElementById('right-arrow-btn').addEventListener('click', () => navig
 
 // Add Button
 document.getElementById('add-row')
-.addEventListener('click', () => addRow())
+  .addEventListener('click', () => addRow())
 
 // Delete Stones Rows
 addEvents()
 
 // JQUERY
-$(document).ready(function() {
+$(document).ready(function () {
   $('input.currency').currencyInput();
   $("input.percent").percentageInput();
   $('input.not-currency').notCurrencyInput();
   $('input.mass').massInput();
 });
- 
+
 async function getDynamicOrderID(abbreviation) {
   try {
     const endpoint = `${BASE_URL}/get_latest_order_id/${abbreviation}`;
@@ -1050,17 +1049,17 @@ async function getDynamicOrderID(abbreviation) {
 
     let newSequenceNum = 1; // Default sequence number if no previous order exists
     if (data.orderID) {
-        const idWithoutYear = data.orderID.slice(abbreviation.length + 2); // Remove abbreviation and year from the ID
-        const lastSequenceNum = parseInt(idWithoutYear, 10); // Parse the numeric part of the sequence
-        newSequenceNum = lastSequenceNum + 1;
-        // We are putting it inside the condition is because we wanna make 
-        // sure that the first Order Id is 001 no matter what
-          let leaveSpaceInput = document.getElementById('leave-space-input').value;
-          if (!leaveSpaceInput) {
-              leaveSpaceInput = '0';
-          }
-          newSequenceNum += parseInt(leaveSpaceInput);
-      
+      const idWithoutYear = data.orderID.slice(abbreviation.length + 2); // Remove abbreviation and year from the ID
+      const lastSequenceNum = parseInt(idWithoutYear, 10); // Parse the numeric part of the sequence
+      newSequenceNum = lastSequenceNum + 1;
+      // We are putting it inside the condition is because we wanna make 
+      // sure that the first Order Id is 001 no matter what
+      let leaveSpaceInput = document.getElementById('leave-space-input').value;
+      if (!leaveSpaceInput) {
+        leaveSpaceInput = '0';
+      }
+      newSequenceNum += parseInt(leaveSpaceInput);
+
     }
 
     const year = new Date().getFullYear() % 100; // Get the last two digits of the current year
@@ -1072,10 +1071,10 @@ async function getDynamicOrderID(abbreviation) {
     document.getElementById('orderID').value = orderId;
   } catch (error) {
     console.error('Failed to fetch latest order ID:', error);
- ipcRenderer.send('show-message-box', {
-        type: 'error',
-        title: 'ERROR',
-        message: `('Failed to fetch latest order ID:', error);`
+    ipcRenderer.send('show-message-box', {
+      type: 'error',
+      title: 'ERROR',
+      message: `('Failed to fetch latest order ID:', error);`
     });
   }
 }
@@ -1086,9 +1085,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalCostInput = document.querySelector('#total-cost-input');
   // const salePriceInput = document.querySelector('#sale-price-input');
   expenseInputs.forEach(input => input.addEventListener('input', () => calculateTotals(expenseInputs, totalCostInput)));
- 
+
   // Assuming the abbreviation is extracted as before, call updateOrderId with the abbreviation
-  document.getElementById('customer-select').addEventListener('change', function() {
+  document.getElementById('customer-select').addEventListener('change', function () {
     const selectedCustomer = this.options[this.selectedIndex].text;
     const abbreviationMatch = selectedCustomer.match(/\(([^)]+)\)/);
     if (abbreviationMatch) {
@@ -1097,8 +1096,8 @@ document.addEventListener('DOMContentLoaded', () => {
         getDynamicOrderID(abbreviation);
     }
   });
-  
-  document.getElementById('leave-space-input').addEventListener('change', function() {
+
+  document.getElementById('leave-space-input').addEventListener('change', function () {
     if (document.getElementById('orderID').value.endsWith('001')) {
       return;
     }
@@ -1108,15 +1107,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const abbreviationMatch = selectedCustomer.match(/\(([^)]+)\)/);
 
     if (abbreviationMatch) {
-        const abbreviation = abbreviationMatch[1].toUpperCase();
-        if (abbreviation)  
-          getDynamicOrderID(abbreviation); // Ensure getDynamicOrderID function is defined elsewhere
+      const abbreviation = abbreviationMatch[1].toUpperCase();
+      if (abbreviation)
+        getDynamicOrderID(abbreviation); // Ensure getDynamicOrderID function is defined elsewhere
     }
   });
 
+  document.getElementById('go-back-button').addEventListener('click', async () => {
+    navigateTo('orders', { searchParam: globalArgs.searchParam })
+  })
+
 
   document.getElementById('save-and-add-button').addEventListener('click', async () => {
-    let functionSaveAndAdd; 
+    let functionSaveAndAdd;
     if (document.getElementById('edit-button')) {
       functionSaveAndAdd = updateOrder;
     }
@@ -1128,11 +1131,11 @@ document.addEventListener('DOMContentLoaded', () => {
       takeToTheNextPage()
     }
   })
-  
+
   // this is what will happen after we move to the next page
   retrieveOrderID()
 
-    // Set the default value of the date input
+  // Set the default value of the date input
   document.getElementById('dateDue').value = getDateAfterSevenDays();
 
 })

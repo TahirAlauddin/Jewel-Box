@@ -1,3 +1,4 @@
+// Listen for the "page-data" event and retrieve the passed arguments
 const selectedRows = []; // Initialize an empty array to keep track of selected rows
 let searchInput = ''
 // Function to tell Electron to navigate to another page
@@ -6,7 +7,6 @@ function navigateTo(page, args) {
 }
 
 function addOrderRow(data) {
-
     let image = data.images[0];
     const tableBody = document.getElementById('table-body'); // Ensure this is the correct ID of your table body
     const newRow = document.createElement('tr');
@@ -136,9 +136,8 @@ function addOrderRow(data) {
         }
     });
 
-
     newRow.addEventListener('click', function() {
-        navigateTo('order-detail', {showEditAndDelete : true, id: data.order_id});
+        navigateTo('order-detail', {showEditAndDelete : true, id: data.order_id, searchParam: searchInput});
     });
 }
 

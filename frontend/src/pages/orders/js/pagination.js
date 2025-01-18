@@ -42,7 +42,7 @@ function updatePaginationDisplay() {
     document.getElementById('last').disabled = currentPage === totalPages;
 }
 
-async function fetchResults(page, search='') {
+async function fetchResults(page, search = '') {
     try {
         const response = await fetch(`${BASE_URL}/order/?page=${page}&search=${search}`);
         const data = await response.json();
@@ -71,7 +71,6 @@ async function fetchResults(page, search='') {
 }
 
 
-
 function resetPagination() {
     currentPage = 1;
     totalResults = 0;
@@ -92,5 +91,14 @@ function resetPagination() {
     fetchResults(currentPage);
 }
 
-// Initial setup
-fetchResults(currentPage);
+ipcRenderer.on("page-data", (event, data) => {
+    if (data) {
+        if (data[0]) {
+            fetchResults(currentPage, data[0].searchParam);
+            document.getElementById('search-input').value = data[0].searchParam;
+            searchInput = data[0].searchParam
+            return
+        }
+    }
+    fetchResults(currentPage);
+});  
