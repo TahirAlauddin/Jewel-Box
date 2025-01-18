@@ -65,7 +65,7 @@ function validateOrderID(orderID) {
   let customerSelect = document.getElementById('customer-select')
   const selectedCustomer = customerSelect.options[customerSelect.selectedIndex].text;
   const abbreviationMatch = selectedCustomer.match(/\(([^)]+)\)/);
-  console.log(abbreviationMatch)
+
   if (abbreviationMatch && !orderID.startsWith(abbreviationMatch[1])) {
     return false;
   }
@@ -150,7 +150,7 @@ async function retrieveOrderID() {
   }
 
   if (selectedCustomer) {
-    console.log('Retrieved selectedCustomer:', selectedCustomer);
+
     document.getElementById('customer-select').value = selectedCustomer
     localStorage.removeItem('selectedCustomer');
   }

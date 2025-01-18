@@ -82,7 +82,6 @@ async function login(email, password) {
       message:
         "Couldn't connect with the server. Make sure the server is running and configured properly.",
     });
-  console.log(response);
 
   if (response && response.status == 200) {
     navigateTo("orders");

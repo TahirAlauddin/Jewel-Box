@@ -1,5 +1,5 @@
 async function productionSheetBtnHandler(id) {
-    console.log("Trying to pinrt sheet")
+    console.log("Trying to print sheet")
     try {
         // Send a POST request to print production sheets for the selected rows
         const response = await fetch(`${BASE_URL}/print-production-sheet/`, {

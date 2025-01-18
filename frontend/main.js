@@ -235,8 +235,6 @@ function createWindow() {
   Menu.setApplicationMenu(menu);
 
   mainWindow.on("ready-to-show", () => {
-    mainWindow.webContents.openDevTools();
-
     if (isDev) {
       mainWindow.webContents.openDevTools();
     }
@@ -312,7 +310,7 @@ ipcMain.on("navigate", (event, page, args) => {
     path = resolve(`${base_path}/pages/orders/index.html`);
     mainWindow.loadFile(path);
     mainWindow.webContents.once("did-finish-load", () => {
-      console.log("page-data", args);
+
       mainWindow.webContents.send("page-data", args);
     });
   } else if (page == "invoices") {
@@ -326,7 +324,6 @@ ipcMain.on("navigate", (event, page, args) => {
     mainWindow.loadFile(path);
     // Send the arguments to the renderer process
     mainWindow.webContents.once("did-finish-load", () => {
-      console.log("page-data", args);
       mainWindow.webContents.send("page-data", args);
     });
   } else if (page == "invoice-detail") {

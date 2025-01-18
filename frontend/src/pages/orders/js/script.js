@@ -157,17 +157,16 @@ function showMessage(message, type = 'success', duration = 3000) {
     }, duration);
 }
 function openMatchedOrder(searchOrderId) {
-    console.log(searchOrderId)
+
     // Convert searchOrderId to lower case
     const lowerCaseSearchOrderId = searchOrderId.toLowerCase();
-    console.log(lowerCaseSearchOrderId)
+
     // Get all rows in the table
     const rows = document.querySelectorAll('.order-id-column');
     rows.forEach(row => {
         // Find the cell that contains the order ID
         const orderIdText = row.textContent.trim().toLowerCase(); // Convert order ID text to lower case
-        console.log(lowerCaseSearchOrderId.substring(0, orderIdText.length))
-        console.log(orderIdText)
+
         // Check if the first characters of the order IDs match
         if (lowerCaseSearchOrderId.substring(0, orderIdText.length) === orderIdText) {
             // If the order ID matches, simulate a click on the row

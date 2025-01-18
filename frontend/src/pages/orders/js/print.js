@@ -97,9 +97,8 @@ async function printInvoice(ids) {
         let invoice_id;
         if (response.ok) {
             let data = await response.json();
-            console.log(data)
             invoice_id = data.invoice_id
-            console.log(data.invoice_id)
+
             for (let row of selectedRows) {
                 // Turn the rows to green
                 row.reference.classList.toggle('status-invoiced')
