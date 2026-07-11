@@ -176,15 +176,16 @@ async function triggerUpdateProcess(bucketname, remoteFile, outputpath) {
   );
   if (confirmUpdate) {
     // Start the update process if user confirms
-    const updateProcess = spawn("cmd", [
-      "/c",
-      "start",
-      path.join('dist', 'Updater.exe'),
-
-      bucketname,
-      remoteFile,
-      outputpath,
-    ]);
+    const updateProcess = spawn(
+      path.join("dist", "Updater.exe"),
+      [bucketname, remoteFile, outputpath],
+      {
+        detached: true,
+        windowsHide: true,
+        stdio: "ignore",
+      }
+    );
+    updateProcess.unref();
     app.quit();
   }
   clearInterval(updateTimer);

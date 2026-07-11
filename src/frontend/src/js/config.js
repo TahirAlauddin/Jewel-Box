@@ -10,5 +10,5 @@ const ipFilePath = path.join(os.homedir(), 'JewelBox', 'ipAddress.txt');
 
 const Ip = fs.readFileSync(ipFilePath, 'utf8');
 
-// const BASE_URL = `http://localhost:8000`; // Use the function to set BASE_URL
-const BASE_URL = `http://${Ip}:8000`; // Use the function to set BASE_URL
+
+const BASE_URL = process.env.NODE_ENV === 'development' ? `http://localhost:8000` : `http://${Ip}:8000`;
